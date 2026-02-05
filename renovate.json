@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": ["dependencies"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/redis/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "redis/redis",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/rabbitmq/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "rabbitmq/rabbitmq-server",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/kubectl/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "kubernetes/kubernetes",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["redis/redis"],
+      "groupName": "redis",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["rabbitmq/rabbitmq-server"],
+      "allowedVersions": "!/alpha|beta|rc/",
+      "groupName": "rabbitmq",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["kubernetes/kubernetes"],
+      "allowedVersions": "!/alpha|beta|rc/",
+      "groupName": "kubectl",
+      "automerge": false
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+schedule: "*/5 * * * *"
+command: ["kubectl"]
+args: ["get", "pods", "-A", "--no-headers"]
+backoffLimit: 1
+ttlSecondsAfterFinished: 60
+restartPolicy: Never
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get", "list"]

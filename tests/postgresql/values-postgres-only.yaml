@@ -1,0 +1,21 @@
+architecture: standalone
+auth:
+  postgresPassword: "adminonly123"
+primary:
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  startupProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  livenessProbe:
+    initialDelaySeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 5

@@ -1,0 +1,26 @@
+architecture: standalone
+auth:
+  enabled: false
+master:
+  containerPorts:
+    redis: 6380
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  service:
+    ports:
+      redis: 6380
+  startupProbe:
+    initialDelaySeconds: 2
+    periodSeconds: 3
+    failureThreshold: 20
+  livenessProbe:
+    initialDelaySeconds: 5
+  readinessProbe:
+    initialDelaySeconds: 2
