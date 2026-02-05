@@ -84,8 +84,10 @@ proxyHeaders: "xforwarded"
 ## @section Keycloak pod parameters
 
 ## @param containerPorts.http Keycloak HTTP container port
+## @param containerPorts.management Keycloak management port (health endpoints)
 containerPorts:
   http: 8080
+  management: 9000
 
 ## @param resourcesPreset Set container resources according to one common preset
 ## @param resources Set container resource requests and limits
