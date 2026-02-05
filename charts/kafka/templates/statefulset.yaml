@@ -64,7 +64,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
-              value: {{ .Values.kraft.controllerQuorumVoters | default (printf "0@%s-0.%s-headless.%s.svc.%s:%d" (include "kafka.fullname" .) (include "kafka.fullname" .) (include "kafka.namespace" .) .Values.clusterDomain (int .Values.containerPorts.controller)) | quote }}
+              value: {{ .Values.kraft.controllerQuorumVoters | default (include "kafka.controllerQuorumVoters" .) | quote }}
             - name: KAFKA_CFG_LISTENERS
               value: "PLAINTEXT://:{{ .Values.containerPorts.client }},CONTROLLER://:{{ .Values.containerPorts.controller }}"
             - name: KAFKA_ADVERTISED_LISTENERS

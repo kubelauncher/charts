@@ -33,10 +33,29 @@ spec:
       {{- if .Values.podSecurityContext.enabled }}
       securityContext:
         fsGroup: {{ .Values.podSecurityContext.fsGroup }}
+        fsGroupChangePolicy: "OnRootMismatch"
       {{- end }}
-      {{- with .Values.initContainers }}
-      initContainers: {{- toYaml . | nindent 8 }}
-      {{- end }}
+      initContainers:
+        - name: volume-permissions
+          image: {{ include "rabbitmq.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Just ensure mount point is accessible, data dir is created by entrypoint
+              touch {{ .Values.persistence.mountPath }}/.initialized || true
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.containerSecurityContext.runAsGroup }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+        {{- with .Values.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: rabbitmq
           image: {{ include "rabbitmq.image" . }}
