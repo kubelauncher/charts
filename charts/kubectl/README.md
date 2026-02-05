@@ -50,7 +50,7 @@ helm uninstall my-job
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
 | containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | containerSecurityContext.enabled | bool | `true` |  |
-| containerSecurityContext.readOnlyRootFilesystem | bool | `true` |  |
+| containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
 | containerSecurityContext.runAsGroup | int | `1001` |  |
 | containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | containerSecurityContext.runAsUser | int | `1001` |  |
@@ -74,6 +74,7 @@ helm uninstall my-job
 | podLabels | object | `{}` |  |
 | podSecurityContext.enabled | bool | `true` |  |
 | podSecurityContext.fsGroup | int | `1001` |  |
+| rbac.clusterWide | bool | `false` |  |
 | rbac.create | bool | `true` |  |
 | rbac.rules | list | `[]` |  |
 | resources | object | `{}` |  |
