@@ -54,25 +54,25 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: KAFKA_KRAFT_CLUSTER_ID
+            - name: KAFKA_CLUSTER_ID
               value: {{ .Values.kraft.clusterId | default "MkU3OEVBNTcwNTJENDM2Qk" | quote }}
             - name: KAFKA_CFG_PROCESS_ROLES
               value: {{ .Values.kraft.processRoles | quote }}
-            - name: KAFKA_CFG_NODE_ID
+            - name: KAFKA_BROKER_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
               value: {{ .Values.kraft.controllerQuorumVoters | default (printf "0@%s-0.%s-headless.%s.svc.%s:%d" (include "kafka.fullname" .) (include "kafka.fullname" .) (include "kafka.namespace" .) .Values.clusterDomain (int .Values.containerPorts.controller)) | quote }}
             - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://:{{ .Values.containerPorts.client }},CONTROLLER://:{{ .Values.containerPorts.controller }}"
-            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:{{ .Values.containerPorts.client }},CONTROLLER://0.0.0.0:{{ .Values.containerPorts.controller }}"
+            - name: KAFKA_ADVERTISED_LISTENERS
               value: "PLAINTEXT://$(POD_NAME).{{ include "kafka.fullname" . }}-headless.{{ include "kafka.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.containerPorts.client }}"
             - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
               value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
             - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
               value: "CONTROLLER"
-            - name: KAFKA_CFG_LOG_DIRS
+            - name: KAFKA_LOG_DIRS
               value: {{ .Values.logDirs | quote }}
             - name: KAFKA_HEAP_OPTS
               value: {{ .Values.heapOpts | quote }}
