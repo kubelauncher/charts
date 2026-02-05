@@ -64,6 +64,9 @@ OpenLDAP directory service
 | livenessProbe.timeoutSeconds | int | `5` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
+| networkPolicy.additionalRules | list | `[]` |  |
+| networkPolicy.allowExternal | bool | `true` |  |
+| networkPolicy.enabled | bool | `false` |  |
 | nodeSelector | object | `{}` |  |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.annotations | object | `{}` |  |

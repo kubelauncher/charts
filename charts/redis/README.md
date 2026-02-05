@@ -176,6 +176,9 @@ helm uninstall my-redis
 | master.tolerations | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
+| networkPolicy.additionalRules | list | `[]` |  |
+| networkPolicy.allowExternal | bool | `true` |  |
+| networkPolicy.enabled | bool | `false` |  |
 | replica.affinity | object | `{}` |  |
 | replica.containerPorts.redis | int | `6379` |  |
 | replica.containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |

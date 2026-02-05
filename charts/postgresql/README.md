@@ -70,6 +70,9 @@ helm uninstall my-pg
 | image.tag | string | `""` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
+| networkPolicy.additionalRules | list | `[]` |  |
+| networkPolicy.allowExternal | bool | `true` |  |
+| networkPolicy.enabled | bool | `false` |  |
 | primary.affinity | object | `{}` |  |
 | primary.configuration | string | `""` |  |
 | primary.containerPorts.postgresql | int | `5432` |  |

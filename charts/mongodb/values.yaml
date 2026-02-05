@@ -228,6 +228,15 @@ primary:
   sidecars: []
   initContainers: []
 
+## @section Network Policy
+## @param networkPolicy.enabled Enable network policy
+## @param networkPolicy.allowExternal Allow external connections
+## @param networkPolicy.additionalRules Additional network policy rules
+networkPolicy:
+  enabled: false
+  allowExternal: true
+  additionalRules: []
+
 ## @section ServiceAccount parameters
 
 ## @param serviceAccount.create Create a ServiceAccount

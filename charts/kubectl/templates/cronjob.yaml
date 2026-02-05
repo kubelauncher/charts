@@ -27,6 +27,7 @@ spec:
           {{- end }}
         spec:
           serviceAccountName: {{ include "kubectl.serviceAccountName" . }}
+          automountServiceAccountToken: false
           restartPolicy: {{ .Values.restartPolicy }}
           {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
           imagePullSecrets: {{- toYaml . | nindent 12 }}
