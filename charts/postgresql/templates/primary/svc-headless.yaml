@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgresql.fullname" . }}-hl
+  namespace: {{ include "postgresql.namespace" . }}
+  labels: {{- include "postgresql.labels" . | nindent 4 }}
+    app.kubernetes.io/component: primary
+  {{- with .Values.primary.service.headless.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-postgresql
+      port: {{ include "postgresql.servicePort" . }}
+      targetPort: tcp-postgresql
+  selector: {{- include "postgresql.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: primary

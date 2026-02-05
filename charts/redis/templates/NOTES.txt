@@ -1,0 +1,17 @@
+Redis has been deployed.
+
+{{- if eq .Values.architecture "standalone" }}
+Architecture: standalone
+{{- else }}
+Architecture: replication (master + {{ .Values.replica.replicaCount }} replicas)
+{{- end }}
+
+To get your Redis password:
+
+  export REDIS_PASSWORD=$(kubectl get secret --namespace {{ include "redis.namespace" . }} {{ include "redis.secretName" . }} -o jsonpath="{.data.redis-password}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
+    --image {{ include "redis.image" . }} -- \
+    redis-cli -h {{ include "redis.fullname" . }}-master -a $REDIS_PASSWORD

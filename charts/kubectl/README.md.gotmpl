@@ -1,0 +1,44 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-job oci://ghcr.io/kubelauncher/charts/kubectl \
+  --set command='{kubectl}' \
+  --set args='{get,pods,-A}'
+```
+
+## Introduction
+
+This chart deploys a kubectl utility container as a Job or CronJob on Kubernetes using the [kubelauncher/kubectl](https://github.com/kubelauncher/docker) Docker image. Includes RBAC support, yq, jq, and git.
+
+Set `schedule` to create a CronJob instead of a one-shot Job.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+# One-shot job
+helm install my-job oci://ghcr.io/kubelauncher/charts/kubectl \
+  --set command='{kubectl}' \
+  --set args='{get,namespaces}'
+
+# CronJob
+helm install my-cron oci://ghcr.io/kubelauncher/charts/kubectl \
+  --set schedule="0 */6 * * *" \
+  --set command='{kubectl}' \
+  --set args='{get,pods,-A}'
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-job
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

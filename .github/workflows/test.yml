@@ -1,0 +1,162 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "charts/**"
+      - "tests/**"
+      - ".github/workflows/test.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "charts/**"
+      - "tests/**"
+      - ".github/workflows/test.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+
+      - name: Install helm-docs
+        run: |
+          HELM_DOCS_VERSION="1.14.2"
+          curl -fsSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
+            | tar xz -C /usr/local/bin helm-docs
+
+      - name: Verify helm-docs are up to date
+        run: |
+          helm-docs --chart-search-root charts
+          if ! git diff --quiet charts/*/README.md; then
+            echo "ERROR: helm-docs are out of date. Run 'helm-docs --chart-search-root charts' and commit the result."
+            git diff charts/*/README.md
+            exit 1
+          fi
+
+      - name: Lint all charts
+        run: |
+          for chart in charts/*/; do
+            echo "--- Linting ${chart} ---"
+            helm lint "$chart" --strict
+          done
+
+      - name: Template dry-run (all charts)
+        run: |
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "--- Templating ${name} ---"
+            helm template "test-${name}" "$chart" > /dev/null
+          done
+
+      - name: Template with test values
+        run: |
+          for values_file in tests/*/values-*.yaml; do
+            chart=$(echo "$values_file" | cut -d/ -f2)
+            echo "--- Template ${chart} with ${values_file} ---"
+            helm template "test" "charts/${chart}" -f "$values_file" > /dev/null
+          done
+
+  integration:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Redis tests
+          - chart: redis
+            values: tests/redis/values-standalone.yaml
+            test_name: standalone
+          - chart: redis
+            values: tests/redis/values-no-auth.yaml
+            test_name: no-auth
+          - chart: redis
+            values: tests/redis/values-custom-config.yaml
+            test_name: custom-config
+          # PostgreSQL tests
+          - chart: postgresql
+            values: tests/postgresql/values-default.yaml
+            test_name: default
+          - chart: postgresql
+            values: tests/postgresql/values-postgres-only.yaml
+            test_name: postgres-only
+          - chart: postgresql
+            values: tests/postgresql/values-custom-port.yaml
+            test_name: custom-port
+          # RabbitMQ tests
+          - chart: rabbitmq
+            values: tests/rabbitmq/values-single.yaml
+            test_name: single
+          - chart: rabbitmq
+            values: tests/rabbitmq/values-custom-plugins.yaml
+            test_name: custom-plugins
+          # kubectl tests
+          - chart: kubectl
+            values: tests/kubectl/values-job.yaml
+            test_name: job
+          - chart: kubectl
+            values: tests/kubectl/values-cronjob.yaml
+            test_name: cronjob
+
+    name: "${{ matrix.chart }} / ${{ matrix.test_name }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-helm@v4
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: chart-test
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and load images into kind
+        run: |
+          TAG=$(grep -oP 'appVersion:\s*"?\K[^"]+' "charts/${{ matrix.chart }}/Chart.yaml")
+          IMAGE="ghcr.io/${{ github.repository_owner }}/${{ matrix.chart }}:${TAG}"
+
+          echo "Pulling ${IMAGE}..."
+          docker pull "${IMAGE}" || {
+            echo "Image not found on GHCR, skipping"
+            exit 0
+          }
+          kind load docker-image "${IMAGE}" --name chart-test
+
+      - name: Run smoke tests
+        run: |
+          chmod +x tests/smoke-test.sh
+          ./tests/smoke-test.sh \
+            "${{ matrix.chart }}" \
+            "test-${{ matrix.chart }}-${{ matrix.test_name }}" \
+            "${{ matrix.values }}"
+
+      - name: Dump debug info on failure
+        if: failure()
+        run: |
+          NS="test-test-${{ matrix.chart }}-${{ matrix.test_name }}"
+          echo "=== Pods ==="
+          kubectl get pods -n "${NS}" -o wide 2>/dev/null || true
+          echo "=== Events ==="
+          kubectl get events -n "${NS}" --sort-by='.lastTimestamp' 2>/dev/null || true
+          echo "=== Pod logs ==="
+          for pod in $(kubectl get pods -n "${NS}" -o jsonpath='{.items[*].metadata.name}' 2>/dev/null); do
+            echo "--- ${pod} ---"
+            kubectl logs -n "${NS}" "${pod}" --tail=50 2>/dev/null || true
+          done
+          echo "=== Describe pods ==="
+          kubectl describe pods -n "${NS}" 2>/dev/null || true

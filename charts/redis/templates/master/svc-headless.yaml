@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}-headless
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+  {{- with .Values.commonAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: {{ .Values.master.service.ports.redis }}
+      targetPort: tcp-redis
+  selector: {{- include "redis.selectorLabels" . | nindent 4 }}

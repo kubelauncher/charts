@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}-master
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: master
+  {{- with (merge (.Values.master.service.annotations | default dict) (.Values.commonAnnotations | default dict)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.master.service.type }}
+  {{- if and (eq .Values.master.service.type "ClusterIP") .Values.master.service.clusterIP }}
+  clusterIP: {{ .Values.master.service.clusterIP }}
+  {{- end }}
+  ports:
+    - name: tcp-redis
+      port: {{ .Values.master.service.ports.redis }}
+      targetPort: tcp-redis
+      {{- if and (eq .Values.master.service.type "NodePort") .Values.master.service.nodePorts.redis }}
+      nodePort: {{ .Values.master.service.nodePorts.redis }}
+      {{- end }}
+  selector: {{- include "redis.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: master

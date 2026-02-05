@@ -1,0 +1,11 @@
+PostgreSQL has been deployed.
+
+To get the postgres password:
+
+  export POSTGRES_PASSWORD=$(kubectl get secret --namespace {{ include "postgresql.namespace" . }} {{ include "postgresql.secretName" . }} -o jsonpath="{.data.{{ include "postgresql.adminPasswordKey" . }}}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "postgresql.namespace" . }} pgsql-client --rm -it --restart=Never \
+    --image {{ include "postgresql.image" . }} -- \
+    psql -h {{ include "postgresql.fullname" . }} -U postgres -d {{ include "postgresql.database" . | default "postgres" }}

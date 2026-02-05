@@ -1,0 +1,12 @@
+RabbitMQ has been deployed.
+
+Credentials:
+  Username: {{ .Values.auth.username }}
+  Password: $(kubectl get secret --namespace {{ include "rabbitmq.namespace" . }} {{ include "rabbitmq.secretName" . }} -o jsonpath="{.data.rabbitmq-password}" | base64 -d)
+
+AMQP:
+  kubectl port-forward --namespace {{ include "rabbitmq.namespace" . }} svc/{{ include "rabbitmq.fullname" . }} 5672:{{ .Values.service.ports.amqp }}
+
+Management UI:
+  kubectl port-forward --namespace {{ include "rabbitmq.namespace" . }} svc/{{ include "rabbitmq.fullname" . }} 15672:{{ .Values.service.ports.manager }}
+  URL: http://127.0.0.1:15672/

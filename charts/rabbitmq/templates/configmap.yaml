@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "rabbitmq.fullname" . }}-config
+  namespace: {{ include "rabbitmq.namespace" . }}
+  labels: {{- include "rabbitmq.labels" . | nindent 4 }}
+  {{- with .Values.commonAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  enabled_plugins: |-
+    [{{ range $i, $p := (splitList " " (printf "%s %s" .Values.plugins .Values.extraPlugins | trim)) }}{{ if $i }},{{ end }}{{ $p }}{{ end }}].
+  rabbitmq.conf: |-
+    default_vhost = /
+    loopback_users = none
+    listeners.tcp.default = {{ .Values.containerPorts.amqp }}
+    management.tcp.port = {{ .Values.containerPorts.manager }}
+    {{- if gt (int .Values.replicaCount) 1 }}
+    cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
+    cluster_formation.k8s.host = kubernetes.default.svc.{{ .Values.clusterDomain }}
+    cluster_formation.k8s.address_type = {{ .Values.clustering.addressType }}
+    cluster_partition_handling = {{ .Values.clustering.partitionHandling }}
+    {{- end }}
+    {{- if .Values.extraConfiguration }}
+    {{ .Values.extraConfiguration | nindent 4 }}
+    {{- end }}

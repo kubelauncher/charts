@@ -1,0 +1,18 @@
+command: ["kubectl"]
+args: ["get", "namespaces"]
+backoffLimit: 2
+ttlSecondsAfterFinished: 120
+restartPolicy: Never
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["namespaces"]
+      verbs: ["get", "list"]

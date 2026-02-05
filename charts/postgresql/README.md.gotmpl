@@ -1,0 +1,38 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+  --set auth.postgresPassword=secret
+```
+
+## Introduction
+
+This chart deploys PostgreSQL on Kubernetes using the [kubelauncher/postgresql](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replication architectures with init script support.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+  --set auth.postgresPassword=admin \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-pg
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

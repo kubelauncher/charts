@@ -1,0 +1,73 @@
+name: Release Charts
+
+on:
+  workflow_run:
+    workflows: ["Integration Tests"]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  pages: write
+  id-token: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Lint charts
+        run: |
+          for chart in charts/*/; do
+            echo "Linting ${chart}..."
+            helm lint "$chart"
+          done
+
+  release:
+    needs: lint
+    if: >-
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Package charts
+        run: |
+          mkdir -p .cr-release-packages
+          for chart in charts/*/; do
+            helm package "$chart" -d .cr-release-packages
+          done
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push charts to OCI registry
+        run: |
+          for pkg in .cr-release-packages/*.tgz; do
+            helm push "$pkg" "oci://ghcr.io/${{ github.repository_owner }}/charts"
+          done
+
+      - name: Generate index
+        run: |
+          mkdir -p .cr-index
+          helm repo index .cr-release-packages --url "https://github.com/${{ github.repository }}/releases/download/charts"
+          mv .cr-release-packages/index.yaml .cr-index/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .cr-index
+          keep_files: true

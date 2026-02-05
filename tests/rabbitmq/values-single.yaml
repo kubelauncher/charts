@@ -1,0 +1,25 @@
+replicaCount: 1
+auth:
+  username: "admin"
+  password: "rabbitpass123"
+  erlangCookie: "test-erlang-cookie-12345"
+clustering:
+  enabled: false
+persistence:
+  enabled: false
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+startupProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 40
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  initialDelaySeconds: 10

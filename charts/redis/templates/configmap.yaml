@@ -1,0 +1,14 @@
+{{- if .Values.commonConfiguration }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "redis.fullname" . }}-configuration
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+  {{- with .Values.commonAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  redis.conf: |
+    {{- .Values.commonConfiguration | nindent 4 }}
+{{- end }}

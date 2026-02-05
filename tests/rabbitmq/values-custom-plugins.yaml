@@ -1,0 +1,29 @@
+replicaCount: 1
+auth:
+  username: "testuser"
+  password: "pluginpass123"
+  erlangCookie: "test-cookie-plugins"
+clustering:
+  enabled: false
+plugins: "rabbitmq_management rabbitmq_prometheus rabbitmq_shovel rabbitmq_shovel_management"
+extraConfiguration: |-
+  vm_memory_high_watermark.relative = 0.5
+  disk_free_limit.absolute = 50MB
+persistence:
+  enabled: false
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+startupProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 40
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  initialDelaySeconds: 10

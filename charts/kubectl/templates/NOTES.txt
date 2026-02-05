@@ -1,0 +1,14 @@
+kubectl utility has been deployed.
+
+{{- if .Values.schedule }}
+Type: CronJob (schedule: {{ .Values.schedule }})
+{{- else }}
+Type: Job
+{{- end }}
+
+Check status:
+{{- if .Values.schedule }}
+  kubectl get cronjob --namespace {{ include "kubectl.namespace" . }} {{ include "kubectl.fullname" . }}
+{{- else }}
+  kubectl get job --namespace {{ include "kubectl.namespace" . }} {{ include "kubectl.fullname" . }}
+{{- end }}
