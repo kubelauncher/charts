@@ -91,4 +91,4 @@ helm uninstall my-job
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| kubelauncher |  |  |
+| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |

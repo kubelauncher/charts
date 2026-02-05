@@ -182,4 +182,4 @@ helm uninstall my-pg
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| kubelauncher |  |  |
+| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |
