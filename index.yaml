@@ -1,0 +1,312 @@
+apiVersion: v1
+entries:
+  cassandra:
+  - apiVersion: v2
+    appVersion: 5.0.4
+    created: "2026-02-05T20:20:43.306388456Z"
+    description: Apache Cassandra distributed NoSQL database
+    digest: f89ca111758209427c1fa4d44788752950befd65224581408c9c3b6c515f0753
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - cassandra
+    - nosql
+    - database
+    - wide-column
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: cassandra
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/cassandra-0.1.0.tgz
+    version: 0.1.0
+  kafka:
+  - apiVersion: v2
+    appVersion: 3.9.0
+    created: "2026-02-05T20:20:43.307059332Z"
+    description: Apache Kafka distributed streaming platform
+    digest: 4856e2c71eafb150f7ca16d8482fcf3edcda89c93ad35509233438e37eb48749
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - kafka
+    - streaming
+    - messaging
+    - event
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: kafka
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/kafka-0.1.0.tgz
+    version: 0.1.0
+  keycloak:
+  - apiVersion: v2
+    appVersion: 26.1.4
+    created: "2026-02-05T20:20:43.307686868Z"
+    description: Keycloak identity and access management
+    digest: 4df40c4c4e29282afc1fc28365ab2796f5232727c00058e8e388a01411541997
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - keycloak
+    - identity
+    - authentication
+    - oauth
+    - oidc
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: keycloak
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/keycloak-0.1.0.tgz
+    version: 0.1.0
+  kubectl:
+  - apiVersion: v2
+    appVersion: 1.35.0
+    created: "2026-02-05T20:20:43.30814047Z"
+    description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
+    digest: 0217ede8d51e79a9be83670d7358796da747df59d16a6511015cbd234b16d9d0
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - kubectl
+    - kubernetes
+    - cli
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: kubectl
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/kubectl-0.1.0.tgz
+    version: 0.1.0
+  mariadb:
+  - apiVersion: v2
+    appVersion: 11.4.9
+    created: "2026-02-05T20:20:43.308757255Z"
+    description: MariaDB relational database
+    digest: 1099562d11259abf0d0963c7b6c4782134ae0e0800b5cba046fe5785ad341a90
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - mariadb
+    - database
+    - sql
+    - mysql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mariadb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/mariadb-0.1.0.tgz
+    version: 0.1.0
+  memcached:
+  - apiVersion: v2
+    appVersion: 1.6.34
+    created: "2026-02-05T20:20:43.309289995Z"
+    description: Memcached in-memory caching system
+    digest: a9eccc0544baf5ac1a31d46d1b0aa0e694975ca1a78eec85abab39c244e3c125
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - memcached
+    - cache
+    - memory
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: memcached
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/memcached-0.1.0.tgz
+    version: 0.1.0
+  mongodb:
+  - apiVersion: v2
+    appVersion: "8.0"
+    created: "2026-02-05T20:20:43.309891772Z"
+    description: MongoDB document database
+    digest: 78bc43f05124af489c474a5e82299e8e52b0ef7ad291b02a31b5269a919d3d5e
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - mongodb
+    - nosql
+    - database
+    - document
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mongodb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/mongodb-0.1.0.tgz
+    version: 0.1.0
+  mysql:
+  - apiVersion: v2
+    appVersion: "8.0"
+    created: "2026-02-05T20:20:43.310505492Z"
+    description: MySQL relational database
+    digest: efd08b3d93919c89a1a1a366edb0723f8f34d3f7178e705bbb07d1134f16e614
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - mysql
+    - database
+    - sql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mysql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/mysql-0.1.0.tgz
+    version: 0.1.0
+  openldap:
+  - apiVersion: v2
+    appVersion: 2.6.10
+    created: "2026-02-05T20:20:43.311125673Z"
+    description: OpenLDAP directory service
+    digest: 4d49ad0ebac967afc3b879a453ee7e6eed4c93aae36d6c53d0e1686f2c3bc69e
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - openldap
+    - ldap
+    - directory
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: openldap
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/openldap-0.1.0.tgz
+    version: 0.1.0
+  postgresql:
+  - apiVersion: v2
+    appVersion: "17"
+    created: "2026-02-05T20:20:43.312738371Z"
+    description: PostgreSQL relational database
+    digest: d3a7051f7189d0133d3049729fe4ed8f3dc5c06941a6b8e99b1770fc16b3c924
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: postgresql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/postgresql-0.1.0.tgz
+    version: 0.1.0
+  rabbitmq:
+  - apiVersion: v2
+    appVersion: 4.2.3
+    created: "2026-02-05T20:20:43.31348659Z"
+    description: RabbitMQ message broker
+    digest: e3d77b49bc693a8704ca777c58df27677c73580c5a4aa2d3c8a94a99fea7155e
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - rabbitmq
+    - message queue
+    - AMQP
+    - broker
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: rabbitmq
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/rabbitmq-0.1.0.tgz
+    version: 0.1.0
+  redis:
+  - apiVersion: v2
+    appVersion: 8.4.0
+    created: "2026-02-05T20:20:43.314657324Z"
+    description: Redis in-memory data store
+    digest: 970e97f6b6f95ef32898a9970e0f10097f42e79badee697d572d6d9120d6e24a
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - redis
+    - cache
+    - database
+    - keyvalue
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: redis
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/redis-0.1.0.tgz
+    version: 0.1.0
+  zookeeper:
+  - apiVersion: v2
+    appVersion: 3.9.3
+    created: "2026-02-05T20:20:43.315223816Z"
+    description: Apache ZooKeeper distributed coordination service
+    digest: f9f9fb124b6353c4dafa14b6b6189e84c2ef6970d250efab80ab7f678be3c97f
+    home: https://github.com/kubelauncher/charts
+    keywords:
+    - zookeeper
+    - coordination
+    - distributed
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: zookeeper
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://github.com/kubelauncher/charts/releases/download/charts/zookeeper-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-02-05T20:20:43.304666271Z"
