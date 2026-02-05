@@ -19,4 +19,7 @@ spec:
       {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePorts.http }}
       nodePort: {{ .Values.service.nodePorts.http }}
       {{- end }}
+    - name: management
+      port: {{ .Values.containerPorts.management }}
+      targetPort: management
   selector: {{- include "keycloak.selectorLabels" . | nindent 4 }}
