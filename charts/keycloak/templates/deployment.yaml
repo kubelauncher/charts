@@ -95,11 +95,13 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.containerPorts.http }}
+            - name: management
+              containerPort: {{ .Values.containerPorts.management }}
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             httpGet:
               path: /health/ready
-              port: http
+              port: management
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
@@ -109,8 +111,8 @@ spec:
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
-              path: /health/ready
-              port: http
+              path: /health/live
+              port: management
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -121,7 +123,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /health/ready
-              port: http
+              port: management
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
