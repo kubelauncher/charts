@@ -118,8 +118,8 @@ spec:
               mountPath: {{ .Values.cluster.persistence.mountPath }}
             {{- if .Values.commonConfiguration }}
             - name: redis-config
-              mountPath: /opt/redis/etc/redis.conf
-              subPath: redis.conf
+              mountPath: /opt/redis/etc/
+              readOnly: true
             {{- end }}
             {{- with .Values.cluster.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
