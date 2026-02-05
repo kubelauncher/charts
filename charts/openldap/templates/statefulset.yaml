@@ -43,12 +43,10 @@ spec:
             - -c
             - |
               mkdir -p {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data {{ .Values.persistence.mountPath }}/run
+              chown -R 1001:1001 {{ .Values.persistence.mountPath }}
               chmod 700 {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data
-          {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            runAsUser: {{ .Values.containerSecurityContext.runAsUser }}
-            runAsGroup: {{ .Values.containerSecurityContext.runAsGroup }}
-          {{- end }}
+            runAsUser: 0
           volumeMounts:
             - name: data
               mountPath: {{ .Values.persistence.mountPath }}

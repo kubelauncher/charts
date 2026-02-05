@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels: {{- include "kafka.selectorLabels" . | nindent 6 }}
   serviceName: {{ include "kafka.fullname" . }}-headless
-  podManagementPolicy: OrderedReady
+  podManagementPolicy: {{ .Values.podManagementPolicy | default "Parallel" }}
   updateStrategy:
     type: RollingUpdate
   template:

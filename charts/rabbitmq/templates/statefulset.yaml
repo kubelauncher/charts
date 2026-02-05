@@ -43,13 +43,10 @@ spec:
             - /bin/sh
             - -c
             - |
-              # Just ensure mount point is accessible, data dir is created by entrypoint
-              touch {{ .Values.persistence.mountPath }}/.initialized || true
-          {{- if .Values.containerSecurityContext.enabled }}
+              mkdir -p {{ .Values.persistence.mountPath }}
+              chown -R 1001:1001 {{ .Values.persistence.mountPath }}
           securityContext:
-            runAsUser: {{ .Values.containerSecurityContext.runAsUser }}
-            runAsGroup: {{ .Values.containerSecurityContext.runAsGroup }}
-          {{- end }}
+            runAsUser: 0
           volumeMounts:
             - name: data
               mountPath: {{ .Values.persistence.mountPath }}
