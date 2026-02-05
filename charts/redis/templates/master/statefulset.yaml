@@ -107,8 +107,8 @@ spec:
               mountPath: {{ .Values.master.persistence.mountPath }}
             {{- if .Values.commonConfiguration }}
             - name: redis-config
-              mountPath: /opt/redis/etc/redis.conf
-              subPath: redis.conf
+              mountPath: /opt/redis/etc/
+              readOnly: true
             {{- end }}
             {{- with .Values.master.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}

@@ -78,7 +78,7 @@ containerSecurityContext:
   runAsGroup: 1001
   runAsNonRoot: true
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   capabilities:
     drop: ["ALL"]
   seccompProfile:
@@ -116,7 +116,9 @@ serviceAccount:
 ## @section RBAC parameters
 
 ## @param rbac.create Specifies whether RBAC resources should be created
+## @param rbac.clusterWide Use ClusterRole/ClusterRoleBinding instead of Role/RoleBinding
 ## @param rbac.rules Custom RBAC rules to set
 rbac:
   create: true
+  clusterWide: false
   rules: []
