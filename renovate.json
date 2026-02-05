@@ -1,12 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "schedule:daily"
   ],
   "labels": ["dependencies"],
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
+  "schedule": ["after 5am and before 8am every weekday"],
   "customManagers": [
     {
       "customType": "regex",
