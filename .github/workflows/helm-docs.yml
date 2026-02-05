@@ -1,0 +1,48 @@
+name: Update Helm Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "charts/**/Chart.yaml"
+      - "charts/**/values.yaml"
+      - "charts/**/templates/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  helm-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install helm-docs
+        run: |
+          HELM_DOCS_VERSION="1.14.2"
+          curl -fsSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
+            | tar xz -C /usr/local/bin helm-docs
+
+      - name: Run helm-docs
+        run: helm-docs --chart-search-root charts
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet charts/*/README.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add charts/*/README.md
+          git commit -m "docs: regenerate helm-docs"
+          git push
