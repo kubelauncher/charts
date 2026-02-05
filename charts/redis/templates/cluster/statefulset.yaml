@@ -1,0 +1,171 @@
+{{- if .Values.cluster.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "redis.fullname" . }}-cluster
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cluster
+spec:
+  replicas: {{ .Values.cluster.nodes }}
+  selector:
+    matchLabels: {{- include "redis.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: cluster
+  serviceName: {{ include "redis.fullname" . }}-cluster-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {{- include "redis.labels" . | nindent 8 }}
+        app.kubernetes.io/component: cluster
+        {{- with .Values.cluster.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.cluster.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "redis.serviceAccountName" . }}
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.cluster.podSecurityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.cluster.podSecurityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.cluster.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: redis
+          image: {{ include "redis.cluster.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.cluster.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.cluster.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.cluster.containerSecurityContext.runAsGroup }}
+            runAsNonRoot: {{ .Values.cluster.containerSecurityContext.runAsNonRoot }}
+            allowPrivilegeEscalation: {{ .Values.cluster.containerSecurityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.cluster.containerSecurityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.cluster.containerSecurityContext.capabilities.drop | nindent 16 }}
+            seccompProfile:
+              type: {{ .Values.cluster.containerSecurityContext.seccompProfile.type }}
+          {{- end }}
+          env:
+            - name: REDIS_CLUSTER_ENABLED
+              value: "yes"
+            - name: REDIS_CLUSTER_REPLICAS
+              value: {{ .Values.cluster.replicas | quote }}
+            - name: REDIS_PORT
+              value: {{ .Values.cluster.containerPorts.redis | quote }}
+            - name: REDIS_CLUSTER_BUS_PORT
+              value: {{ .Values.cluster.containerPorts.bus | quote }}
+            - name: REDIS_NODES
+              value: {{ .Values.cluster.nodes | quote }}
+            {{- if .Values.auth.enabled }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "redis.secretName" . }}
+                  key: {{ include "redis.secretPasswordKey" . }}
+            {{- end }}
+            {{- with .Values.cluster.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: tcp-redis
+              containerPort: {{ .Values.cluster.containerPorts.redis }}
+            - name: tcp-bus
+              containerPort: {{ .Values.cluster.containerPorts.bus }}
+          {{- if .Values.cluster.startupProbe.enabled }}
+          startupProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.cluster.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.cluster.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.cluster.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.cluster.startupProbe.failureThreshold }}
+            successThreshold: {{ .Values.cluster.startupProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.cluster.livenessProbe.enabled }}
+          livenessProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.cluster.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.cluster.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.cluster.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.cluster.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.cluster.livenessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.cluster.readinessProbe.enabled }}
+          readinessProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.cluster.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.cluster.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.cluster.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.cluster.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.cluster.readinessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.cluster.resources }}
+          resources: {{- toYaml .Values.cluster.resources | nindent 12 }}
+          {{- else if .Values.cluster.resourcesPreset }}
+          resources: {{- include "redis.resources" (dict "preset" .Values.cluster.resourcesPreset) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: redis-data
+              mountPath: {{ .Values.cluster.persistence.mountPath }}
+            {{- if .Values.commonConfiguration }}
+            - name: redis-config
+              mountPath: /opt/redis/etc/redis.conf
+              subPath: redis.conf
+            {{- end }}
+            {{- with .Values.cluster.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- with .Values.cluster.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      volumes:
+        {{- if .Values.commonConfiguration }}
+        - name: redis-config
+          configMap:
+            name: {{ include "redis.fullname" . }}-configuration
+        {{- end }}
+        {{- with .Values.cluster.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.cluster.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cluster.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cluster.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.cluster.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+        labels: {{- include "redis.labels" . | nindent 10 }}
+          app.kubernetes.io/component: cluster
+        {{- with .Values.cluster.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.cluster.persistence.accessModes | nindent 10 }}
+        {{- $sc := .Values.global.defaultStorageClass | default .Values.global.storageClass | default .Values.cluster.persistence.storageClass }}
+        {{- if $sc }}
+        storageClassName: {{ $sc }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.cluster.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: redis-data
+          emptyDir: {}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,13 @@
+Cassandra has been deployed.
+
+To connect from within the cluster:
+
+  {{ include "cassandra.fullname" . }}-headless.{{ include "cassandra.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.service.ports.cql }}
+
+To connect from outside the cluster:
+
+  kubectl port-forward --namespace {{ include "cassandra.namespace" . }} svc/{{ include "cassandra.fullname" . }} 9042:{{ .Values.service.ports.cql }}
+
+Then connect using cqlsh:
+
+  cqlsh 127.0.0.1 9042

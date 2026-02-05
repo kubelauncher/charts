@@ -1,10 +1,42 @@
 Redis has been deployed.
 
-{{- if eq .Values.architecture "standalone" }}
+{{- if .Values.cluster.enabled }}
+Mode: Redis Cluster ({{ .Values.cluster.nodes }} nodes, {{ .Values.cluster.replicas }} replicas per master)
+
+To get your Redis password:
+
+  export REDIS_PASSWORD=$(kubectl get secret --namespace {{ include "redis.namespace" . }} {{ include "redis.secretName" . }} -o jsonpath="{.data.redis-password}" | base64 -d)
+
+To connect to the Redis Cluster:
+
+  kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
+    --image {{ include "redis.cluster.image" . }} -- \
+    redis-cli -c -h {{ include "redis.fullname" . }}-cluster -p {{ .Values.cluster.service.ports.redis }} -a $REDIS_PASSWORD
+
+Cluster headless service:
+  {{ include "redis.fullname" . }}-cluster-headless.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}
+
+{{- else if .Values.sentinel.enabled }}
+Mode: Redis Sentinel ({{ .Values.sentinel.replicaCount }} sentinels, master set: {{ .Values.sentinel.masterSet }})
+
+To get your Redis password:
+
+  export REDIS_PASSWORD=$(kubectl get secret --namespace {{ include "redis.namespace" . }} {{ include "redis.secretName" . }} -o jsonpath="{.data.redis-password}" | base64 -d)
+
+To connect via Sentinel:
+
+  kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
+    --image {{ include "redis.image" . }} -- \
+    redis-cli -h {{ include "redis.fullname" . }}-sentinel -p {{ .Values.sentinel.service.ports.sentinel }}
+
+Sentinel service:
+  {{ include "redis.fullname" . }}-sentinel.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.sentinel.service.ports.sentinel }}
+
+Master service:
+  {{ include "redis.fullname" . }}-master.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.master.service.ports.redis }}
+
+{{- else if eq .Values.architecture "standalone" }}
 Architecture: standalone
-{{- else }}
-Architecture: replication (master + {{ .Values.replica.replicaCount }} replicas)
-{{- end }}
 
 To get your Redis password:
 
@@ -15,3 +47,17 @@ To connect:
   kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
     --image {{ include "redis.image" . }} -- \
     redis-cli -h {{ include "redis.fullname" . }}-master -a $REDIS_PASSWORD
+
+{{- else }}
+Architecture: replication (master + {{ .Values.replica.replicaCount }} replicas)
+
+To get your Redis password:
+
+  export REDIS_PASSWORD=$(kubectl get secret --namespace {{ include "redis.namespace" . }} {{ include "redis.secretName" . }} -o jsonpath="{.data.redis-password}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
+    --image {{ include "redis.image" . }} -- \
+    redis-cli -h {{ include "redis.fullname" . }}-master -a $REDIS_PASSWORD
+{{- end }}

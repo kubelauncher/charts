@@ -1,0 +1,11 @@
+ZooKeeper has been deployed.
+
+To connect from within the cluster:
+
+  {{ include "zookeeper.fullname" . }}-headless.{{ include "zookeeper.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.service.ports.client }}
+
+To connect from outside the cluster:
+
+  kubectl port-forward --namespace {{ include "zookeeper.namespace" . }} svc/{{ include "zookeeper.fullname" . }} 2181:{{ .Values.service.ports.client }}
+
+Then connect using your ZooKeeper client to 127.0.0.1:2181.
