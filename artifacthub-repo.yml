@@ -1,0 +1,10 @@
+# Artifact Hub repository metadata file
+# https://artifacthub.io/docs/topics/repositories/#helm-charts-repositories
+
+repositoryID: kubelauncher
+owners:
+  - name: kubelauncher
+    email: platform@kubelauncher.com
+ignore:
+  - name: chart-tests
+  - name: tests
