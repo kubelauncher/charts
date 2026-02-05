@@ -12,5 +12,4 @@ resources:
 persistence:
   enabled: false
 
-jvmOptions:
-  maxHeapSize: 512M
+maxHeapSize: "512M"

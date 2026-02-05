@@ -1,7 +1,14 @@
 # Cassandra Cluster test configuration
 replicaCount: 3
 
-resourcesPreset: "micro"
+# Cassandra 5.x needs at least 1Gi for cluster mode
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+    cpu: 1000m
 
 persistence:
   enabled: false

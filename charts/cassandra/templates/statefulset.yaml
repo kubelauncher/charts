@@ -63,8 +63,11 @@ spec:
               value: {{ .Values.endpointSnitch | quote }}
             - name: CASSANDRA_MAX_HEAP_SIZE
               value: {{ .Values.maxHeapSize | quote }}
+            {{- if .Values.heapNewSize }}
+            # Note: heapNewSize is incompatible with G1 GC (Cassandra 5.x default)
             - name: CASSANDRA_HEAP_NEWSIZE
               value: {{ .Values.heapNewSize | quote }}
+            {{- end }}
             - name: CASSANDRA_DATA_DIR
               value: {{ .Values.persistence.mountPath }}/data
             - name: POD_IP
