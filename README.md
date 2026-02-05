@@ -1,24 +1,29 @@
 # kubelauncher/charts
 
-Helm charts for Redis, PostgreSQL, RabbitMQ, and kubectl.
+Helm charts for databases, message brokers, and utilities.
 
 ## Charts
 
-| Chart | App Version | Description |
-|-------|-------------|-------------|
-| [redis](charts/redis) | 8.4.0 | Redis in-memory data store |
-| [postgresql](charts/postgresql) | 17 | PostgreSQL relational database |
-| [rabbitmq](charts/rabbitmq) | 4.2.3 | RabbitMQ message broker |
-| [kubectl](charts/kubectl) | 1.35.0 | kubectl utility (Job/CronJob) |
+- [cassandra](charts/cassandra) - Apache Cassandra
+- [kafka](charts/kafka) - Apache Kafka
+- [keycloak](charts/keycloak) - Keycloak IAM
+- [kubectl](charts/kubectl) - kubectl utility (Job/CronJob)
+- [mariadb](charts/mariadb) - MariaDB
+- [memcached](charts/memcached) - Memcached
+- [mongodb](charts/mongodb) - MongoDB
+- [mysql](charts/mysql) - MySQL
+- [openldap](charts/openldap) - OpenLDAP
+- [postgresql](charts/postgresql) - PostgreSQL
+- [rabbitmq](charts/rabbitmq) - RabbitMQ
+- [redis](charts/redis) - Redis (standalone, sentinel, cluster)
+- [zookeeper](charts/zookeeper) - Apache ZooKeeper
 
 ## Usage
 
 ### OCI registry (recommended)
 
 ```bash
-helm install my-redis oci://ghcr.io/kubelauncher/charts/redis
-helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql
-helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq
+helm install my-release oci://ghcr.io/kubelauncher/charts/<chart-name>
 ```
 
 ### Helm repo
@@ -26,34 +31,5 @@ helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq
 ```bash
 helm repo add kubelauncher https://kubelauncher.github.io/charts
 helm repo update
-helm install my-redis kubelauncher/redis
+helm install my-release kubelauncher/<chart-name>
 ```
-
-## Values structure
-
-The charts use a familiar values structure with common top-level keys:
-
-```yaml
-image:
-  registry: ghcr.io
-  repository: kubelauncher/redis
-auth:
-  enabled: true
-  password: "secret"
-master:                        # redis
-  persistence:
-    size: 16Gi
-primary:                       # postgresql
-  persistence:
-    size: 16Gi
-persistence:                   # rabbitmq
-  size: 16Gi
-```
-
-## CI/CD
-
-Charts are linted on every PR and published to both OCI (`ghcr.io`) and GitHub Pages on merge to `main`.
-
-## Dependency updates
-
-Renovate tracks `appVersion` in `Chart.yaml` for each chart and creates PRs when new upstream versions are released.
