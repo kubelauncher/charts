@@ -3,7 +3,7 @@ name: openldap
 description: OpenLDAP directory service
 type: application
 version: 0.1.0
-appVersion: "2.6.10"
+appVersion: "2.6.9"
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
