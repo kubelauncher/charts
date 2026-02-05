@@ -1,0 +1,15 @@
+# RabbitMQ Cluster test configuration
+replicaCount: 3
+
+auth:
+  username: "admin"
+  password: "adminpass123"
+  erlangCookie: "secretcookie"
+
+clustering:
+  enabled: true
+
+resourcesPreset: "nano"
+
+persistence:
+  enabled: false

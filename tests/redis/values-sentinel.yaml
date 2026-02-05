@@ -1,0 +1,20 @@
+# Redis Sentinel test configuration
+architecture: replication
+
+auth:
+  enabled: true
+  password: "testpass123"
+
+sentinel:
+  enabled: true
+  replicaCount: 3
+  quorum: 2
+
+master:
+  resourcesPreset: "nano"
+
+replica:
+  replicaCount: 2
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
