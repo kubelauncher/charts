@@ -151,12 +151,29 @@ jobs:
           NS="test-test-${{ matrix.chart }}-${{ matrix.test_name }}"
           echo "=== Pods ==="
           kubectl get pods -n "${NS}" -o wide 2>/dev/null || true
-          echo "=== Events ==="
-          kubectl get events -n "${NS}" --sort-by='.lastTimestamp' 2>/dev/null || true
-          echo "=== Pod logs ==="
-          for pod in $(kubectl get pods -n "${NS}" -o jsonpath='{.items[*].metadata.name}' 2>/dev/null); do
-            echo "--- ${pod} ---"
-            kubectl logs -n "${NS}" "${pod}" --tail=50 2>/dev/null || true
-          done
-          echo "=== Describe pods ==="
+          echo ""
+          echo "=== StatefulSets ==="
+          kubectl get statefulsets -n "${NS}" -o wide 2>/dev/null || true
+          echo ""
+          echo "=== PVCs ==="
+          kubectl get pvc -n "${NS}" -o wide 2>/dev/null || true
+          echo ""
+          echo "=== Services ==="
+          kubectl get svc -n "${NS}" 2>/dev/null || true
+          echo ""
+          echo "=== Events (last 50) ==="
+          kubectl get events -n "${NS}" --sort-by='.lastTimestamp' 2>/dev/null | tail -50 || true
+          echo ""
+          echo "=== Describe StatefulSets ==="
+          kubectl describe statefulsets -n "${NS}" 2>/dev/null || true
+          echo ""
+          echo "=== Describe Pods ==="
           kubectl describe pods -n "${NS}" 2>/dev/null || true
+          echo ""
+          echo "=== Pod Logs ==="
+          for pod in $(kubectl get pods -n "${NS}" -o jsonpath='{.items[*].metadata.name}' 2>/dev/null); do
+            echo "--- Logs: ${pod} ---"
+            kubectl logs -n "${NS}" "${pod}" --all-containers --tail=100 2>/dev/null || true
+            echo "--- Previous Logs: ${pod} ---"
+            kubectl logs -n "${NS}" "${pod}" --all-containers --previous --tail=50 2>/dev/null || true
+          done
