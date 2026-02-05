@@ -78,6 +78,7 @@ Apache Kafka distributed streaming platform
 | persistence.storageClass | string | `""` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
+| podManagementPolicy | string | `"Parallel"` |  |
 | podSecurityContext.enabled | bool | `true` |  |
 | podSecurityContext.fsGroup | int | `1001` |  |
 | readinessProbe.enabled | bool | `true` |  |
