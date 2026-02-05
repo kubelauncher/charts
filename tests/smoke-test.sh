@@ -96,14 +96,15 @@ esac
 # ── Connectivity / smoke checks ─────────────────────────────────────
 case "${CHART}" in
     redis)
-        SVC="${RELEASE}-redis-master"
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}-master"
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
 
         # extract password from values if auth is enabled
         AUTH_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('auth',{}).get('enabled', True))" 2>/dev/null || echo "True")
 
         if [ "${AUTH_ENABLED}" = "True" ] || [ "${AUTH_ENABLED}" = "true" ]; then
-            REDIS_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}-redis" -o jsonpath='{.data.redis-password}' | base64 -d)
+            REDIS_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.redis-password}' | base64 -d)
             AUTH_FLAG="-a ${REDIS_PASS}"
         else
             AUTH_FLAG=""
@@ -125,9 +126,10 @@ case "${CHART}" in
         ;;
 
     postgresql)
-        SVC="${RELEASE}-postgresql"
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
-        PG_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}-postgresql" -o jsonpath='{.data.postgres-password}' | base64 -d)
+        PG_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.postgres-password}' | base64 -d)
 
         # check connectivity
         kubectl run pg-smoke --rm -i --restart=Never -n "${NAMESPACE}" \
@@ -143,7 +145,7 @@ case "${CHART}" in
         USER=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('auth',{}).get('username',''))" 2>/dev/null || echo "")
 
         if [ -n "${DB}" ] && [ -n "${USER}" ]; then
-            USER_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}-postgresql" -o jsonpath='{.data.password}' | base64 -d)
+            USER_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.password}' | base64 -d)
             kubectl run pg-user --rm -i --restart=Never -n "${NAMESPACE}" \
                 --image=postgres:alpine \
                 --env="PGPASSWORD=${USER_PASS}" -- \
@@ -155,10 +157,11 @@ case "${CHART}" in
         ;;
 
     rabbitmq)
-        SVC="${RELEASE}-rabbitmq"
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
         MGMT_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="http-stats")].port}')
         AMQP_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="amqp")].port}')
-        RMQ_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}-rabbitmq" -o jsonpath='{.data.rabbitmq-password}' | base64 -d)
+        RMQ_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.rabbitmq-password}' | base64 -d)
         RMQ_USER=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('auth',{}).get('username','guest'))" 2>/dev/null || echo "guest")
 
         # management API health check
