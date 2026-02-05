@@ -417,26 +417,22 @@ case "${CHART}" in
 
     cassandra)
         FULLNAME="${RELEASE}"
-        SVC="${FULLNAME}"
-        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="cql")].port}')
-        [ -z "${PORT}" ] && PORT=9042
+        POD="${FULLNAME}-0"
 
-        echo "Testing Cassandra at ${SVC}:${PORT}..."
+        echo "Testing Cassandra at ${POD}..."
 
-        # Cassandra needs longer startup time
+        # Cassandra needs longer startup time, use nodetool (cqlsh requires Python 3.6-3.11)
         RESULT=""
         for attempt in $(seq 1 12); do
-            RESULT=$(kubectl run "cass-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=cassandra:5 -- \
-                cqlsh "${SVC}" "${PORT}" -e "DESCRIBE CLUSTER" 2>&1) || true
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${POD}" -- nodetool status 2>&1) || true
             echo "Attempt ${attempt}: ${RESULT}"
-            if echo "${RESULT}" | grep -qE "(Cluster|Datacenter)"; then
+            if echo "${RESULT}" | grep -qE "^UN"; then
                 break
             fi
             sleep 15
         done
-        echo "${RESULT}" | grep -qE "(Cluster|Datacenter)" || fail "Cassandra DESCRIBE CLUSTER failed after 12 attempts"
-        log "Cassandra DESCRIBE CLUSTER works"
+        echo "${RESULT}" | grep -qE "^UN" || fail "Cassandra nodetool status failed after 12 attempts"
+        log "Cassandra nodetool status shows UN (Up/Normal)"
         ;;
 
     keycloak)
