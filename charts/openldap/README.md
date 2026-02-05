@@ -1,59 +1,35 @@
-# rabbitmq
+# openldap
 
-RabbitMQ message broker
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.10](https://img.shields.io/badge/AppVersion-2.6.10-informational?style=flat-square)
 
-## TL;DR
+OpenLDAP directory service
 
-```bash
-helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
-  --set auth.password=secret
-```
+**Homepage:** <https://github.com/kubelauncher/charts>
 
-## Introduction
+## Maintainers
 
-This chart deploys RabbitMQ on Kubernetes using the [kubelauncher/rabbitmq](https://github.com/kubelauncher/docker) Docker image. Management UI and Prometheus plugin are enabled by default.
+| Name | Email | Url |
+| ---- | ------ | --- |
+| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |
 
-The values structure follows the same conventions as popular community charts, allowing easy migration.
+## Source Code
 
-## Installing the Chart
-
-```bash
-helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
-  --set auth.username=admin \
-  --set auth.password=secret \
-  --set replicaCount=3
-```
-
-## Uninstalling the Chart
-
-```bash
-helm uninstall my-rmq
-```
+* <https://github.com/kubelauncher/docker>
+* <https://github.com/kubelauncher/charts>
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| auth.erlangCookie | string | `""` |  |
-| auth.existingErlangSecret | string | `""` |  |
-| auth.existingPasswordSecret | string | `""` |  |
-| auth.existingSecretErlangKey | string | `"rabbitmq-erlang-cookie"` |  |
-| auth.existingSecretPasswordKey | string | `"rabbitmq-password"` |  |
-| auth.password | string | `""` |  |
-| auth.username | string | `"user"` |  |
+| auth.adminPassword | string | `""` |  |
+| auth.existingSecret | string | `""` |  |
+| auth.existingSecretPasswordKey | string | `"ldap-admin-password"` |  |
 | clusterDomain | string | `"cluster.local"` |  |
-| clustering.addressType | string | `"hostname"` |  |
-| clustering.enabled | bool | `true` |  |
-| clustering.partitionHandling | string | `"autoheal"` |  |
 | commonAnnotations | object | `{}` |  |
 | commonLabels | object | `{}` |  |
-| communityPlugins | string | `""` |  |
-| containerPorts.amqp | int | `5672` |  |
-| containerPorts.dist | int | `25672` |  |
-| containerPorts.epmd | int | `4369` |  |
-| containerPorts.manager | int | `15672` |  |
-| containerPorts.metrics | int | `9419` |  |
+| containerPorts.ldap | int | `389` |  |
+| containerPorts.ldaps | int | `636` |  |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
 | containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | containerSecurityContext.enabled | bool | `true` |  |
@@ -62,10 +38,8 @@ helm uninstall my-rmq
 | containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | containerSecurityContext.runAsUser | int | `1001` |  |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
-| extraConfiguration | string | `""` |  |
 | extraDeploy | list | `[]` |  |
 | extraEnvVars | list | `[]` |  |
-| extraPlugins | string | `""` |  |
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
@@ -77,22 +51,17 @@ helm uninstall my-rmq
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
-| image.repository | string | `"kubelauncher/rabbitmq"` |  |
+| image.repository | string | `"kubelauncher/openldap"` |  |
 | image.tag | string | `""` |  |
-| ingress.annotations | object | `{}` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hostname | string | `"rabbitmq.local"` |  |
-| ingress.ingressClassName | string | `""` |  |
-| ingress.path | string | `"/"` |  |
-| ingress.pathType | string | `"ImplementationSpecific"` |  |
-| ingress.tls | bool | `false` |  |
 | initContainers | list | `[]` |  |
+| ldapAdminUsername | string | `"admin"` |  |
+| ldapRoot | string | `"dc=example,dc=org"` |  |
 | livenessProbe.enabled | bool | `true` |  |
 | livenessProbe.failureThreshold | int | `6` |  |
-| livenessProbe.initialDelaySeconds | int | `120` |  |
-| livenessProbe.periodSeconds | int | `30` |  |
+| livenessProbe.initialDelaySeconds | int | `20` |  |
+| livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
-| livenessProbe.timeoutSeconds | int | `20` |  |
+| livenessProbe.timeoutSeconds | int | `5` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
@@ -101,37 +70,30 @@ helm uninstall my-rmq
 | persistence.enabled | bool | `true` |  |
 | persistence.existingClaim | string | `""` |  |
 | persistence.labels | object | `{}` |  |
-| persistence.mountPath | string | `"/data/rabbitmq/data"` |  |
+| persistence.mountPath | string | `"/data/openldap"` |  |
 | persistence.size | string | `"8Gi"` |  |
 | persistence.storageClass | string | `""` |  |
-| plugins | string | `"rabbitmq_management rabbitmq_prometheus"` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext.enabled | bool | `true` |  |
 | podSecurityContext.fsGroup | int | `1001` |  |
 | readinessProbe.enabled | bool | `true` |  |
-| readinessProbe.failureThreshold | int | `3` |  |
-| readinessProbe.initialDelaySeconds | int | `10` |  |
+| readinessProbe.failureThreshold | int | `6` |  |
+| readinessProbe.initialDelaySeconds | int | `5` |  |
 | readinessProbe.periodSeconds | int | `10` |  |
 | readinessProbe.successThreshold | int | `1` |  |
-| readinessProbe.timeoutSeconds | int | `20` |  |
+| readinessProbe.timeoutSeconds | int | `5` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
-| resourcesPreset | string | `"micro"` |  |
+| resourcesPreset | string | `"nano"` |  |
 | service.annotations | object | `{}` |  |
 | service.clusterIP | string | `""` |  |
 | service.headless.annotations | object | `{}` |  |
 | service.labels | object | `{}` |  |
-| service.nodePorts.amqp | string | `""` |  |
-| service.nodePorts.dist | string | `""` |  |
-| service.nodePorts.epmd | string | `""` |  |
-| service.nodePorts.manager | string | `""` |  |
-| service.nodePorts.metrics | string | `""` |  |
-| service.ports.amqp | int | `5672` |  |
-| service.ports.dist | int | `25672` |  |
-| service.ports.epmd | int | `4369` |  |
-| service.ports.manager | int | `15672` |  |
-| service.ports.metrics | int | `9419` |  |
+| service.nodePorts.ldap | string | `""` |  |
+| service.nodePorts.ldaps | string | `""` |  |
+| service.ports.ldap | int | `389` |  |
+| service.ports.ldaps | int | `636` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automountServiceAccountToken | bool | `false` |  |
@@ -146,8 +108,5 @@ helm uninstall my-rmq
 | startupProbe.timeoutSeconds | int | `5` |  |
 | tolerations | list | `[]` |  |
 
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
