@@ -100,28 +100,39 @@ case "${CHART}" in
         SVC="${FULLNAME}-master"
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
 
-        # extract password from values if auth is enabled
-        AUTH_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('auth',{}).get('enabled', True))" 2>/dev/null || echo "True")
-
-        if [ "${AUTH_ENABLED}" = "True" ] || [ "${AUTH_ENABLED}" = "true" ]; then
+        # Check if auth is enabled by looking at the secret
+        if kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" &>/dev/null; then
             REDIS_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.redis-password}' | base64 -d)
-            AUTH_FLAG="-a ${REDIS_PASS}"
+            AUTH_ARGS="-a '${REDIS_PASS}'"
+            echo "Auth enabled, using password from secret"
         else
-            AUTH_FLAG=""
+            AUTH_ARGS=""
+            echo "Auth disabled, no password"
         fi
 
-        kubectl run redis-smoke --rm -i --restart=Never -n "${NAMESPACE}" \
-            --image=redis:alpine -- \
-            redis-cli -h "${SVC}" -p "${PORT}" ${AUTH_FLAG} PING \
-            | grep -q "PONG" \
-            || fail "Redis PING/PONG failed"
+        echo "Testing Redis at ${SVC}:${PORT}..."
+
+        # PING test with retry
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "redis-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=redis:alpine -- \
+                sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} PING" 2>&1) || true
+            echo "PING attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "PONG"; then
+                break
+            fi
+            sleep 2
+        done
+        echo "${RESULT}" | grep -q "PONG" || fail "Redis PING/PONG failed after 3 attempts"
         log "Redis PING -> PONG"
 
-        kubectl run redis-write --rm -i --restart=Never -n "${NAMESPACE}" \
+        # SET/GET test
+        RESULT=$(kubectl run redis-write --rm -i --restart=Never -n "${NAMESPACE}" \
             --image=redis:alpine -- \
-            sh -c "redis-cli -h ${SVC} -p ${PORT} ${AUTH_FLAG} SET smoketest ok && redis-cli -h ${SVC} -p ${PORT} ${AUTH_FLAG} GET smoketest" \
-            | grep -q "ok" \
-            || fail "Redis SET/GET failed"
+            sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
+        echo "SET/GET result: ${RESULT}"
+        echo "${RESULT}" | grep -q "ok" || fail "Redis SET/GET failed"
         log "Redis SET/GET works"
         ;;
 
