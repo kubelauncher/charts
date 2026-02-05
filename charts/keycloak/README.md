@@ -31,6 +31,7 @@ Keycloak identity and access management
 | commonAnnotations | object | `{}` |  |
 | commonLabels | object | `{}` |  |
 | containerPorts.http | int | `8080` |  |
+| containerPorts.management | int | `9000` |  |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
 | containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | containerSecurityContext.enabled | bool | `true` |  |
