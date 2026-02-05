@@ -1,0 +1,16 @@
+# Cassandra single node test configuration
+replicaCount: 1
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+    cpu: 1000m
+
+persistence:
+  enabled: false
+
+jvmOptions:
+  maxHeapSize: 512M

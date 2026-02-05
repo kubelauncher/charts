@@ -76,10 +76,15 @@ log "Helm install succeeded"
 
 # ── Wait for workloads ───────────────────────────────────────────────
 case "${CHART}" in
-    redis|postgresql|rabbitmq)
+    redis|postgresql|rabbitmq|mysql|mariadb|mongodb|kafka|zookeeper|cassandra|openldap)
         kubectl rollout status statefulset -n "${NAMESPACE}" -l "app.kubernetes.io/instance=${RELEASE}" --timeout="${TIMEOUT}" \
             || fail "StatefulSet rollout failed"
         log "StatefulSet is ready"
+        ;;
+    memcached|keycloak)
+        kubectl rollout status deployment -n "${NAMESPACE}" -l "app.kubernetes.io/instance=${RELEASE}" --timeout="${TIMEOUT}" \
+            || fail "Deployment rollout failed"
+        log "Deployment is ready"
         ;;
     kubectl)
         # For jobs, wait for completion
@@ -259,6 +264,233 @@ case "${CHART}" in
                 warn "kubectl job logs empty (may be expected)"
             fi
         fi
+        ;;
+
+    mysql)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+        MYSQL_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mysql-root-password}' | base64 -d)
+
+        echo "Testing MySQL at ${SVC}:${PORT}..."
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "mysql-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=mysql:8 \
+                --env="MYSQL_PWD=${MYSQL_PASS}" -- \
+                mysql -h "${SVC}" -P "${PORT}" -u root -e "SELECT 1 AS smoke_test;" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "1"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "1" || fail "MySQL SELECT 1 failed after 3 attempts"
+        log "MySQL SELECT 1 works"
+        ;;
+
+    mariadb)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+        MARIADB_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mariadb-root-password}' | base64 -d)
+
+        echo "Testing MariaDB at ${SVC}:${PORT}..."
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "mariadb-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=mariadb:11 \
+                --env="MYSQL_PWD=${MARIADB_PASS}" -- \
+                mariadb -h "${SVC}" -P "${PORT}" -u root -e "SELECT 1 AS smoke_test;" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "1"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "1" || fail "MariaDB SELECT 1 failed after 3 attempts"
+        log "MariaDB SELECT 1 works"
+        ;;
+
+    mongodb)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+
+        # Check if auth is enabled
+        AUTH_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('auth',{}).get('enabled',False))" 2>/dev/null || echo "False")
+
+        echo "Testing MongoDB at ${SVC}:${PORT} (auth=${AUTH_ENABLED})..."
+
+        if [ "${AUTH_ENABLED}" = "True" ]; then
+            MONGO_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mongodb-root-password}' | base64 -d)
+            AUTH_ARGS="-u root -p '${MONGO_PASS}' --authenticationDatabase admin"
+        else
+            AUTH_ARGS=""
+        fi
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "mongo-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=mongo:7 -- \
+                mongosh "mongodb://${SVC}:${PORT}" ${AUTH_ARGS} --quiet --eval "db.adminCommand('ping')" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "ok"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "ok" || fail "MongoDB ping failed after 3 attempts"
+        log "MongoDB ping works"
+        ;;
+
+    memcached)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+
+        echo "Testing Memcached at ${SVC}:${PORT}..."
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "memcached-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=alpine -- \
+                sh -c "echo stats | nc -w 2 ${SVC} ${PORT}" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "STAT pid"; then
+                break
+            fi
+            sleep 2
+        done
+        echo "${RESULT}" | grep -q "STAT pid" || fail "Memcached stats failed after 3 attempts"
+        log "Memcached stats works"
+        ;;
+
+    kafka)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="client")].port}')
+        [ -z "${PORT}" ] && PORT=9092
+
+        echo "Testing Kafka at ${SVC}:${PORT}..."
+
+        RESULT=""
+        for attempt in 1 2 3 4 5; do
+            RESULT=$(kubectl run "kafka-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=confluentinc/cp-kafka:7.5.0 -- \
+                kafka-topics --bootstrap-server "${SVC}:${PORT}" --list 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            # Empty list is valid, error messages contain "ERROR" or "Exception"
+            if ! echo "${RESULT}" | grep -qE "(ERROR|Exception|refused)"; then
+                break
+            fi
+            sleep 10
+        done
+        echo "${RESULT}" | grep -qE "(ERROR|Exception|refused)" && fail "Kafka topics list failed after 5 attempts"
+        log "Kafka topics list works"
+        ;;
+
+    zookeeper)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="client")].port}')
+        [ -z "${PORT}" ] && PORT=2181
+
+        echo "Testing Zookeeper at ${SVC}:${PORT}..."
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "zk-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=alpine -- \
+                sh -c "echo ruok | nc -w 2 ${SVC} ${PORT}" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "imok"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "imok" || fail "Zookeeper ruok failed after 3 attempts"
+        log "Zookeeper ruok -> imok"
+        ;;
+
+    cassandra)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="cql")].port}')
+        [ -z "${PORT}" ] && PORT=9042
+
+        echo "Testing Cassandra at ${SVC}:${PORT}..."
+
+        # Cassandra needs longer startup time
+        RESULT=""
+        for attempt in $(seq 1 12); do
+            RESULT=$(kubectl run "cass-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=cassandra:5 -- \
+                cqlsh "${SVC}" "${PORT}" -e "DESCRIBE CLUSTER" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -qE "(Cluster|Datacenter)"; then
+                break
+            fi
+            sleep 15
+        done
+        echo "${RESULT}" | grep -qE "(Cluster|Datacenter)" || fail "Cassandra DESCRIBE CLUSTER failed after 12 attempts"
+        log "Cassandra DESCRIBE CLUSTER works"
+        ;;
+
+    keycloak)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        HTTP_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
+        MGMT_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="management")].port}')
+        [ -z "${HTTP_PORT}" ] && HTTP_PORT=8080
+        [ -z "${MGMT_PORT}" ] && MGMT_PORT=9000
+
+        echo "Testing Keycloak at ${SVC}:${HTTP_PORT} (mgmt: ${MGMT_PORT})..."
+
+        # Keycloak needs longer startup
+        RESULT=""
+        for attempt in $(seq 1 10); do
+            RESULT=$(kubectl run "kc-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=curlimages/curl -- \
+                curl -sf "http://${SVC}:${MGMT_PORT}/health/ready" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "UP"; then
+                break
+            fi
+            sleep 10
+        done
+        echo "${RESULT}" | grep -q "UP" || fail "Keycloak health check failed after 10 attempts"
+        log "Keycloak health check passed"
+        ;;
+
+    openldap)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="ldap")].port}')
+        [ -z "${PORT}" ] && PORT=389
+
+        DOMAIN=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('domain','example.local'))" 2>/dev/null || echo "example.local")
+        # Convert domain to DN
+        BASE_DN=$(echo "${DOMAIN}" | sed 's/\./,dc=/g' | sed 's/^/dc=/')
+        ADMIN_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.ldap-admin-password}' | base64 -d)
+
+        echo "Testing OpenLDAP at ${SVC}:${PORT} (base: ${BASE_DN})..."
+
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "ldap-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=alpine -- \
+                sh -c "apk add --no-cache openldap-clients >/dev/null 2>&1 && ldapsearch -x -H ldap://${SVC}:${PORT} -b '${BASE_DN}' -D 'cn=admin,${BASE_DN}' -w '${ADMIN_PASS}' '(objectClass=*)'" 2>&1) || true
+            echo "Attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "dn:"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "dn:" || fail "OpenLDAP search failed after 3 attempts"
+        log "OpenLDAP search works"
         ;;
 esac
 

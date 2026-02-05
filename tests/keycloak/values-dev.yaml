@@ -1,0 +1,21 @@
+# Keycloak dev mode configuration
+auth:
+  adminUser: admin
+  adminPassword: admin123
+
+# Dev mode uses H2 database (no external DB required)
+database:
+  vendor: dev-file
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+
+# Start in dev mode for faster startup
+extraEnvVars:
+  - name: KC_FEATURES
+    value: "preview"
