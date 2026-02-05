@@ -89,8 +89,8 @@ jobs:
                   CHARTS_TO_TEST+=("$chart")
                 fi
               fi
-              # If workflow file changed, test all
-              if [[ "$file" == ".github/workflows/test.yml" ]]; then
+              # If workflow file or smoke-test.sh changed, test all
+              if [[ "$file" == ".github/workflows/test.yml" ]] || [[ "$file" == "tests/smoke-test.sh" ]]; then
                 CHARTS_TO_TEST=()
                 for dir in tests/*/; do
                   [ -d "$dir" ] && CHARTS_TO_TEST+=("$(basename "$dir")")
