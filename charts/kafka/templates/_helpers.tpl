@@ -82,6 +82,22 @@ Return the ServiceAccount name.
 {{- end }}
 
 {{/*
+Generate controller quorum voters list for KRaft mode.
+Format: 0@host0:port,1@host1:port,...
+*/}}
+{{- define "kafka.controllerQuorumVoters" -}}
+{{- $fullname := include "kafka.fullname" . -}}
+{{- $namespace := include "kafka.namespace" . -}}
+{{- $clusterDomain := .Values.clusterDomain -}}
+{{- $port := int .Values.containerPorts.controller -}}
+{{- $voters := list -}}
+{{- range $i := until (int .Values.replicaCount) -}}
+{{- $voters = append $voters (printf "%d@%s-%d.%s-headless.%s.svc.%s:%d" $i $fullname $i $fullname $namespace $clusterDomain $port) -}}
+{{- end -}}
+{{- join "," $voters -}}
+{{- end }}
+
+{{/*
 Resource presets mapping.
 */}}
 {{- define "kafka.resources" -}}

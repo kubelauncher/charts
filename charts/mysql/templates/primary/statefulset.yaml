@@ -32,10 +32,29 @@ spec:
       {{- if .Values.primary.podSecurityContext.enabled }}
       securityContext:
         fsGroup: {{ .Values.primary.podSecurityContext.fsGroup }}
+        fsGroupChangePolicy: "OnRootMismatch"
       {{- end }}
-      {{- with .Values.primary.initContainers }}
-      initContainers: {{- toYaml . | nindent 8 }}
-      {{- end }}
+      initContainers:
+        - name: volume-permissions
+          image: {{ include "mysql.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p {{ .Values.primary.persistence.mountPath }}/data
+              chmod 700 {{ .Values.primary.persistence.mountPath }}/data
+          {{- if .Values.primary.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.primary.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.primary.containerSecurityContext.runAsGroup }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.primary.persistence.mountPath }}
+        {{- with .Values.primary.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: mysql
           image: {{ include "mysql.image" . }}
