@@ -1,0 +1,30 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "keycloak.fullname" . }}
+  namespace: {{ include "keycloak.namespace" . }}
+  labels: {{- include "keycloak.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels: {{- include "keycloak.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        {{- if .Values.networkPolicy.allowExternal }}
+        - podSelector: {}
+        {{- else }}
+        - podSelector:
+            matchLabels: {{- include "keycloak.selectorLabels" . | nindent 14 }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.containerPorts.http }}
+        {{- range .Values.networkPolicy.additionalRules }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+  egress:
+    - {}
+{{- end }}
