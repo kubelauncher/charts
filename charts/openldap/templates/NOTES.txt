@@ -1,0 +1,11 @@
+OpenLDAP has been deployed.
+
+To get the admin password:
+
+  export LDAP_ADMIN_PASSWORD=$(kubectl get secret --namespace {{ include "openldap.namespace" . }} {{ include "openldap.secretName" . }} -o jsonpath="{.data.ldap-admin-password}" | base64 -d)
+
+To connect:
+
+  kubectl port-forward --namespace {{ include "openldap.namespace" . }} svc/{{ include "openldap.fullname" . }} 389:{{ .Values.service.ports.ldap }}
+
+Then connect using your LDAP client to ldap://127.0.0.1:389.

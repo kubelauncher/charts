@@ -1,0 +1,241 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+## @param global.mongodb.auth.rootPassword Global MongoDB root password (overrides `auth.rootPassword`)
+## @param global.mongodb.auth.rootUsername Global MongoDB root username
+## @param global.mongodb.auth.username Global MongoDB custom username
+## @param global.mongodb.auth.password Global MongoDB custom user password
+## @param global.mongodb.auth.database Global MongoDB custom database
+## @param global.mongodb.auth.existingSecret Global existing secret for MongoDB credentials
+## @param global.mongodb.service.ports.mongodb Global MongoDB service port
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+  mongodb:
+    auth:
+      rootPassword: ""
+      rootUsername: ""
+      username: ""
+      password: ""
+      database: ""
+      existingSecret: ""
+    service:
+      ports:
+        mongodb: ""
+
+## @section MongoDB image parameters
+
+## @param image.registry MongoDB image registry
+## @param image.repository MongoDB image repository
+## @param image.tag MongoDB image tag (defaults to Chart appVersion)
+## @param image.digest MongoDB image digest (overrides tag)
+## @param image.pullPolicy MongoDB image pull policy
+## @param image.pullSecrets MongoDB image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/mongodb
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section MongoDB common parameters
+
+## @param nameOverride Partially override mongodb.fullname
+## @param fullnameOverride Fully override mongodb.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param architecture MongoDB architecture (`standalone`)
+architecture: standalone
+
+## @section MongoDB auth parameters
+
+## @param auth.rootUsername Root username
+## @param auth.rootPassword Password for the root user
+## @param auth.username Name for a custom MongoDB user
+## @param auth.password Password for the custom MongoDB user
+## @param auth.database Name for a custom MongoDB database
+## @param auth.existingSecret Name of existing secret containing credentials
+## @param auth.secretKeys.rootPasswordKey Key in existing secret for root password
+## @param auth.secretKeys.userPasswordKey Key in existing secret for user password
+auth:
+  rootUsername: root
+  rootPassword: ""
+  username: ""
+  password: ""
+  database: ""
+  existingSecret: ""
+  secretKeys:
+    rootPasswordKey: mongodb-root-password
+    userPasswordKey: mongodb-password
+
+## @section MongoDB primary parameters
+
+## @param primary.name Name for the primary statefulset
+## @param primary.containerPorts.mongodb MongoDB primary container port
+## @param primary.configuration MongoDB primary configuration (mongod.conf content)
+primary:
+  name: primary
+  containerPorts:
+    mongodb: 27017
+  configuration: ""
+
+  ## @param primary.resourcesPreset Resource preset (nano, micro, small)
+  ## @param primary.resources Custom resource requests/limits (overrides preset)
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param primary.podSecurityContext.enabled Enable pod security context
+  ## @param primary.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param primary.containerSecurityContext.enabled Enable container security context
+  ## @param primary.containerSecurityContext.runAsUser User ID for the container
+  ## @param primary.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param primary.containerSecurityContext.runAsNonRoot Require non-root user
+  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param primary.containerSecurityContext.capabilities.drop Capabilities to drop
+  ## @param primary.containerSecurityContext.seccompProfile.type Seccomp profile type
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param primary.startupProbe.enabled Enable startup probe
+  ## @param primary.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param primary.startupProbe.periodSeconds Startup probe period
+  ## @param primary.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param primary.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param primary.startupProbe.successThreshold Startup probe success threshold
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## @param primary.livenessProbe.enabled Enable liveness probe
+  ## @param primary.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param primary.livenessProbe.periodSeconds Liveness probe period
+  ## @param primary.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param primary.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param primary.livenessProbe.successThreshold Liveness probe success threshold
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.readinessProbe.enabled Enable readiness probe
+  ## @param primary.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param primary.readinessProbe.periodSeconds Readiness probe period
+  ## @param primary.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param primary.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param primary.readinessProbe.successThreshold Readiness probe success threshold
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.persistence.enabled Enable persistence using PVC
+  ## @param primary.persistence.storageClass PVC Storage Class
+  ## @param primary.persistence.accessModes PVC access modes
+  ## @param primary.persistence.size PVC size
+  ## @param primary.persistence.existingClaim Name of existing PVC to use
+  ## @param primary.persistence.mountPath Mount path for the data volume
+  ## @param primary.persistence.annotations PVC annotations
+  ## @param primary.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data/mongodb
+    annotations: {}
+    labels: {}
+
+  ## @param primary.service.type Service type
+  ## @param primary.service.ports.mongodb Service port
+  ## @param primary.service.nodePorts.mongodb NodePort (when type is NodePort)
+  ## @param primary.service.clusterIP Static ClusterIP
+  ## @param primary.service.annotations Service annotations
+  ## @param primary.service.labels Service labels
+  ## @param primary.service.headless.annotations Headless service annotations
+  service:
+    type: ClusterIP
+    ports:
+      mongodb: 27017
+    nodePorts:
+      mongodb: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+    headless:
+      annotations: {}
+
+  ## @param primary.nodeSelector Node labels for pod assignment
+  ## @param primary.tolerations Tolerations for pod assignment
+  ## @param primary.affinity Affinity rules for pod assignment
+  ## @param primary.podLabels Extra labels for pods
+  ## @param primary.podAnnotations Extra annotations for pods
+  ## @param primary.extraVolumes Extra volumes
+  ## @param primary.extraVolumeMounts Extra volume mounts
+  ## @param primary.extraEnvVars Extra environment variables
+  ## @param primary.sidecars Extra sidecar containers
+  ## @param primary.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Create a ServiceAccount
+## @param serviceAccount.name ServiceAccount name (generated if not set)
+## @param serviceAccount.automountServiceAccountToken Automount API credentials
+## @param serviceAccount.annotations ServiceAccount annotations
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}

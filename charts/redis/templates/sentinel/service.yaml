@@ -1,0 +1,26 @@
+{{- if .Values.sentinel.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}-sentinel
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sentinel
+  {{- with (merge (.Values.sentinel.service.annotations | default dict) (.Values.commonAnnotations | default dict)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.sentinel.service.type }}
+  {{- if and (eq .Values.sentinel.service.type "ClusterIP") .Values.sentinel.service.clusterIP }}
+  clusterIP: {{ .Values.sentinel.service.clusterIP }}
+  {{- end }}
+  ports:
+    - name: tcp-sentinel
+      port: {{ .Values.sentinel.service.ports.sentinel }}
+      targetPort: tcp-sentinel
+      {{- if and (eq .Values.sentinel.service.type "NodePort") .Values.sentinel.service.nodePorts.sentinel }}
+      nodePort: {{ .Values.sentinel.service.nodePorts.sentinel }}
+      {{- end }}
+  selector: {{- include "redis.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: sentinel
+{{- end }}

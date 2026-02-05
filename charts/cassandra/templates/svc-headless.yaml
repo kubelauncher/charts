@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cassandra.fullname" . }}-headless
+  namespace: {{ include "cassandra.namespace" . }}
+  labels: {{- include "cassandra.labels" . | nindent 4 }}
+  {{- with .Values.service.headless.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: cql
+      port: {{ .Values.service.ports.cql }}
+      targetPort: cql
+    - name: intra-node
+      port: {{ .Values.service.ports.intraNode }}
+      targetPort: intra-node
+    - name: tls-intra-node
+      port: {{ .Values.service.ports.tlsIntraNode }}
+      targetPort: tls-intra-node
+  selector: {{- include "cassandra.selectorLabels" . | nindent 4 }}
+  publishNotReadyAddresses: true

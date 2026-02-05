@@ -1,0 +1,224 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+
+## @section OpenLDAP image parameters
+
+## @param image.registry OpenLDAP image registry
+## @param image.repository OpenLDAP image repository
+## @param image.tag OpenLDAP image tag (defaults to Chart appVersion)
+## @param image.digest OpenLDAP image digest (overrides tag)
+## @param image.pullPolicy OpenLDAP image pull policy
+## @param image.pullSecrets OpenLDAP image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/openldap
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section OpenLDAP common parameters
+
+## @param nameOverride Partially override openldap.fullname
+## @param fullnameOverride Fully override openldap.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param replicaCount Number of OpenLDAP replicas
+replicaCount: 1
+
+## @section OpenLDAP auth parameters
+
+## @param auth.adminPassword LDAP admin password
+## @param auth.existingSecret Name of existing secret containing the password
+## @param auth.existingSecretPasswordKey Key in existing secret for the admin password
+auth:
+  adminPassword: ""
+  existingSecret: ""
+  existingSecretPasswordKey: "ldap-admin-password"
+
+## @section OpenLDAP configuration parameters
+
+## @param ldapRoot LDAP root DN
+## @param ldapAdminUsername LDAP admin username
+ldapRoot: "dc=example,dc=org"
+ldapAdminUsername: "admin"
+
+## @section OpenLDAP pod parameters
+
+## @param containerPorts.ldap LDAP container port
+## @param containerPorts.ldaps LDAPS container port
+containerPorts:
+  ldap: 389
+  ldaps: 636
+
+## @param resourcesPreset Set container resources according to one common preset
+## @param resources Set container resource requests and limits
+resourcesPreset: "nano"
+resources: {}
+
+## @param podSecurityContext.enabled Enable pod security context
+## @param podSecurityContext.fsGroup Set filesystem group ID for the pod
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+## @param containerSecurityContext.enabled Enable container security context
+## @param containerSecurityContext.runAsUser Set runAsUser for the container
+## @param containerSecurityContext.runAsGroup Set runAsGroup for the container
+## @param containerSecurityContext.runAsNonRoot Set runAsNonRoot for the container
+## @param containerSecurityContext.allowPrivilegeEscalation Set allowPrivilegeEscalation for the container
+## @param containerSecurityContext.readOnlyRootFilesystem Set readOnlyRootFilesystem for the container
+## @param containerSecurityContext.capabilities.drop List of capabilities to drop
+## @param containerSecurityContext.seccompProfile.type Set seccomp profile type for the container
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+
+## @param startupProbe.enabled Enable startup probe
+## @param startupProbe.initialDelaySeconds Initial delay seconds for startup probe
+## @param startupProbe.periodSeconds Period seconds for startup probe
+## @param startupProbe.timeoutSeconds Timeout seconds for startup probe
+## @param startupProbe.failureThreshold Failure threshold for startup probe
+## @param startupProbe.successThreshold Success threshold for startup probe
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30
+  successThreshold: 1
+
+## @param livenessProbe.enabled Enable liveness probe
+## @param livenessProbe.initialDelaySeconds Initial delay seconds for liveness probe
+## @param livenessProbe.periodSeconds Period seconds for liveness probe
+## @param livenessProbe.timeoutSeconds Timeout seconds for liveness probe
+## @param livenessProbe.failureThreshold Failure threshold for liveness probe
+## @param livenessProbe.successThreshold Success threshold for liveness probe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## @param readinessProbe.enabled Enable readiness probe
+## @param readinessProbe.initialDelaySeconds Initial delay seconds for readiness probe
+## @param readinessProbe.periodSeconds Period seconds for readiness probe
+## @param readinessProbe.timeoutSeconds Timeout seconds for readiness probe
+## @param readinessProbe.failureThreshold Failure threshold for readiness probe
+## @param readinessProbe.successThreshold Success threshold for readiness probe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## @section OpenLDAP persistence parameters
+
+## @param persistence.enabled Enable OpenLDAP data persistence using PVC
+## @param persistence.storageClass PVC Storage Class for OpenLDAP data volume
+## @param persistence.accessModes PVC Access Modes for OpenLDAP data volume
+## @param persistence.size PVC Storage Request for OpenLDAP data volume
+## @param persistence.existingClaim Name of an existing PVC to use
+## @param persistence.mountPath Path to mount the volume at
+## @param persistence.annotations Annotations for the PVC
+## @param persistence.labels Labels for the PVC
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  existingClaim: ""
+  mountPath: /data/openldap
+  annotations: {}
+  labels: {}
+
+## @section OpenLDAP service parameters
+
+## @param service.type OpenLDAP Kubernetes service type
+## @param service.ports.ldap LDAP service port
+## @param service.ports.ldaps LDAPS service port
+## @param service.nodePorts.ldap Node port for LDAP
+## @param service.nodePorts.ldaps Node port for LDAPS
+## @param service.clusterIP OpenLDAP service Cluster IP
+## @param service.annotations Additional annotations for the OpenLDAP service
+## @param service.labels Additional labels for the OpenLDAP service
+## @param service.headless.annotations Annotations for the headless service
+service:
+  type: ClusterIP
+  ports:
+    ldap: 389
+    ldaps: 636
+  nodePorts:
+    ldap: ""
+    ldaps: ""
+  clusterIP: ""
+  annotations: {}
+  labels: {}
+  headless:
+    annotations: {}
+
+## @param nodeSelector Node labels for pod assignment
+## @param tolerations Tolerations for pod assignment
+## @param affinity Affinity for pod assignment
+## @param podLabels Extra labels for OpenLDAP pods
+## @param podAnnotations Extra annotations for OpenLDAP pods
+## @param extraVolumes Extra volumes to add to the OpenLDAP statefulset
+## @param extraVolumeMounts Extra volume mounts to add to the OpenLDAP container
+## @param extraEnvVars Extra environment variables to add to the OpenLDAP container
+## @param sidecars Extra sidecar containers to add to the OpenLDAP pod
+## @param initContainers Extra init containers to add to the OpenLDAP pod
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podLabels: {}
+podAnnotations: {}
+extraVolumes: []
+extraVolumeMounts: []
+extraEnvVars: []
+sidecars: []
+initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Enable creation of a ServiceAccount for OpenLDAP pods
+## @param serviceAccount.name Name of the created ServiceAccount
+## @param serviceAccount.automountServiceAccountToken Automount service account token for the pod
+## @param serviceAccount.annotations Additional annotations for the ServiceAccount
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}
