@@ -1,0 +1,19 @@
+apiVersion: v2
+name: kafka
+description: Apache Kafka distributed streaming platform
+type: application
+version: 0.1.0
+appVersion: "3.9.0"
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+    email: platform@kubelauncher.com
+    url: https://www.kubelauncher.com
+keywords:
+  - kafka
+  - streaming
+  - messaging
+  - event

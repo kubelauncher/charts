@@ -305,6 +305,197 @@ replica:
   sidecars: []
   initContainers: []
 
+## @section Redis sentinel parameters
+
+## @param sentinel.enabled Enable Redis Sentinel
+## @param sentinel.image.registry Sentinel image registry
+## @param sentinel.image.repository Sentinel image repository
+## @param sentinel.image.tag Sentinel image tag (defaults to Chart appVersion)
+## @param sentinel.image.digest Sentinel image digest (overrides tag)
+## @param sentinel.replicaCount Number of sentinel instances
+## @param sentinel.containerPorts.sentinel Sentinel container port
+## @param sentinel.resourcesPreset Resource preset (nano, micro, small)
+## @param sentinel.resources Custom resource requests/limits (overrides preset)
+## @param sentinel.quorum Number of sentinels needed to agree on master failure
+## @param sentinel.downAfterMilliseconds Time in ms before marking master as down
+## @param sentinel.failoverTimeout Failover timeout in ms
+## @param sentinel.masterSet Name of the sentinel master set
+sentinel:
+  enabled: false
+  image:
+    registry: ghcr.io
+    repository: kubelauncher/redis-sentinel
+    tag: ""
+    digest: ""
+  replicaCount: 3
+  containerPorts:
+    sentinel: 26379
+  resourcesPreset: "nano"
+  resources: {}
+  quorum: 2
+  downAfterMilliseconds: 5000
+  failoverTimeout: 60000
+  masterSet: mymaster
+  # Same security/probe/persistence/service sections as replica
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 20
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 5
+    successThreshold: 1
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data
+    annotations: {}
+    labels: {}
+  service:
+    type: ClusterIP
+    ports:
+      sentinel: 26379
+    nodePorts:
+      sentinel: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section Redis cluster parameters
+
+## @param cluster.enabled Enable Redis Cluster
+## @param cluster.image.registry Cluster image registry
+## @param cluster.image.repository Cluster image repository
+## @param cluster.image.tag Cluster image tag (defaults to Chart appVersion)
+## @param cluster.image.digest Cluster image digest (overrides tag)
+## @param cluster.nodes Number of cluster nodes
+## @param cluster.replicas Number of replicas per master in the cluster
+## @param cluster.containerPorts.redis Redis container port
+## @param cluster.containerPorts.bus Redis cluster bus port
+## @param cluster.resourcesPreset Resource preset (nano, micro, small)
+## @param cluster.resources Custom resource requests/limits (overrides preset)
+cluster:
+  enabled: false
+  image:
+    registry: ghcr.io
+    repository: kubelauncher/redis-cluster
+    tag: ""
+    digest: ""
+  nodes: 6
+  replicas: 1
+  containerPorts:
+    redis: 6379
+    bus: 16379
+  resourcesPreset: "nano"
+  resources: {}
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 20
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 5
+    successThreshold: 1
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data
+    annotations: {}
+    labels: {}
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+      bus: 16379
+    nodePorts:
+      redis: ""
+      bus: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
 ## @section ServiceAccount parameters
 
 ## @param serviceAccount.create Create a ServiceAccount

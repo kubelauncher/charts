@@ -1,0 +1,11 @@
+MariaDB has been deployed.
+
+To get the root password:
+
+  export MARIADB_ROOT_PASSWORD=$(kubectl get secret --namespace {{ include "mariadb.namespace" . }} {{ include "mariadb.secretName" . }} -o jsonpath="{.data.{{ include "mariadb.rootPasswordKey" . }}}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "mariadb.namespace" . }} mariadb-client --rm -it --restart=Never \
+    --image {{ include "mariadb.image" . }} -- \
+    mariadb -h {{ include "mariadb.fullname" . }} -u root -p$MARIADB_ROOT_PASSWORD {{ include "mariadb.database" . | default "mariadb" }}

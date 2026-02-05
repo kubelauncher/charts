@@ -1,0 +1,17 @@
+Keycloak has been deployed.
+
+Credentials:
+  Admin User: {{ .Values.auth.adminUser }}
+  Admin Password: $(kubectl get secret --namespace {{ include "keycloak.namespace" . }} {{ include "keycloak.secretName" . }} -o jsonpath="{.data.{{ include "keycloak.secretAdminPasswordKey" . }}}" | base64 -d)
+
+{{- if .Values.ingress.enabled }}
+
+Access Keycloak at:
+  http{{ if .Values.ingress.tls }}s{{ end }}://{{ .Values.ingress.hostname }}{{ .Values.ingress.path }}
+{{- else }}
+
+To access Keycloak:
+
+  kubectl port-forward --namespace {{ include "keycloak.namespace" . }} svc/{{ include "keycloak.fullname" . }} 8080:{{ .Values.service.ports.http }}
+  URL: http://127.0.0.1:8080/
+{{- end }}

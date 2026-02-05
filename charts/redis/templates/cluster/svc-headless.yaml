@@ -1,0 +1,24 @@
+{{- if .Values.cluster.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}-cluster-headless
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cluster
+  {{- with .Values.commonAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: {{ .Values.cluster.service.ports.redis }}
+      targetPort: tcp-redis
+    - name: tcp-bus
+      port: {{ .Values.cluster.service.ports.bus }}
+      targetPort: tcp-bus
+  selector: {{- include "redis.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: cluster
+{{- end }}

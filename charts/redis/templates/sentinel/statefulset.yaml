@@ -1,0 +1,163 @@
+{{- if .Values.sentinel.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "redis.fullname" . }}-sentinel
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sentinel
+spec:
+  replicas: {{ .Values.sentinel.replicaCount }}
+  selector:
+    matchLabels: {{- include "redis.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: sentinel
+  serviceName: {{ include "redis.fullname" . }}-sentinel-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {{- include "redis.labels" . | nindent 8 }}
+        app.kubernetes.io/component: sentinel
+        {{- with .Values.sentinel.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.sentinel.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "redis.serviceAccountName" . }}
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.sentinel.podSecurityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.sentinel.podSecurityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.sentinel.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: sentinel
+          image: {{ include "redis.sentinel.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.sentinel.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.sentinel.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.sentinel.containerSecurityContext.runAsGroup }}
+            runAsNonRoot: {{ .Values.sentinel.containerSecurityContext.runAsNonRoot }}
+            allowPrivilegeEscalation: {{ .Values.sentinel.containerSecurityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.sentinel.containerSecurityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.sentinel.containerSecurityContext.capabilities.drop | nindent 16 }}
+            seccompProfile:
+              type: {{ .Values.sentinel.containerSecurityContext.seccompProfile.type }}
+          {{- end }}
+          env:
+            - name: REDIS_MASTER_HOST
+              value: {{ include "redis.fullname" . }}-master
+            - name: REDIS_MASTER_PORT
+              value: {{ .Values.master.containerPorts.redis | quote }}
+            - name: REDIS_SENTINEL_QUORUM
+              value: {{ .Values.sentinel.quorum | quote }}
+            - name: REDIS_SENTINEL_DOWN_AFTER_MS
+              value: {{ .Values.sentinel.downAfterMilliseconds | quote }}
+            - name: REDIS_SENTINEL_FAILOVER_TIMEOUT
+              value: {{ .Values.sentinel.failoverTimeout | quote }}
+            - name: REDIS_MASTER_SET
+              value: {{ .Values.sentinel.masterSet | quote }}
+            - name: REDIS_SENTINEL_PORT
+              value: {{ .Values.sentinel.containerPorts.sentinel | quote }}
+            {{- if .Values.auth.enabled }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "redis.secretName" . }}
+                  key: {{ include "redis.secretPasswordKey" . }}
+            {{- end }}
+            {{- with .Values.sentinel.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: tcp-sentinel
+              containerPort: {{ .Values.sentinel.containerPorts.sentinel }}
+          {{- if .Values.sentinel.startupProbe.enabled }}
+          startupProbe:
+            tcpSocket:
+              port: tcp-sentinel
+            initialDelaySeconds: {{ .Values.sentinel.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.sentinel.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.sentinel.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.sentinel.startupProbe.failureThreshold }}
+            successThreshold: {{ .Values.sentinel.startupProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.sentinel.livenessProbe.enabled }}
+          livenessProbe:
+            tcpSocket:
+              port: tcp-sentinel
+            initialDelaySeconds: {{ .Values.sentinel.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.sentinel.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.sentinel.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.sentinel.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.sentinel.livenessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.sentinel.readinessProbe.enabled }}
+          readinessProbe:
+            tcpSocket:
+              port: tcp-sentinel
+            initialDelaySeconds: {{ .Values.sentinel.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.sentinel.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.sentinel.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.sentinel.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.sentinel.readinessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.sentinel.resources }}
+          resources: {{- toYaml .Values.sentinel.resources | nindent 12 }}
+          {{- else if .Values.sentinel.resourcesPreset }}
+          resources: {{- include "redis.resources" (dict "preset" .Values.sentinel.resourcesPreset) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: sentinel-data
+              mountPath: {{ .Values.sentinel.persistence.mountPath }}
+            {{- with .Values.sentinel.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- with .Values.sentinel.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      volumes:
+        {{- with .Values.sentinel.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.sentinel.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sentinel.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sentinel.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.sentinel.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: sentinel-data
+        labels: {{- include "redis.labels" . | nindent 10 }}
+          app.kubernetes.io/component: sentinel
+        {{- with .Values.sentinel.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.sentinel.persistence.accessModes | nindent 10 }}
+        {{- $sc := .Values.global.defaultStorageClass | default .Values.global.storageClass | default .Values.sentinel.persistence.storageClass }}
+        {{- if $sc }}
+        storageClassName: {{ $sc }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.sentinel.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: sentinel-data
+          emptyDir: {}
+  {{- end }}
+{{- end }}

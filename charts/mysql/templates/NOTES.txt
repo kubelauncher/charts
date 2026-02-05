@@ -1,0 +1,11 @@
+MySQL has been deployed.
+
+To get the root password:
+
+  export MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace {{ include "mysql.namespace" . }} {{ include "mysql.secretName" . }} -o jsonpath="{.data.{{ include "mysql.rootPasswordKey" . }}}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "mysql.namespace" . }} mysql-client --rm -it --restart=Never \
+    --image {{ include "mysql.image" . }} -- \
+    mysql -h {{ include "mysql.fullname" . }} -u root -p$MYSQL_ROOT_PASSWORD {{ include "mysql.database" . | default "mysql" }}

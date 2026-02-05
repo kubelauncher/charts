@@ -1,0 +1,11 @@
+MongoDB has been deployed.
+
+To get the root password:
+
+  export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace {{ include "mongodb.namespace" . }} {{ include "mongodb.secretName" . }} -o jsonpath="{.data.{{ include "mongodb.rootPasswordKey" . }}}" | base64 -d)
+
+To connect:
+
+  kubectl run --namespace {{ include "mongodb.namespace" . }} mongodb-client --rm -it --restart=Never \
+    --image {{ include "mongodb.image" . }} -- \
+    mongosh --host {{ include "mongodb.fullname" . }} -u {{ include "mongodb.rootUsername" . }} -p $MONGODB_ROOT_PASSWORD {{ include "mongodb.database" . | default "admin" }}

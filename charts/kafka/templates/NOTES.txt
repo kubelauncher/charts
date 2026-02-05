@@ -1,0 +1,11 @@
+Kafka has been deployed.
+
+To connect from within the cluster:
+
+  {{ include "kafka.fullname" . }}-headless.{{ include "kafka.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.service.ports.client }}
+
+To connect from outside the cluster:
+
+  kubectl port-forward --namespace {{ include "kafka.namespace" . }} svc/{{ include "kafka.fullname" . }} 9092:{{ .Values.service.ports.client }}
+
+Then connect using your Kafka client to 127.0.0.1:9092.

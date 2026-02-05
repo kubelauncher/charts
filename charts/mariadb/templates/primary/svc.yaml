@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mariadb.fullname" . }}
+  namespace: {{ include "mariadb.namespace" . }}
+  labels: {{- include "mariadb.labels" . | nindent 4 }}
+    app.kubernetes.io/component: primary
+  {{- with (merge (.Values.primary.service.annotations | default dict) (.Values.commonAnnotations | default dict)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.primary.service.type }}
+  {{- if and (eq .Values.primary.service.type "ClusterIP") .Values.primary.service.clusterIP }}
+  clusterIP: {{ .Values.primary.service.clusterIP }}
+  {{- end }}
+  ports:
+    - name: tcp-mariadb
+      port: {{ include "mariadb.servicePort" . }}
+      targetPort: tcp-mariadb
+      {{- if and (eq .Values.primary.service.type "NodePort") .Values.primary.service.nodePorts.mariadb }}
+      nodePort: {{ .Values.primary.service.nodePorts.mariadb }}
+      {{- end }}
+  selector: {{- include "mariadb.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: primary

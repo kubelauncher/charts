@@ -1,0 +1,19 @@
+apiVersion: v2
+name: mongodb
+description: MongoDB document database
+type: application
+version: 0.1.0
+appVersion: "8.0"
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+    email: platform@kubelauncher.com
+    url: https://www.kubelauncher.com
+keywords:
+  - mongodb
+  - nosql
+  - database
+  - document

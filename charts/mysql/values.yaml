@@ -1,0 +1,237 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+## @param global.mysql.auth.rootPassword Global MySQL root password (overrides `auth.rootPassword`)
+## @param global.mysql.auth.username Global MySQL custom username
+## @param global.mysql.auth.password Global MySQL custom user password
+## @param global.mysql.auth.database Global MySQL custom database
+## @param global.mysql.auth.existingSecret Global existing secret for MySQL credentials
+## @param global.mysql.service.ports.mysql Global MySQL service port
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+  mysql:
+    auth:
+      rootPassword: ""
+      username: ""
+      password: ""
+      database: ""
+      existingSecret: ""
+    service:
+      ports:
+        mysql: ""
+
+## @section MySQL image parameters
+
+## @param image.registry MySQL image registry
+## @param image.repository MySQL image repository
+## @param image.tag MySQL image tag (defaults to Chart appVersion)
+## @param image.digest MySQL image digest (overrides tag)
+## @param image.pullPolicy MySQL image pull policy
+## @param image.pullSecrets MySQL image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/mysql
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section MySQL common parameters
+
+## @param nameOverride Partially override mysql.fullname
+## @param fullnameOverride Fully override mysql.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param architecture MySQL architecture (`standalone`)
+architecture: standalone
+
+## @section MySQL auth parameters
+
+## @param auth.rootPassword Password for the root user
+## @param auth.username Name for a custom MySQL user
+## @param auth.password Password for the custom MySQL user
+## @param auth.database Name for a custom MySQL database
+## @param auth.existingSecret Name of existing secret containing credentials
+## @param auth.secretKeys.rootPasswordKey Key in existing secret for root password
+## @param auth.secretKeys.userPasswordKey Key in existing secret for user password
+auth:
+  rootPassword: ""
+  username: ""
+  password: ""
+  database: ""
+  existingSecret: ""
+  secretKeys:
+    rootPasswordKey: mysql-root-password
+    userPasswordKey: mysql-password
+
+## @section MySQL primary parameters
+
+## @param primary.name Name for the primary statefulset
+## @param primary.containerPorts.mysql MySQL primary container port
+## @param primary.configuration MySQL primary configuration (my.cnf content)
+primary:
+  name: primary
+  containerPorts:
+    mysql: 3306
+  configuration: ""
+
+  ## @param primary.resourcesPreset Resource preset (nano, micro, small)
+  ## @param primary.resources Custom resource requests/limits (overrides preset)
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param primary.podSecurityContext.enabled Enable pod security context
+  ## @param primary.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param primary.containerSecurityContext.enabled Enable container security context
+  ## @param primary.containerSecurityContext.runAsUser User ID for the container
+  ## @param primary.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param primary.containerSecurityContext.runAsNonRoot Require non-root user
+  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param primary.containerSecurityContext.capabilities.drop Capabilities to drop
+  ## @param primary.containerSecurityContext.seccompProfile.type Seccomp profile type
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param primary.startupProbe.enabled Enable startup probe
+  ## @param primary.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param primary.startupProbe.periodSeconds Startup probe period
+  ## @param primary.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param primary.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param primary.startupProbe.successThreshold Startup probe success threshold
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## @param primary.livenessProbe.enabled Enable liveness probe
+  ## @param primary.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param primary.livenessProbe.periodSeconds Liveness probe period
+  ## @param primary.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param primary.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param primary.livenessProbe.successThreshold Liveness probe success threshold
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.readinessProbe.enabled Enable readiness probe
+  ## @param primary.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param primary.readinessProbe.periodSeconds Readiness probe period
+  ## @param primary.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param primary.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param primary.readinessProbe.successThreshold Readiness probe success threshold
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.persistence.enabled Enable persistence using PVC
+  ## @param primary.persistence.storageClass PVC Storage Class
+  ## @param primary.persistence.accessModes PVC access modes
+  ## @param primary.persistence.size PVC size
+  ## @param primary.persistence.existingClaim Name of existing PVC to use
+  ## @param primary.persistence.mountPath Mount path for the data volume
+  ## @param primary.persistence.annotations PVC annotations
+  ## @param primary.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data/mysql
+    annotations: {}
+    labels: {}
+
+  ## @param primary.service.type Service type
+  ## @param primary.service.ports.mysql Service port
+  ## @param primary.service.nodePorts.mysql NodePort (when type is NodePort)
+  ## @param primary.service.clusterIP Static ClusterIP
+  ## @param primary.service.annotations Service annotations
+  ## @param primary.service.labels Service labels
+  ## @param primary.service.headless.annotations Headless service annotations
+  service:
+    type: ClusterIP
+    ports:
+      mysql: 3306
+    nodePorts:
+      mysql: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+    headless:
+      annotations: {}
+
+  ## @param primary.nodeSelector Node labels for pod assignment
+  ## @param primary.tolerations Tolerations for pod assignment
+  ## @param primary.affinity Affinity rules for pod assignment
+  ## @param primary.podLabels Extra labels for pods
+  ## @param primary.podAnnotations Extra annotations for pods
+  ## @param primary.extraVolumes Extra volumes
+  ## @param primary.extraVolumeMounts Extra volume mounts
+  ## @param primary.extraEnvVars Extra environment variables
+  ## @param primary.sidecars Extra sidecar containers
+  ## @param primary.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Create a ServiceAccount
+## @param serviceAccount.name ServiceAccount name (generated if not set)
+## @param serviceAccount.automountServiceAccountToken Automount API credentials
+## @param serviceAccount.annotations ServiceAccount annotations
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}

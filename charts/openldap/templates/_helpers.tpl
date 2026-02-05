@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "redis.name" -}}
+{{- define "openldap.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "redis.fullname" -}}
+{{- define "openldap.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,27 +24,23 @@ Create a default fully qualified app name.
 {{/*
 Return the proper namespace.
 */}}
-{{- define "redis.namespace" -}}
-{{- if .Values.namespaceOverride }}
-{{- .Values.namespaceOverride }}
-{{- else }}
-{{- .Release.Namespace }}
-{{- end }}
+{{- define "openldap.namespace" -}}
+{{- .Values.namespaceOverride | default .Release.Namespace }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "redis.chart" -}}
+{{- define "openldap.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels.
 */}}
-{{- define "redis.labels" -}}
-helm.sh/chart: {{ include "redis.chart" . }}
-{{ include "redis.selectorLabels" . }}
+{{- define "openldap.labels" -}}
+helm.sh/chart: {{ include "openldap.chart" . }}
+{{ include "openldap.selectorLabels" . }}
 app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- with .Values.commonLabels }}
@@ -55,15 +51,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels.
 */}}
-{{- define "redis.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "redis.name" . }}
+{{- define "openldap.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "openldap.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Return the proper image name.
 */}}
-{{- define "redis.image" -}}
+{{- define "openldap.image" -}}
 {{- $registry := .Values.global.imageRegistry | default .Values.image.registry -}}
 {{- $repository := .Values.image.repository -}}
 {{- $tag := .Values.image.tag | default .Chart.AppVersion -}}
@@ -75,77 +71,45 @@ Return the proper image name.
 {{- end }}
 
 {{/*
-Return the Redis password secret name.
+Return the OpenLDAP secret name.
 */}}
-{{- define "redis.secretName" -}}
+{{- define "openldap.secretName" -}}
 {{- if .Values.auth.existingSecret }}
 {{- .Values.auth.existingSecret }}
 {{- else }}
-{{- include "redis.fullname" . }}
+{{- include "openldap.fullname" . }}
 {{- end }}
 {{- end }}
 
 {{/*
-Return the Redis password secret key.
+Return the OpenLDAP secret password key.
 */}}
-{{- define "redis.secretPasswordKey" -}}
-{{- .Values.auth.existingSecretPasswordKey | default "redis-password" }}
+{{- define "openldap.secretPasswordKey" -}}
+{{- .Values.auth.existingSecretPasswordKey | default "ldap-admin-password" }}
 {{- end }}
 
 {{/*
-Return the Redis password.
+Return the OpenLDAP admin password.
 */}}
-{{- define "redis.password" -}}
-{{- if .Values.global.redis.password }}
-{{- .Values.global.redis.password }}
-{{- else }}
-{{- .Values.auth.password | default (randAlphaNum 10) }}
-{{- end }}
+{{- define "openldap.adminPassword" -}}
+{{- .Values.auth.adminPassword | default (randAlphaNum 10) }}
 {{- end }}
 
 {{/*
 Return the ServiceAccount name.
 */}}
-{{- define "redis.serviceAccountName" -}}
+{{- define "openldap.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "redis.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "openldap.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
 {{/*
-Return the proper sentinel image name.
-*/}}
-{{- define "redis.sentinel.image" -}}
-{{- $registry := .Values.global.imageRegistry | default .Values.sentinel.image.registry -}}
-{{- $repository := .Values.sentinel.image.repository -}}
-{{- $tag := .Values.sentinel.image.tag | default .Chart.AppVersion -}}
-{{- if .Values.sentinel.image.digest }}
-{{- printf "%s/%s@%s" $registry $repository .Values.sentinel.image.digest }}
-{{- else }}
-{{- printf "%s/%s:%s" $registry $repository $tag }}
-{{- end }}
-{{- end }}
-
-{{/*
-Return the proper cluster image name.
-*/}}
-{{- define "redis.cluster.image" -}}
-{{- $registry := .Values.global.imageRegistry | default .Values.cluster.image.registry -}}
-{{- $repository := .Values.cluster.image.repository -}}
-{{- $tag := .Values.cluster.image.tag | default .Chart.AppVersion -}}
-{{- if .Values.cluster.image.digest }}
-{{- printf "%s/%s@%s" $registry $repository .Values.cluster.image.digest }}
-{{- else }}
-{{- printf "%s/%s:%s" $registry $repository $tag }}
-{{- end }}
-{{- end }}
-
-{{/*
 Resource presets mapping.
 */}}
-{{- define "redis.resources" -}}
+{{- define "openldap.resources" -}}
 {{- $preset := .preset -}}
 {{- if eq $preset "nano" }}
 requests:
