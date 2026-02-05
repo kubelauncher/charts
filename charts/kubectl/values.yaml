@@ -101,6 +101,15 @@ extraVolumeMounts: []
 ## @param extraEnvVars Array with extra environment variables
 extraEnvVars: []
 
+## @section Network Policy
+## @param networkPolicy.enabled Enable network policy
+## @param networkPolicy.allowExternal Allow external connections
+## @param networkPolicy.additionalRules Additional network policy rules
+networkPolicy:
+  enabled: false
+  allowExternal: true
+  additionalRules: []
+
 ## @section ServiceAccount parameters
 
 ## @param serviceAccount.create Specifies whether a ServiceAccount should be created

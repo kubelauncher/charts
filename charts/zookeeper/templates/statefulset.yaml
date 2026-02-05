@@ -23,6 +23,7 @@ spec:
       {{- end }}
     spec:
       serviceAccountName: {{ include "zookeeper.serviceAccountName" . }}
+      automountServiceAccountToken: false
       {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
       imagePullSecrets: {{- toYaml . | nindent 8 }}
       {{- end }}

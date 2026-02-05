@@ -69,6 +69,9 @@ helm uninstall my-job
 | image.tag | string | `""` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
+| networkPolicy.additionalRules | list | `[]` |  |
+| networkPolicy.allowExternal | bool | `true` |  |
+| networkPolicy.enabled | bool | `false` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
