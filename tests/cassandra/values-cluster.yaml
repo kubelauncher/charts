@@ -1,0 +1,7 @@
+# Cassandra Cluster test configuration
+replicaCount: 3
+
+resourcesPreset: "micro"
+
+persistence:
+  enabled: false

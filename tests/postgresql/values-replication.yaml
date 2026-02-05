@@ -1,0 +1,17 @@
+# PostgreSQL Replication test configuration
+architecture: replication
+
+auth:
+  postgresPassword: "postgres123"
+  replicationPassword: "repl123"
+
+primary:
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+readReplicas:
+  replicaCount: 2
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
