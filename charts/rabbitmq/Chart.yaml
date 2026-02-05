@@ -10,6 +10,8 @@ sources:
   - https://github.com/kubelauncher/charts
 maintainers:
   - name: kubelauncher
+    email: platform@kubelauncher.com
+    url: https://www.phamitservices.com
 keywords:
   - rabbitmq
   - message queue
