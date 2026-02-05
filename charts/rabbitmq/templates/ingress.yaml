@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "keycloak.fullname" . }}
-  namespace: {{ include "keycloak.namespace" . }}
-  labels: {{- include "keycloak.labels" . | nindent 4 }}
+  name: {{ include "rabbitmq.fullname" . }}
+  namespace: {{ include "rabbitmq.namespace" . }}
+  labels: {{- include "rabbitmq.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -32,9 +32,9 @@ spec:
             pathType: {{ .pathType | default "Prefix" }}
             backend:
               service:
-                name: {{ include "keycloak.fullname" $ }}
+                name: {{ include "rabbitmq.fullname" $ }}
                 port:
-                  number: {{ .port | default 8080 }}
+                  number: {{ .port | default 15672 }}
           {{- end }}
     {{- end }}
 {{- end }}

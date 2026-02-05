@@ -231,23 +231,38 @@ service:
   headless:
     annotations: {}
 
-## @section RabbitMQ ingress parameters
-
-## @param ingress.enabled Enable ingress record generation for RabbitMQ
-## @param ingress.hostname Default host for the ingress resource
-## @param ingress.path Default path for the ingress resource
-## @param ingress.pathType Ingress path type
-## @param ingress.ingressClassName IngressClass that will be used to implement the ingress
-## @param ingress.annotations Additional annotations for the ingress resource
-## @param ingress.tls Enable TLS configuration for the host defined at ingress.hostname
+## @section Ingress
+## @param ingress.enabled Enable ingress
+## @param ingress.ingressClassName Ingress class name
+## @param ingress.annotations Ingress annotations
+## @param ingress.hosts Ingress hosts configuration
+## @param ingress.tls Ingress TLS configuration
 ingress:
   enabled: false
-  hostname: rabbitmq.local
-  path: /
-  pathType: ImplementationSpecific
   ingressClassName: ""
   annotations: {}
-  tls: false
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+## @section Gateway API
+## @param httpRoute.enabled Enable HTTPRoute (Gateway API)
+## @param httpRoute.parentRefs.name Gateway name
+## @param httpRoute.parentRefs.namespace Gateway namespace
+## @param httpRoute.hostnames HTTPRoute hostnames
+## @param httpRoute.path HTTPRoute path
+## @param httpRoute.pathType HTTPRoute path type (PathPrefix, Exact)
+httpRoute:
+  enabled: false
+  parentRefs:
+    name: traefik-gateway
+    namespace: traefik
+  hostnames: []
+  path: /
+  pathType: PathPrefix
 
 ## @param nodeSelector Node labels for pod assignment
 ## @param tolerations Tolerations for pod assignment
