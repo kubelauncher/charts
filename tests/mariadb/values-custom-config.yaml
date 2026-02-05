@@ -1,0 +1,23 @@
+# MariaDB with custom configuration
+auth:
+  rootPassword: "customroot123"
+  database: "customdb"
+  username: "customuser"
+  password: "custompass123"
+
+primary:
+  configuration: |
+    [mysqld]
+    max_connections=150
+    innodb_buffer_pool_size=128M
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+persistence:
+  enabled: false

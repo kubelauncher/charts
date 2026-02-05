@@ -1,0 +1,17 @@
+# Kafka KRaft mode (no Zookeeper)
+kraft:
+  enabled: true
+  clusterId: "MkU3OEVBNTcwNTJENDM2Qk"
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+
+persistence:
+  enabled: false
+
+heapOpts: "-Xmx512m -Xms256m"
