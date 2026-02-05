@@ -1,7 +1,8 @@
 # Kafka Cluster test configuration
 replicaCount: 3
 
-resourcesPreset: "nano"
+# Kafka needs at least 512Mi heap, use small preset (1Gi limit)
+resourcesPreset: "small"
 
 persistence:
   enabled: false
