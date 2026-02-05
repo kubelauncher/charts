@@ -177,12 +177,21 @@ case "${CHART}" in
 
         if [ -n "${DB}" ] && [ -n "${USER}" ]; then
             USER_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.password}' | base64 -d)
-            kubectl run pg-user --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=postgres:alpine \
-                --env="PGPASSWORD=${USER_PASS}" -- \
-                psql -h "${SVC}" -p "${PORT}" -U "${USER}" -d "${DB}" -c "SELECT current_database(), current_user;" \
-                | grep -q "${DB}" \
-                || fail "PostgreSQL custom user/db check failed"
+            echo "Testing custom user '${USER}' on database '${DB}'..."
+
+            RESULT=""
+            for attempt in 1 2 3; do
+                RESULT=$(kubectl run "pg-user-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=postgres:alpine \
+                    --env="PGPASSWORD=${USER_PASS}" -- \
+                    psql -h "${SVC}" -p "${PORT}" -U "${USER}" -d "${DB}" -c "SELECT current_database(), current_user;" 2>&1) || true
+                echo "Custom user attempt ${attempt}: ${RESULT}"
+                if echo "${RESULT}" | grep -q "${DB}"; then
+                    break
+                fi
+                sleep 2
+            done
+            echo "${RESULT}" | grep -q "${DB}" || fail "PostgreSQL custom user/db check failed"
             log "PostgreSQL custom user '${USER}' + db '${DB}' verified"
         fi
         ;;
