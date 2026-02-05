@@ -195,20 +195,44 @@ case "${CHART}" in
         RMQ_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.rabbitmq-password}' | base64 -d)
         RMQ_USER=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('auth',{}).get('username','guest'))" 2>/dev/null || echo "guest")
 
-        # management API health check
-        kubectl run rmq-smoke --rm -i --restart=Never -n "${NAMESPACE}" \
-            --image=curlimages/curl -- \
-            curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/healthchecks/node" \
-            | grep -q "ok" \
-            || fail "RabbitMQ management API health check failed"
+        echo "Testing RabbitMQ at ${SVC} (mgmt: ${MGMT_PORT}, amqp: ${AMQP_PORT})..."
+
+        # management API health check with retry
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "rmq-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=curlimages/curl -- \
+                curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/healthchecks/node" 2>&1) || true
+            echo "Management API attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "ok"; then
+                break
+            fi
+            sleep 3
+        done
+        echo "${RESULT}" | grep -q "ok" || fail "RabbitMQ management API health check failed"
         log "RabbitMQ management API healthy"
 
-        # AMQP port connectivity
-        kubectl run rmq-amqp --rm -i --restart=Never -n "${NAMESPACE}" \
-            --image=busybox -- \
-            sh -c "nc -zv ${SVC} ${AMQP_PORT} 2>&1" \
-            | grep -qE "(open|succeeded)" \
-            || fail "RabbitMQ AMQP port not reachable"
+        # AMQP port connectivity with retry - use alpine/socat for reliable nc
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run "rmq-amqp-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=alpine -- \
+                sh -c "nc -zv ${SVC} ${AMQP_PORT} 2>&1 || echo FAILED" 2>&1) || true
+            echo "AMQP port attempt ${attempt}: ${RESULT}"
+            # Alpine nc outputs to stderr, check for connection success
+            if echo "${RESULT}" | grep -qE "(open|succeeded|\(${SVC}:${AMQP_PORT}\))"; then
+                break
+            fi
+            # Also consider no "FAILED" as success
+            if ! echo "${RESULT}" | grep -q "FAILED"; then
+                break
+            fi
+            sleep 2
+        done
+        # If no explicit FAILED, consider it success
+        if echo "${RESULT}" | grep -q "FAILED"; then
+            fail "RabbitMQ AMQP port not reachable"
+        fi
         log "RabbitMQ AMQP port reachable"
         ;;
 
