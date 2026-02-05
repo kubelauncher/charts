@@ -54,6 +54,8 @@ spec:
           env:
             - name: POSTGRESQL_PORT_NUMBER
               value: {{ .Values.primary.containerPorts.postgresql | quote }}
+            - name: PGPORT
+              value: {{ .Values.primary.containerPorts.postgresql | quote }}
             - name: POSTGRESQL_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -78,6 +80,14 @@ spec:
               value: {{ .Values.primary.persistence.mountPath }}/data
             - name: PGDATA
               value: {{ .Values.primary.persistence.mountPath }}/data
+            {{- if .Values.primary.pgHbaConfiguration }}
+            - name: POSTGRESQL_PG_HBA
+              value: {{ .Values.primary.pgHbaConfiguration | quote }}
+            {{- end }}
+            {{- if .Values.primary.initdb.args }}
+            - name: POSTGRESQL_INITDB_ARGS
+              value: {{ .Values.primary.initdb.args | quote }}
+            {{- end }}
             {{- with .Values.primary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

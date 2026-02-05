@@ -65,7 +65,7 @@ spec:
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
               value: {{ .Values.kraft.controllerQuorumVoters | default (printf "0@%s-0.%s-headless.%s.svc.%s:%d" (include "kafka.fullname" .) (include "kafka.fullname" .) (include "kafka.namespace" .) .Values.clusterDomain (int .Values.containerPorts.controller)) | quote }}
             - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://0.0.0.0:{{ .Values.containerPorts.client }},CONTROLLER://0.0.0.0:{{ .Values.containerPorts.controller }}"
+              value: "PLAINTEXT://:{{ .Values.containerPorts.client }},CONTROLLER://:{{ .Values.containerPorts.controller }}"
             - name: KAFKA_ADVERTISED_LISTENERS
               value: "PLAINTEXT://$(POD_NAME).{{ include "kafka.fullname" . }}-headless.{{ include "kafka.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.containerPorts.client }}"
             - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP

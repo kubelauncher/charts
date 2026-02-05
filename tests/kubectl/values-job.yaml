@@ -12,6 +12,7 @@ resources:
     memory: 64Mi
 rbac:
   create: true
+  clusterWide: true
   rules:
     - apiGroups: [""]
       resources: ["namespaces"]

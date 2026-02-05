@@ -100,14 +100,19 @@ primary:
   containerPorts:
     postgresql: 5432
   configuration: ""
-  pgHbaConfiguration: ""
+  pgHbaConfiguration: |-
+    local all all trust
+    host all all 127.0.0.1/32 trust
+    host all all ::1/128 trust
+    host all all 0.0.0.0/0 md5
+    host all all ::/0 md5
 
   ## @param primary.initdb.args initdb arguments
   ## @param primary.initdb.scripts Dictionary of initdb scripts
   ## @param primary.initdb.scriptsConfigMap ConfigMap with initdb scripts
   ## @param primary.initdb.scriptsSecret Secret with initdb scripts
   initdb:
-    args: ""
+    args: "--auth-host=md5"
     scripts: {}
     scriptsConfigMap: ""
     scriptsSecret: ""
