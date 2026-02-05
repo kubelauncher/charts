@@ -4,6 +4,9 @@
     "config:recommended"
   ],
   "labels": ["dependencies"],
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
   "customManagers": [
     {
       "customType": "regex",
@@ -28,25 +31,122 @@
       "depNameTemplate": "kubernetes/kubernetes",
       "datasourceTemplate": "github-tags",
       "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/postgresql/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "postgres",
+      "datasourceTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/mysql/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "mysql/mysql-server",
+      "datasourceTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/mariadb/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "mariadb",
+      "datasourceTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/mongodb/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "mongodb/mongo",
+      "datasourceTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/memcached/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "memcached/memcached",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/kafka/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "apache/kafka",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/zookeeper/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "apache/zookeeper",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^release-(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/cassandra/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "apache/cassandra",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^cassandra-(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/keycloak/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "keycloak/keycloak",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["charts/openldap/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "openldap/openldap",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^OPENLDAP_REL_ENG_(?<version>[\\d_]+)$",
+      "versioningTemplate": "regex:^(?<major>\\d+)_(?<minor>\\d+)_(?<patch>\\d+)$"
     }
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["redis/redis"],
-      "groupName": "redis",
-      "automerge": false
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
-      "matchPackageNames": ["rabbitmq/rabbitmq-server"],
-      "allowedVersions": "!/alpha|beta|rc/",
-      "groupName": "rabbitmq",
-      "automerge": false
+      "matchUpdateTypes": ["major"],
+      "automerge": true,
+      "automergeStrategy": "squash"
     },
     {
       "matchPackageNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "!/alpha|beta|rc/",
-      "groupName": "kubectl",
-      "automerge": false
+      "allowedVersions": "!/alpha|beta|rc/"
+    },
+    {
+      "matchPackageNames": ["rabbitmq/rabbitmq-server"],
+      "allowedVersions": "!/alpha|beta|rc/"
+    },
+    {
+      "matchPackageNames": ["apache/kafka"],
+      "allowedVersions": "!/alpha|beta|rc/"
+    },
+    {
+      "matchPackageNames": ["apache/zookeeper"],
+      "allowedVersions": "!/alpha|beta|rc/"
+    },
+    {
+      "matchPackageNames": ["apache/cassandra"],
+      "allowedVersions": "!/alpha|beta|rc|tent/"
+    },
+    {
+      "matchPackageNames": ["keycloak/keycloak"],
+      "allowedVersions": "!/alpha|beta|rc|nightly/"
     }
   ]
 }
