@@ -128,6 +128,10 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       volumes:
+        {{- if not .Values.cluster.persistence.enabled }}
+        - name: redis-data
+          emptyDir: {}
+        {{- end }}
         {{- if .Values.commonConfiguration }}
         - name: redis-config
           configMap:
@@ -163,9 +167,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.cluster.persistence.size }}
-  {{- else }}
-      volumes:
-        - name: redis-data
-          emptyDir: {}
   {{- end }}
 {{- end }}

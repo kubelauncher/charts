@@ -20,7 +20,40 @@ NC='\033[0m'
 
 log()  { echo -e "${GREEN}[OK]${NC} $*"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
-fail() { echo -e "${RED}[FAIL]${NC} $*"; exit 1; }
+fail() {
+    echo -e "${RED}[FAIL]${NC} $*"
+    dump_debug
+    exit 1
+}
+
+dump_debug() {
+    echo ""
+    echo "=== DEBUG: Pods ==="
+    kubectl get pods -n "${NAMESPACE}" -o wide 2>/dev/null || true
+    echo ""
+    echo "=== DEBUG: StatefulSets ==="
+    kubectl get statefulsets -n "${NAMESPACE}" -o wide 2>/dev/null || true
+    echo ""
+    echo "=== DEBUG: PVCs ==="
+    kubectl get pvc -n "${NAMESPACE}" -o wide 2>/dev/null || true
+    echo ""
+    echo "=== DEBUG: Services ==="
+    kubectl get svc -n "${NAMESPACE}" 2>/dev/null || true
+    echo ""
+    echo "=== DEBUG: Events (last 50) ==="
+    kubectl get events -n "${NAMESPACE}" --sort-by='.lastTimestamp' 2>/dev/null | tail -50 || true
+    echo ""
+    echo "=== DEBUG: Describe Pods ==="
+    kubectl describe pods -n "${NAMESPACE}" 2>/dev/null || true
+    echo ""
+    echo "=== DEBUG: Pod Logs ==="
+    for pod in $(kubectl get pods -n "${NAMESPACE}" -o jsonpath='{.items[*].metadata.name}' 2>/dev/null); do
+        echo "--- Logs: ${pod} ---"
+        kubectl logs -n "${NAMESPACE}" "${pod}" --all-containers --tail=100 2>/dev/null || true
+        echo "--- Previous Logs: ${pod} ---"
+        kubectl logs -n "${NAMESPACE}" "${pod}" --all-containers --previous --tail=50 2>/dev/null || true
+    done
+}
 
 cleanup() {
     echo "--- Cleaning up ${RELEASE} in ${NAMESPACE} ---"
