@@ -125,6 +125,10 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       volumes:
+        {{- if not .Values.sentinel.persistence.enabled }}
+        - name: sentinel-data
+          emptyDir: {}
+        {{- end }}
         {{- with .Values.sentinel.extraVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -155,9 +159,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.sentinel.persistence.size }}
-  {{- else }}
-      volumes:
-        - name: sentinel-data
-          emptyDir: {}
   {{- end }}
 {{- end }}
