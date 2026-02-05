@@ -14,13 +14,125 @@ on:
       - "tests/**"
       - ".github/workflows/test.yml"
   workflow_dispatch:
+    inputs:
+      charts:
+        description: "Comma-separated list of charts to test (empty = changed only)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
   packages: read
 
 jobs:
+  detect-charts:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has_charts: ${{ steps.set-matrix.outputs.has_charts }}
+      all_charts: ${{ steps.set-matrix.outputs.all_charts }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: set-matrix
+        run: |
+          # Define all test configurations
+          declare -A TESTS
+          TESTS[redis]='standalone no-auth custom-config'
+          TESTS[postgresql]='default postgres-only custom-port'
+          TESTS[rabbitmq]='single custom-plugins'
+          TESTS[kubectl]='job cronjob'
+          TESTS[mysql]='default custom-config'
+          TESTS[mariadb]='default custom-config'
+          TESTS[mongodb]='default auth-enabled'
+          TESTS[memcached]='default'
+          TESTS[kafka]='kraft'
+          TESTS[zookeeper]='standalone'
+          TESTS[cassandra]='single'
+          TESTS[keycloak]='dev'
+          TESTS[openldap]='default'
+
+          # Determine which charts to test
+          CHARTS_TO_TEST=()
+
+          # workflow_dispatch with specific charts
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.charts }}" ]; then
+            IFS=',' read -ra CHARTS_TO_TEST <<< "${{ inputs.charts }}"
+          # workflow_dispatch without charts = test all existing test directories
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            for dir in tests/*/; do
+              [ -d "$dir" ] && CHARTS_TO_TEST+=("$(basename "$dir")")
+            done
+          # push/PR = detect changed charts
+          else
+            BASE_SHA="${{ github.event.before }}"
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            fi
+
+            # Get changed files
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+
+            # Detect changed charts
+            for file in $CHANGED_FILES; do
+              if [[ "$file" =~ ^charts/([^/]+)/ ]]; then
+                chart="${BASH_REMATCH[1]}"
+                if [[ ! " ${CHARTS_TO_TEST[*]} " =~ " ${chart} " ]]; then
+                  CHARTS_TO_TEST+=("$chart")
+                fi
+              fi
+              if [[ "$file" =~ ^tests/([^/]+)/ ]]; then
+                chart="${BASH_REMATCH[1]}"
+                if [[ ! " ${CHARTS_TO_TEST[*]} " =~ " ${chart} " ]]; then
+                  CHARTS_TO_TEST+=("$chart")
+                fi
+              fi
+              # If workflow file changed, test all
+              if [[ "$file" == ".github/workflows/test.yml" ]]; then
+                CHARTS_TO_TEST=()
+                for dir in tests/*/; do
+                  [ -d "$dir" ] && CHARTS_TO_TEST+=("$(basename "$dir")")
+                done
+                break
+              fi
+            done
+          fi
+
+          # Build matrix JSON
+          MATRIX_ITEMS=()
+          for chart in "${CHARTS_TO_TEST[@]}"; do
+            # Skip if no tests defined
+            [ -z "${TESTS[$chart]}" ] && continue
+            # Skip if test directory doesn't exist
+            [ ! -d "tests/$chart" ] && continue
+
+            for test_name in ${TESTS[$chart]}; do
+              values_file="tests/${chart}/values-${test_name}.yaml"
+              [ -f "$values_file" ] || continue
+              MATRIX_ITEMS+=("{\"chart\":\"${chart}\",\"test_name\":\"${test_name}\",\"values\":\"${values_file}\"}")
+            done
+          done
+
+          if [ ${#MATRIX_ITEMS[@]} -eq 0 ]; then
+            echo "has_charts=false" >> "$GITHUB_OUTPUT"
+            echo "matrix={\"include\":[]}" >> "$GITHUB_OUTPUT"
+          else
+            MATRIX_JSON=$(IFS=,; echo "[${MATRIX_ITEMS[*]}]")
+            echo "has_charts=true" >> "$GITHUB_OUTPUT"
+            echo "matrix={\"include\":${MATRIX_JSON}}" >> "$GITHUB_OUTPUT"
+          fi
+
+          # List of all charts for lint job
+          ALL_CHARTS=$(ls -d charts/*/ 2>/dev/null | xargs -I{} basename {} | jq -R . | jq -s -c .)
+          echo "all_charts=${ALL_CHARTS}" >> "$GITHUB_OUTPUT"
+
+          echo "Charts to test: ${CHARTS_TO_TEST[*]:-none}"
+          echo "Matrix items: ${#MATRIX_ITEMS[@]}"
+
   lint:
+    needs: detect-charts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,52 +171,20 @@ jobs:
       - name: Template with test values
         run: |
           for values_file in tests/*/values-*.yaml; do
+            [ -f "$values_file" ] || continue
             chart=$(echo "$values_file" | cut -d/ -f2)
+            [ -d "charts/${chart}" ] || continue
             echo "--- Template ${chart} with ${values_file} ---"
             helm template "test" "charts/${chart}" -f "$values_file" > /dev/null
           done
 
   integration:
-    needs: lint
+    needs: [detect-charts, lint]
+    if: needs.detect-charts.outputs.has_charts == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          # Redis tests
-          - chart: redis
-            values: tests/redis/values-standalone.yaml
-            test_name: standalone
-          - chart: redis
-            values: tests/redis/values-no-auth.yaml
-            test_name: no-auth
-          - chart: redis
-            values: tests/redis/values-custom-config.yaml
-            test_name: custom-config
-          # PostgreSQL tests
-          - chart: postgresql
-            values: tests/postgresql/values-default.yaml
-            test_name: default
-          - chart: postgresql
-            values: tests/postgresql/values-postgres-only.yaml
-            test_name: postgres-only
-          - chart: postgresql
-            values: tests/postgresql/values-custom-port.yaml
-            test_name: custom-port
-          # RabbitMQ tests
-          - chart: rabbitmq
-            values: tests/rabbitmq/values-single.yaml
-            test_name: single
-          - chart: rabbitmq
-            values: tests/rabbitmq/values-custom-plugins.yaml
-            test_name: custom-plugins
-          # kubectl tests
-          - chart: kubectl
-            values: tests/kubectl/values-job.yaml
-            test_name: job
-          - chart: kubectl
-            values: tests/kubectl/values-cronjob.yaml
-            test_name: cronjob
+      matrix: ${{ fromJson(needs.detect-charts.outputs.matrix) }}
 
     name: "${{ matrix.chart }} / ${{ matrix.test_name }}"
 
