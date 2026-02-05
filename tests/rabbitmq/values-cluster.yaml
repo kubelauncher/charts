@@ -9,7 +9,8 @@ auth:
 clustering:
   enabled: true
 
-resourcesPreset: "nano"
+# RabbitMQ cluster needs more memory for Erlang runtime
+resourcesPreset: "small"
 
 persistence:
   enabled: false

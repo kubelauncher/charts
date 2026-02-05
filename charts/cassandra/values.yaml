@@ -53,13 +53,13 @@ replicaCount: 1
 ## @param rack Cassandra rack name
 ## @param endpointSnitch Cassandra endpoint snitch
 ## @param maxHeapSize Cassandra JVM max heap size
-## @param heapNewSize Cassandra JVM new heap size
+## @param heapNewSize Cassandra JVM new heap size (not recommended with G1 GC in 5.x)
 clusterName: "cassandra"
 datacenter: "dc1"
 rack: "rack1"
 endpointSnitch: "SimpleSnitch"
 maxHeapSize: "512M"
-heapNewSize: "100M"
+heapNewSize: ""
 
 ## @section Cassandra pod parameters
 

@@ -48,7 +48,7 @@ Apache Cassandra distributed NoSQL database
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| heapNewSize | string | `"100M"` |  |
+| heapNewSize | string | `""` |  |
 | image.digest | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.pullSecrets | list | `[]` |  |
