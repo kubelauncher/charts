@@ -1,0 +1,34 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis
+```
+
+## Introduction
+
+This chart deploys Redis on Kubernetes using the [kubelauncher/redis](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replication architectures.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis \
+  --set auth.password=mysecret
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-redis
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

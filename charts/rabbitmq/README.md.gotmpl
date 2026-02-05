@@ -1,0 +1,37 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+  --set auth.password=secret
+```
+
+## Introduction
+
+This chart deploys RabbitMQ on Kubernetes using the [kubelauncher/rabbitmq](https://github.com/kubelauncher/docker) Docker image. Management UI and Prometheus plugin are enabled by default.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+  --set auth.username=admin \
+  --set auth.password=secret \
+  --set replicaCount=3
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-rmq
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

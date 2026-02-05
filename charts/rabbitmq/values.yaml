@@ -1,0 +1,283 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+
+## @section RabbitMQ image parameters
+
+## @param image.registry RabbitMQ image registry
+## @param image.repository RabbitMQ image repository
+## @param image.tag RabbitMQ image tag (immutable tags are recommended)
+## @param image.digest RabbitMQ image digest in the way sha256:aa... (override tag)
+## @param image.pullPolicy RabbitMQ image pull policy
+## @param image.pullSecrets RabbitMQ image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/rabbitmq
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section RabbitMQ common parameters
+
+## @param nameOverride String to partially override rabbitmq.fullname template
+## @param fullnameOverride String to fully override rabbitmq.fullname template
+## @param namespaceOverride String to fully override the namespace used in all resources
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain name
+## @param extraDeploy Array of extra objects to deploy with the release
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param replicaCount Number of RabbitMQ replicas
+replicaCount: 1
+
+## @section RabbitMQ auth parameters
+
+## @param auth.username RabbitMQ application username
+## @param auth.password RabbitMQ application password
+## @param auth.existingPasswordSecret Existing secret with RabbitMQ password
+## @param auth.existingSecretPasswordKey Key in the existing secret that contains the RabbitMQ password
+## @param auth.erlangCookie Erlang cookie to determine whether different nodes are allowed to communicate with each other
+## @param auth.existingErlangSecret Existing secret with Erlang cookie
+## @param auth.existingSecretErlangKey Key in the existing secret that contains the Erlang cookie
+auth:
+  username: user
+  password: ""
+  existingPasswordSecret: ""
+  existingSecretPasswordKey: "rabbitmq-password"
+  erlangCookie: ""
+  existingErlangSecret: ""
+  existingSecretErlangKey: "rabbitmq-erlang-cookie"
+
+## @section RabbitMQ clustering parameters
+
+## @param clustering.enabled Enable RabbitMQ clustering
+## @param clustering.addressType Switch clustering discovery method between IP and hostname
+## @param clustering.partitionHandling Partition handling strategy for RabbitMQ cluster
+clustering:
+  enabled: true
+  addressType: hostname
+  partitionHandling: autoheal
+
+## @param plugins RabbitMQ plugins to enable (space-separated)
+plugins: "rabbitmq_management rabbitmq_prometheus"
+
+## @param extraPlugins Extra RabbitMQ plugins to enable (space-separated)
+extraPlugins: ""
+
+## @param communityPlugins Community plugins to install (comma-separated URLs)
+communityPlugins: ""
+
+## @param extraConfiguration Extra RabbitMQ configuration (appended to rabbitmq.conf)
+extraConfiguration: ""
+
+## @section RabbitMQ pod parameters
+
+## @param containerPorts.amqp RabbitMQ AMQP container port
+## @param containerPorts.dist RabbitMQ distribution container port
+## @param containerPorts.manager RabbitMQ management UI container port
+## @param containerPorts.epmd RabbitMQ EPMD container port
+## @param containerPorts.metrics RabbitMQ metrics container port
+containerPorts:
+  amqp: 5672
+  dist: 25672
+  manager: 15672
+  epmd: 4369
+  metrics: 9419
+
+## @param resourcesPreset Set container resources according to one common preset
+## @param resources Set container resource requests and limits
+resourcesPreset: "micro"
+resources: {}
+
+## @param podSecurityContext.enabled Enable pod security context
+## @param podSecurityContext.fsGroup Set filesystem group ID for the pod
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+## @param containerSecurityContext.enabled Enable container security context
+## @param containerSecurityContext.runAsUser Set runAsUser for the container
+## @param containerSecurityContext.runAsGroup Set runAsGroup for the container
+## @param containerSecurityContext.runAsNonRoot Set runAsNonRoot for the container
+## @param containerSecurityContext.allowPrivilegeEscalation Set allowPrivilegeEscalation for the container
+## @param containerSecurityContext.readOnlyRootFilesystem Set readOnlyRootFilesystem for the container
+## @param containerSecurityContext.capabilities.drop List of capabilities to drop
+## @param containerSecurityContext.seccompProfile.type Set seccomp profile type for the container
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+
+## @param startupProbe.enabled Enable startup probe
+## @param startupProbe.initialDelaySeconds Initial delay seconds for startup probe
+## @param startupProbe.periodSeconds Period seconds for startup probe
+## @param startupProbe.timeoutSeconds Timeout seconds for startup probe
+## @param startupProbe.failureThreshold Failure threshold for startup probe
+## @param startupProbe.successThreshold Success threshold for startup probe
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30
+  successThreshold: 1
+
+## @param livenessProbe.enabled Enable liveness probe
+## @param livenessProbe.initialDelaySeconds Initial delay seconds for liveness probe
+## @param livenessProbe.periodSeconds Period seconds for liveness probe
+## @param livenessProbe.timeoutSeconds Timeout seconds for liveness probe
+## @param livenessProbe.failureThreshold Failure threshold for liveness probe
+## @param livenessProbe.successThreshold Success threshold for liveness probe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 120
+  periodSeconds: 30
+  timeoutSeconds: 20
+  failureThreshold: 6
+  successThreshold: 1
+
+## @param readinessProbe.enabled Enable readiness probe
+## @param readinessProbe.initialDelaySeconds Initial delay seconds for readiness probe
+## @param readinessProbe.periodSeconds Period seconds for readiness probe
+## @param readinessProbe.timeoutSeconds Timeout seconds for readiness probe
+## @param readinessProbe.failureThreshold Failure threshold for readiness probe
+## @param readinessProbe.successThreshold Success threshold for readiness probe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 20
+  failureThreshold: 3
+  successThreshold: 1
+
+## @section RabbitMQ persistence parameters
+
+## @param persistence.enabled Enable RabbitMQ data persistence using PVC
+## @param persistence.storageClass PVC Storage Class for RabbitMQ data volume
+## @param persistence.accessModes PVC Access Modes for RabbitMQ data volume
+## @param persistence.size PVC Storage Request for RabbitMQ data volume
+## @param persistence.existingClaim Name of an existing PVC to use
+## @param persistence.mountPath Path to mount the volume at
+## @param persistence.annotations Annotations for the PVC
+## @param persistence.labels Labels for the PVC
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  existingClaim: ""
+  mountPath: /data/rabbitmq/data
+  annotations: {}
+  labels: {}
+
+## @section RabbitMQ service parameters
+
+## @param service.type RabbitMQ Kubernetes service type
+## @param service.ports.amqp RabbitMQ AMQP service port
+## @param service.ports.dist RabbitMQ distribution service port
+## @param service.ports.manager RabbitMQ management UI service port
+## @param service.ports.epmd RabbitMQ EPMD service port
+## @param service.ports.metrics RabbitMQ metrics service port
+## @param service.nodePorts.amqp Node port for AMQP
+## @param service.nodePorts.dist Node port for distribution
+## @param service.nodePorts.manager Node port for management UI
+## @param service.nodePorts.epmd Node port for EPMD
+## @param service.nodePorts.metrics Node port for metrics
+## @param service.clusterIP RabbitMQ service Cluster IP
+## @param service.annotations Additional annotations for the RabbitMQ service
+## @param service.labels Additional labels for the RabbitMQ service
+## @param service.headless.annotations Annotations for the headless service
+service:
+  type: ClusterIP
+  ports:
+    amqp: 5672
+    dist: 25672
+    manager: 15672
+    epmd: 4369
+    metrics: 9419
+  nodePorts:
+    amqp: ""
+    dist: ""
+    manager: ""
+    epmd: ""
+    metrics: ""
+  clusterIP: ""
+  annotations: {}
+  labels: {}
+  headless:
+    annotations: {}
+
+## @section RabbitMQ ingress parameters
+
+## @param ingress.enabled Enable ingress record generation for RabbitMQ
+## @param ingress.hostname Default host for the ingress resource
+## @param ingress.path Default path for the ingress resource
+## @param ingress.pathType Ingress path type
+## @param ingress.ingressClassName IngressClass that will be used to implement the ingress
+## @param ingress.annotations Additional annotations for the ingress resource
+## @param ingress.tls Enable TLS configuration for the host defined at ingress.hostname
+ingress:
+  enabled: false
+  hostname: rabbitmq.local
+  path: /
+  pathType: ImplementationSpecific
+  ingressClassName: ""
+  annotations: {}
+  tls: false
+
+## @param nodeSelector Node labels for pod assignment
+## @param tolerations Tolerations for pod assignment
+## @param affinity Affinity for pod assignment
+## @param podLabels Extra labels for RabbitMQ pods
+## @param podAnnotations Extra annotations for RabbitMQ pods
+## @param extraVolumes Extra volumes to add to the RabbitMQ statefulset
+## @param extraVolumeMounts Extra volume mounts to add to the RabbitMQ container
+## @param extraEnvVars Extra environment variables to add to the RabbitMQ container
+## @param sidecars Extra sidecar containers to add to the RabbitMQ pod
+## @param initContainers Extra init containers to add to the RabbitMQ pod
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podLabels: {}
+podAnnotations: {}
+extraVolumes: []
+extraVolumeMounts: []
+extraEnvVars: []
+sidecars: []
+initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Enable creation of a ServiceAccount for RabbitMQ pods
+## @param serviceAccount.name Name of the created ServiceAccount
+## @param serviceAccount.automountServiceAccountToken Automount service account token for the pod
+## @param serviceAccount.annotations Additional annotations for the ServiceAccount
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}

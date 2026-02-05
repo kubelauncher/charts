@@ -1,0 +1,17 @@
+apiVersion: v2
+name: rabbitmq
+description: RabbitMQ message broker
+type: application
+version: 0.1.0
+appVersion: "4.2.3"
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+keywords:
+  - rabbitmq
+  - message queue
+  - AMQP
+  - broker

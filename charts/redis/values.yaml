@@ -1,0 +1,318 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+## @param global.redis.password Global Redis password (overrides `auth.password`)
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+  redis:
+    password: ""
+
+## @section Redis image parameters
+
+## @param image.registry Redis image registry
+## @param image.repository Redis image repository
+## @param image.tag Redis image tag (defaults to Chart appVersion)
+## @param image.digest Redis image digest (overrides tag)
+## @param image.pullPolicy Redis image pull policy
+## @param image.pullSecrets Redis image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/redis
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section Redis common parameters
+
+## @param nameOverride Partially override redis.fullname
+## @param fullnameOverride Fully override redis.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param architecture Redis architecture (`standalone` or `replication`)
+architecture: standalone
+
+## @section Redis auth parameters
+
+## @param auth.enabled Enable password authentication
+## @param auth.password Redis password
+## @param auth.existingSecret Name of existing secret containing the password
+## @param auth.existingSecretPasswordKey Key in existing secret for the password
+auth:
+  enabled: true
+  password: ""
+  existingSecret: ""
+  existingSecretPasswordKey: "redis-password"
+
+## @param commonConfiguration Common redis.conf configuration for all nodes
+commonConfiguration: |-
+  appendonly yes
+  save ""
+
+## @section Redis master parameters
+
+## @param master.count Number of master instances
+## @param master.containerPorts.redis Redis master container port
+## @param master.resourcesPreset Resource preset (nano, micro, small)
+## @param master.resources Custom resource requests/limits (overrides preset)
+master:
+  count: 1
+  containerPorts:
+    redis: 6379
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param master.podSecurityContext.enabled Enable pod security context
+  ## @param master.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param master.containerSecurityContext.enabled Enable container security context
+  ## @param master.containerSecurityContext.runAsUser User ID for the container
+  ## @param master.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param master.containerSecurityContext.runAsNonRoot Require non-root
+  ## @param master.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param master.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param master.startupProbe.enabled Enable startup probe
+  ## @param master.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param master.startupProbe.periodSeconds Startup probe period
+  ## @param master.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param master.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param master.startupProbe.successThreshold Startup probe success threshold
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## @param master.livenessProbe.enabled Enable liveness probe
+  ## @param master.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param master.livenessProbe.periodSeconds Liveness probe period
+  ## @param master.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param master.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param master.livenessProbe.successThreshold Liveness probe success threshold
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 20
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+
+  ## @param master.readinessProbe.enabled Enable readiness probe
+  ## @param master.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param master.readinessProbe.periodSeconds Readiness probe period
+  ## @param master.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param master.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param master.readinessProbe.successThreshold Readiness probe success threshold
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 5
+    successThreshold: 1
+
+  ## @param master.persistence.enabled Enable persistence using PVC
+  ## @param master.persistence.storageClass PVC Storage Class
+  ## @param master.persistence.accessModes PVC access modes
+  ## @param master.persistence.size PVC size
+  ## @param master.persistence.existingClaim Name of existing PVC to use
+  ## @param master.persistence.mountPath Mount path for the data volume
+  ## @param master.persistence.annotations PVC annotations
+  ## @param master.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data
+    annotations: {}
+    labels: {}
+
+  ## @param master.service.type Service type
+  ## @param master.service.ports.redis Service port
+  ## @param master.service.nodePorts.redis NodePort (when type is NodePort)
+  ## @param master.service.clusterIP Static ClusterIP
+  ## @param master.service.annotations Service annotations
+  ## @param master.service.labels Service labels
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+    nodePorts:
+      redis: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+
+  ## @param master.nodeSelector Node labels for pod assignment
+  ## @param master.tolerations Tolerations for pod assignment
+  ## @param master.affinity Affinity rules for pod assignment
+  ## @param master.podLabels Extra labels for pods
+  ## @param master.podAnnotations Extra annotations for pods
+  ## @param master.extraVolumes Extra volumes
+  ## @param master.extraVolumeMounts Extra volume mounts
+  ## @param master.extraEnvVars Extra environment variables
+  ## @param master.sidecars Extra sidecar containers
+  ## @param master.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section Redis replica parameters
+
+## @param replica.replicaCount Number of replica instances
+## @param replica.containerPorts.redis Redis replica container port
+## @param replica.resourcesPreset Resource preset (nano, micro, small)
+## @param replica.resources Custom resource requests/limits (overrides preset)
+replica:
+  replicaCount: 3
+  containerPorts:
+    redis: 6379
+  resourcesPreset: "nano"
+  resources: {}
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 20
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 5
+    successThreshold: 1
+
+  ## @param replica.persistence.enabled Enable persistence using PVC
+  ## @param replica.persistence.storageClass PVC Storage Class
+  ## @param replica.persistence.accessModes PVC access modes
+  ## @param replica.persistence.size PVC size
+  ## @param replica.persistence.existingClaim Name of existing PVC to use
+  ## @param replica.persistence.mountPath Mount path for the data volume
+  ## @param replica.persistence.annotations PVC annotations
+  ## @param replica.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data
+    annotations: {}
+    labels: {}
+
+  ## @param replica.service.type Service type
+  ## @param replica.service.ports.redis Service port
+  ## @param replica.service.nodePorts.redis NodePort (when type is NodePort)
+  ## @param replica.service.clusterIP Static ClusterIP
+  ## @param replica.service.annotations Service annotations
+  ## @param replica.service.labels Service labels
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+    nodePorts:
+      redis: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+
+  ## @param replica.nodeSelector Node labels for pod assignment
+  ## @param replica.tolerations Tolerations for pod assignment
+  ## @param replica.affinity Affinity rules for pod assignment
+  ## @param replica.podLabels Extra labels for pods
+  ## @param replica.podAnnotations Extra annotations for pods
+  ## @param replica.extraVolumes Extra volumes
+  ## @param replica.extraVolumeMounts Extra volume mounts
+  ## @param replica.extraEnvVars Extra environment variables
+  ## @param replica.sidecars Extra sidecar containers
+  ## @param replica.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Create a ServiceAccount
+## @param serviceAccount.name ServiceAccount name (generated if not set)
+## @param serviceAccount.automountServiceAccountToken Automount API credentials
+## @param serviceAccount.annotations ServiceAccount annotations
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}

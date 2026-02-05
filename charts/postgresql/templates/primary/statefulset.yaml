@@ -1,0 +1,174 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "postgresql.fullname" . }}
+  namespace: {{ include "postgresql.namespace" . }}
+  labels: {{- include "postgresql.labels" . | nindent 4 }}
+    app.kubernetes.io/component: primary
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{- include "postgresql.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: primary
+  serviceName: {{ include "postgresql.fullname" . }}-hl
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {{- include "postgresql.labels" . | nindent 8 }}
+        app.kubernetes.io/component: primary
+        {{- with .Values.primary.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.primary.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "postgresql.serviceAccountName" . }}
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.primary.podSecurityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.primary.podSecurityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.primary.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: postgresql
+          image: {{ include "postgresql.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.primary.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.primary.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.primary.containerSecurityContext.runAsGroup }}
+            runAsNonRoot: {{ .Values.primary.containerSecurityContext.runAsNonRoot }}
+            allowPrivilegeEscalation: {{ .Values.primary.containerSecurityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.primary.containerSecurityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.primary.containerSecurityContext.capabilities.drop | nindent 16 }}
+            seccompProfile:
+              type: {{ .Values.primary.containerSecurityContext.seccompProfile.type }}
+          {{- end }}
+          env:
+            - name: POSTGRESQL_PORT_NUMBER
+              value: {{ .Values.primary.containerPorts.postgresql | quote }}
+            - name: POSTGRESQL_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.secretName" . }}
+                  key: {{ include "postgresql.adminPasswordKey" . }}
+            {{- $username := include "postgresql.username" . }}
+            {{- if and $username (ne $username "postgres") }}
+            - name: POSTGRESQL_USERNAME
+              value: {{ $username | quote }}
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.secretName" . }}
+                  key: {{ include "postgresql.userPasswordKey" . }}
+            {{- end }}
+            {{- $database := include "postgresql.database" . }}
+            {{- if $database }}
+            - name: POSTGRESQL_DATABASE
+              value: {{ $database | quote }}
+            {{- end }}
+            - name: POSTGRESQL_DATA_DIR
+              value: {{ .Values.primary.persistence.mountPath }}/data
+            - name: PGDATA
+              value: {{ .Values.primary.persistence.mountPath }}/data
+            {{- with .Values.primary.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: tcp-postgresql
+              containerPort: {{ .Values.primary.containerPorts.postgresql }}
+          {{- if .Values.primary.startupProbe.enabled }}
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.primary.containerPorts.postgresql }}
+            initialDelaySeconds: {{ .Values.primary.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.primary.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.primary.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.primary.startupProbe.failureThreshold }}
+            successThreshold: {{ .Values.primary.startupProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.primary.livenessProbe.enabled }}
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.primary.containerPorts.postgresql }}
+            initialDelaySeconds: {{ .Values.primary.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.primary.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.primary.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.primary.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.primary.livenessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.primary.readinessProbe.enabled }}
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.primary.containerPorts.postgresql }}
+            initialDelaySeconds: {{ .Values.primary.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.primary.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.primary.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.primary.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.primary.readinessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.primary.resources }}
+          resources: {{- toYaml .Values.primary.resources | nindent 12 }}
+          {{- else if .Values.primary.resourcesPreset }}
+          resources: {{- include "postgresql.resources" (dict "preset" .Values.primary.resourcesPreset) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.primary.persistence.mountPath }}
+            {{- with .Values.primary.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- with .Values.primary.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.primary.extraVolumes }}
+      volumes: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.primary.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.primary.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.primary.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.primary.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: {{- include "postgresql.labels" . | nindent 10 }}
+          app.kubernetes.io/component: primary
+        {{- with .Values.primary.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.primary.persistence.accessModes | nindent 10 }}
+        {{- $sc := .Values.global.defaultStorageClass | default .Values.global.storageClass | default .Values.primary.persistence.storageClass }}
+        {{- if $sc }}
+        storageClassName: {{ $sc }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.primary.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: data
+          emptyDir: {}
+  {{- end }}

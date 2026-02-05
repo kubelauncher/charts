@@ -1,0 +1,17 @@
+apiVersion: v2
+name: redis
+description: Redis in-memory data store
+type: application
+version: 0.1.0
+appVersion: "8.4.0"
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+keywords:
+  - redis
+  - cache
+  - database
+  - keyvalue

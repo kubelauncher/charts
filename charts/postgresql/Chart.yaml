@@ -1,0 +1,18 @@
+apiVersion: v2
+name: postgresql
+description: PostgreSQL relational database
+type: application
+version: 0.1.0
+appVersion: "17"
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+keywords:
+  - postgresql
+  - postgres
+  - database
+  - sql
+  - replication

@@ -1,0 +1,357 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+## @param global.postgresql.auth.postgresPassword Global PostgreSQL admin password (overrides `auth.postgresPassword`)
+## @param global.postgresql.auth.username Global PostgreSQL custom username
+## @param global.postgresql.auth.password Global PostgreSQL custom user password
+## @param global.postgresql.auth.database Global PostgreSQL custom database
+## @param global.postgresql.auth.existingSecret Global existing secret for PostgreSQL credentials
+## @param global.postgresql.service.ports.postgresql Global PostgreSQL service port
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+  postgresql:
+    auth:
+      postgresPassword: ""
+      username: ""
+      password: ""
+      database: ""
+      existingSecret: ""
+    service:
+      ports:
+        postgresql: ""
+
+## @section PostgreSQL image parameters
+
+## @param image.registry PostgreSQL image registry
+## @param image.repository PostgreSQL image repository
+## @param image.tag PostgreSQL image tag (defaults to Chart appVersion)
+## @param image.digest PostgreSQL image digest (overrides tag)
+## @param image.pullPolicy PostgreSQL image pull policy
+## @param image.pullSecrets PostgreSQL image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/postgresql
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## @section PostgreSQL common parameters
+
+## @param nameOverride Partially override postgresql.fullname
+## @param fullnameOverride Fully override postgresql.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param architecture PostgreSQL architecture (`standalone` or `replication`)
+architecture: standalone
+
+## @section PostgreSQL auth parameters
+
+## @param auth.enablePostgresUser Enable the postgres admin user
+## @param auth.postgresPassword Password for the postgres admin user
+## @param auth.username Name for a custom PostgreSQL user
+## @param auth.password Password for the custom PostgreSQL user
+## @param auth.database Name for a custom PostgreSQL database
+## @param auth.replicationUsername Name of the replication user
+## @param auth.replicationPassword Password for the replication user
+## @param auth.existingSecret Name of existing secret containing credentials
+## @param auth.secretKeys.adminPasswordKey Key in existing secret for admin password
+## @param auth.secretKeys.userPasswordKey Key in existing secret for user password
+## @param auth.secretKeys.replicationPasswordKey Key in existing secret for replication password
+auth:
+  enablePostgresUser: true
+  postgresPassword: ""
+  username: ""
+  password: ""
+  database: ""
+  replicationUsername: repl_user
+  replicationPassword: ""
+  existingSecret: ""
+  secretKeys:
+    adminPasswordKey: postgres-password
+    userPasswordKey: password
+    replicationPasswordKey: replication-password
+
+## @section PostgreSQL primary parameters
+
+## @param primary.name Name for the primary statefulset
+## @param primary.containerPorts.postgresql PostgreSQL primary container port
+## @param primary.configuration PostgreSQL primary configuration (postgresql.conf content)
+## @param primary.pgHbaConfiguration PostgreSQL primary pg_hba.conf content
+primary:
+  name: primary
+  containerPorts:
+    postgresql: 5432
+  configuration: ""
+  pgHbaConfiguration: ""
+
+  ## @param primary.initdb.args initdb arguments
+  ## @param primary.initdb.scripts Dictionary of initdb scripts
+  ## @param primary.initdb.scriptsConfigMap ConfigMap with initdb scripts
+  ## @param primary.initdb.scriptsSecret Secret with initdb scripts
+  initdb:
+    args: ""
+    scripts: {}
+    scriptsConfigMap: ""
+    scriptsSecret: ""
+
+  ## @param primary.resourcesPreset Resource preset (nano, micro, small)
+  ## @param primary.resources Custom resource requests/limits (overrides preset)
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param primary.podSecurityContext.enabled Enable pod security context
+  ## @param primary.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param primary.containerSecurityContext.enabled Enable container security context
+  ## @param primary.containerSecurityContext.runAsUser User ID for the container
+  ## @param primary.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param primary.containerSecurityContext.runAsNonRoot Require non-root user
+  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param primary.containerSecurityContext.capabilities.drop Capabilities to drop
+  ## @param primary.containerSecurityContext.seccompProfile.type Seccomp profile type
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param primary.startupProbe.enabled Enable startup probe
+  ## @param primary.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param primary.startupProbe.periodSeconds Startup probe period
+  ## @param primary.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param primary.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param primary.startupProbe.successThreshold Startup probe success threshold
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## @param primary.livenessProbe.enabled Enable liveness probe
+  ## @param primary.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param primary.livenessProbe.periodSeconds Liveness probe period
+  ## @param primary.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param primary.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param primary.livenessProbe.successThreshold Liveness probe success threshold
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.readinessProbe.enabled Enable readiness probe
+  ## @param primary.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param primary.readinessProbe.periodSeconds Readiness probe period
+  ## @param primary.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param primary.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param primary.readinessProbe.successThreshold Readiness probe success threshold
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param primary.persistence.enabled Enable persistence using PVC
+  ## @param primary.persistence.storageClass PVC Storage Class
+  ## @param primary.persistence.accessModes PVC access modes
+  ## @param primary.persistence.size PVC size
+  ## @param primary.persistence.existingClaim Name of existing PVC to use
+  ## @param primary.persistence.mountPath Mount path for the data volume
+  ## @param primary.persistence.annotations PVC annotations
+  ## @param primary.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data/postgresql
+    annotations: {}
+    labels: {}
+
+  ## @param primary.service.type Service type
+  ## @param primary.service.ports.postgresql Service port
+  ## @param primary.service.nodePorts.postgresql NodePort (when type is NodePort)
+  ## @param primary.service.clusterIP Static ClusterIP
+  ## @param primary.service.annotations Service annotations
+  ## @param primary.service.labels Service labels
+  ## @param primary.service.headless.annotations Headless service annotations
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+    nodePorts:
+      postgresql: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+    headless:
+      annotations: {}
+
+  ## @param primary.nodeSelector Node labels for pod assignment
+  ## @param primary.tolerations Tolerations for pod assignment
+  ## @param primary.affinity Affinity rules for pod assignment
+  ## @param primary.podLabels Extra labels for pods
+  ## @param primary.podAnnotations Extra annotations for pods
+  ## @param primary.extraVolumes Extra volumes
+  ## @param primary.extraVolumeMounts Extra volume mounts
+  ## @param primary.extraEnvVars Extra environment variables
+  ## @param primary.sidecars Extra sidecar containers
+  ## @param primary.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section PostgreSQL read replica parameters (used when architecture=replication)
+
+## @param readReplicas.name Name for the read replica statefulset
+## @param readReplicas.replicaCount Number of read replica instances
+## @param readReplicas.containerPorts.postgresql PostgreSQL read replica container port
+## @param readReplicas.resourcesPreset Resource preset (nano, micro, small)
+## @param readReplicas.resources Custom resource requests/limits (overrides preset)
+readReplicas:
+  name: read
+  replicaCount: 1
+  containerPorts:
+    postgresql: 5432
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param readReplicas.podSecurityContext.enabled Enable pod security context
+  ## @param readReplicas.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param readReplicas.containerSecurityContext.enabled Enable container security context
+  ## @param readReplicas.containerSecurityContext.runAsUser User ID for the container
+  ## @param readReplicas.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param readReplicas.containerSecurityContext.runAsNonRoot Require non-root user
+  ## @param readReplicas.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param readReplicas.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param readReplicas.containerSecurityContext.capabilities.drop Capabilities to drop
+  ## @param readReplicas.containerSecurityContext.seccompProfile.type Seccomp profile type
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param readReplicas.persistence.enabled Enable persistence using PVC
+  ## @param readReplicas.persistence.storageClass PVC Storage Class
+  ## @param readReplicas.persistence.accessModes PVC access modes
+  ## @param readReplicas.persistence.size PVC size
+  ## @param readReplicas.persistence.existingClaim Name of existing PVC to use
+  ## @param readReplicas.persistence.mountPath Mount path for the data volume
+  ## @param readReplicas.persistence.annotations PVC annotations
+  ## @param readReplicas.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data/postgresql
+    annotations: {}
+    labels: {}
+
+  ## @param readReplicas.service.type Service type
+  ## @param readReplicas.service.ports.postgresql Service port
+  ## @param readReplicas.service.nodePorts.postgresql NodePort (when type is NodePort)
+  ## @param readReplicas.service.clusterIP Static ClusterIP
+  ## @param readReplicas.service.annotations Service annotations
+  ## @param readReplicas.service.labels Service labels
+  ## @param readReplicas.service.headless.annotations Headless service annotations
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+    nodePorts:
+      postgresql: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
+    headless:
+      annotations: {}
+
+  ## @param readReplicas.nodeSelector Node labels for pod assignment
+  ## @param readReplicas.tolerations Tolerations for pod assignment
+  ## @param readReplicas.affinity Affinity rules for pod assignment
+  ## @param readReplicas.podLabels Extra labels for pods
+  ## @param readReplicas.podAnnotations Extra annotations for pods
+  ## @param readReplicas.extraVolumes Extra volumes
+  ## @param readReplicas.extraVolumeMounts Extra volume mounts
+  ## @param readReplicas.extraEnvVars Extra environment variables
+  ## @param readReplicas.sidecars Extra sidecar containers
+  ## @param readReplicas.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Create a ServiceAccount
+## @param serviceAccount.name ServiceAccount name (generated if not set)
+## @param serviceAccount.automountServiceAccountToken Automount API credentials
+## @param serviceAccount.annotations ServiceAccount annotations
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}

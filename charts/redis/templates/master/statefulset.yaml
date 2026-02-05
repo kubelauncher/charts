@@ -1,0 +1,159 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "redis.fullname" . }}-master
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: master
+spec:
+  replicas: {{ .Values.master.count }}
+  selector:
+    matchLabels: {{- include "redis.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: master
+  serviceName: {{ include "redis.fullname" . }}-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {{- include "redis.labels" . | nindent 8 }}
+        app.kubernetes.io/component: master
+        {{- with .Values.master.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.master.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "redis.serviceAccountName" . }}
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.master.podSecurityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.master.podSecurityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.master.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: redis
+          image: {{ include "redis.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.master.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.master.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.master.containerSecurityContext.runAsGroup }}
+            runAsNonRoot: {{ .Values.master.containerSecurityContext.runAsNonRoot }}
+            allowPrivilegeEscalation: {{ .Values.master.containerSecurityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.master.containerSecurityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.master.containerSecurityContext.capabilities.drop | nindent 16 }}
+            seccompProfile:
+              type: {{ .Values.master.containerSecurityContext.seccompProfile.type }}
+          {{- end }}
+          env:
+            - name: REDIS_PORT
+              value: {{ .Values.master.containerPorts.redis | quote }}
+            {{- if .Values.auth.enabled }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "redis.secretName" . }}
+                  key: {{ include "redis.secretPasswordKey" . }}
+            {{- end }}
+            {{- with .Values.master.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: tcp-redis
+              containerPort: {{ .Values.master.containerPorts.redis }}
+          {{- if .Values.master.startupProbe.enabled }}
+          startupProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.master.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.master.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.master.startupProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.master.startupProbe.failureThreshold }}
+            successThreshold: {{ .Values.master.startupProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.master.livenessProbe.enabled }}
+          livenessProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.master.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.master.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.master.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.master.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.master.livenessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.master.readinessProbe.enabled }}
+          readinessProbe:
+            tcpSocket:
+              port: tcp-redis
+            initialDelaySeconds: {{ .Values.master.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.master.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.master.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.master.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.master.readinessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.master.resources }}
+          resources: {{- toYaml .Values.master.resources | nindent 12 }}
+          {{- else if .Values.master.resourcesPreset }}
+          resources: {{- include "redis.resources" (dict "preset" .Values.master.resourcesPreset) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: redis-data
+              mountPath: {{ .Values.master.persistence.mountPath }}
+            {{- if .Values.commonConfiguration }}
+            - name: redis-config
+              mountPath: /opt/redis/etc/redis.conf
+              subPath: redis.conf
+            {{- end }}
+            {{- with .Values.master.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- with .Values.master.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      volumes:
+        {{- if .Values.commonConfiguration }}
+        - name: redis-config
+          configMap:
+            name: {{ include "redis.fullname" . }}-configuration
+        {{- end }}
+        {{- with .Values.master.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.master.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.master.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.master.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.master.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+        labels: {{- include "redis.labels" . | nindent 10 }}
+          app.kubernetes.io/component: master
+        {{- with .Values.master.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.master.persistence.accessModes | nindent 10 }}
+        {{- $sc := .Values.global.defaultStorageClass | default .Values.global.storageClass | default .Values.master.persistence.storageClass }}
+        {{- if $sc }}
+        storageClassName: {{ $sc }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.master.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: redis-data
+          emptyDir: {}
+  {{- end }}
