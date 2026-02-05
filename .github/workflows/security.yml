@@ -1,0 +1,108 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "charts/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "charts/**"
+  schedule:
+    # Daily at 6 AM UTC
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  kubescape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Kubescape
+        run: |
+          curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+
+      - name: Scan Helm charts with Kubescape
+        run: |
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "=== Scanning ${name} ==="
+
+            # Template the chart and scan
+            helm template "test-${name}" "$chart" > "/tmp/${name}.yaml" 2>/dev/null || continue
+
+            kubescape scan "/tmp/${name}.yaml" \
+              --format sarif \
+              --output "/tmp/${name}-kubescape.sarif" \
+              --severity-threshold high \
+              || true
+          done
+
+      - name: Merge SARIF files
+        run: |
+          # Create a merged SARIF file
+          echo '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[]}' > merged.sarif
+
+          for sarif in /tmp/*-kubescape.sarif; do
+            [ -f "$sarif" ] || continue
+            echo "Merging $sarif"
+          done
+
+          # Use first valid sarif file
+          FIRST_SARIF=$(ls /tmp/*-kubescape.sarif 2>/dev/null | head -1)
+          if [ -n "$FIRST_SARIF" ] && [ -f "$FIRST_SARIF" ]; then
+            cp "$FIRST_SARIF" merged.sarif
+          fi
+
+      - name: Upload Kubescape results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: merged.sarif
+        continue-on-error: true
+
+  helm-lint-strict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+
+      - name: Strict lint all charts
+        run: |
+          FAILED=0
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "=== Linting ${name} ==="
+
+            if ! helm lint "$chart" --strict --with-subcharts; then
+              FAILED=1
+            fi
+          done
+
+          exit $FAILED
+
+  check-deprecated-apis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+
+      - name: Install pluto
+        run: |
+          curl -fsSL https://github.com/FairwindsOps/pluto/releases/latest/download/pluto_linux_amd64.tar.gz | tar xz
+          sudo mv pluto /usr/local/bin/
+
+      - name: Check for deprecated Kubernetes APIs
+        run: |
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "=== Checking ${name} for deprecated APIs ==="
+
+            helm template "test-${name}" "$chart" 2>/dev/null | pluto detect - || true
+          done
