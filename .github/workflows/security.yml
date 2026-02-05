@@ -23,48 +23,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
 
       - name: Install Kubescape
         run: |
           curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+          echo "${HOME}/.kubescape/bin" >> "$GITHUB_PATH"
 
       - name: Scan Helm charts with Kubescape
         run: |
+          # Template all charts to a single file for scanning
+          COMBINED_YAML="/tmp/all-charts.yaml"
+          > "$COMBINED_YAML"
+
           for chart in charts/*/; do
             name=$(basename "$chart")
-            echo "=== Scanning ${name} ==="
-
-            # Template the chart and scan
-            helm template "test-${name}" "$chart" > "/tmp/${name}.yaml" 2>/dev/null || continue
-
-            kubescape scan "/tmp/${name}.yaml" \
-              --format sarif \
-              --output "/tmp/${name}-kubescape.sarif" \
-              --severity-threshold high \
-              || true
+            echo "=== Templating ${name} ==="
+            helm template "test-${name}" "$chart" >> "$COMBINED_YAML" 2>/dev/null || true
+            echo "---" >> "$COMBINED_YAML"
           done
 
-      - name: Merge SARIF files
-        run: |
-          # Create a merged SARIF file
-          echo '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[]}' > merged.sarif
-
-          for sarif in /tmp/*-kubescape.sarif; do
-            [ -f "$sarif" ] || continue
-            echo "Merging $sarif"
-          done
-
-          # Use first valid sarif file
-          FIRST_SARIF=$(ls /tmp/*-kubescape.sarif 2>/dev/null | head -1)
-          if [ -n "$FIRST_SARIF" ] && [ -f "$FIRST_SARIF" ]; then
-            cp "$FIRST_SARIF" merged.sarif
-          fi
+          echo "=== Running Kubescape scan ==="
+          kubescape scan "$COMBINED_YAML" \
+            --format sarif \
+            --output kubescape-results.sarif \
+            --severity-threshold high \
+            || true
 
       - name: Upload Kubescape results
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
-          sarif_file: merged.sarif
+          sarif_file: kubescape-results.sarif
         continue-on-error: true
 
   helm-lint-strict:
