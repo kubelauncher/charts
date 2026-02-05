@@ -11,7 +11,7 @@ sources:
 maintainers:
   - name: kubelauncher
     email: platform@kubelauncher.com
-    url: https://www.phamitservices.com
+    url: https://www.kubelauncher.com
 keywords:
   - rabbitmq
   - message queue
