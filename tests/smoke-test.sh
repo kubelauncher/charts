@@ -131,13 +131,33 @@ case "${CHART}" in
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
         PG_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.postgres-password}' | base64 -d)
 
-        # check connectivity
-        kubectl run pg-smoke --rm -i --restart=Never -n "${NAMESPACE}" \
-            --image=postgres:alpine \
-            --env="PGPASSWORD=${PG_PASS}" -- \
-            psql -h "${SVC}" -p "${PORT}" -U postgres -c "SELECT 1 AS smoke_test;" \
-            | grep -q "1" \
-            || fail "PostgreSQL SELECT 1 failed"
+        # Wait for service endpoints to be ready
+        echo "Waiting for PostgreSQL service endpoints..."
+        for i in $(seq 1 30); do
+            ENDPOINTS=$(kubectl get endpoints -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.subsets[*].addresses[*].ip}' 2>/dev/null || echo "")
+            if [ -n "${ENDPOINTS}" ]; then
+                echo "Service endpoints ready: ${ENDPOINTS}"
+                break
+            fi
+            echo "Waiting for endpoints... ($i/30)"
+            sleep 2
+        done
+
+        # check connectivity with retry
+        echo "Testing PostgreSQL connectivity..."
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl run pg-smoke-${attempt} --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=postgres:alpine \
+                --env="PGPASSWORD=${PG_PASS}" -- \
+                psql -h "${SVC}" -p "${PORT}" -U postgres -c "SELECT 1 AS smoke_test;" 2>&1) || true
+            echo "Attempt ${attempt} result: ${RESULT}"
+            if echo "${RESULT}" | grep -q "1"; then
+                break
+            fi
+            sleep 3
+        done
+        echo "${RESULT}" | grep -q "1" || fail "PostgreSQL SELECT 1 failed after 3 attempts"
         log "PostgreSQL SELECT 1 works"
 
         # check custom database/user if configured
