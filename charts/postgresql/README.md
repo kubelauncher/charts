@@ -85,7 +85,7 @@ helm uninstall my-pg
 | primary.extraVolumeMounts | list | `[]` |  |
 | primary.extraVolumes | list | `[]` |  |
 | primary.initContainers | list | `[]` |  |
-| primary.initdb.args | string | `""` |  |
+| primary.initdb.args | string | `"--auth-host=md5"` |  |
 | primary.initdb.scripts | object | `{}` |  |
 | primary.initdb.scriptsConfigMap | string | `""` |  |
 | primary.initdb.scriptsSecret | string | `""` |  |
@@ -105,7 +105,7 @@ helm uninstall my-pg
 | primary.persistence.mountPath | string | `"/data/postgresql"` |  |
 | primary.persistence.size | string | `"8Gi"` |  |
 | primary.persistence.storageClass | string | `""` |  |
-| primary.pgHbaConfiguration | string | `""` |  |
+| primary.pgHbaConfiguration | string | `"local all all trust\nhost all all 127.0.0.1/32 trust\nhost all all ::1/128 trust\nhost all all 0.0.0.0/0 md5\nhost all all ::/0 md5"` |  |
 | primary.podAnnotations | object | `{}` |  |
 | primary.podLabels | object | `{}` |  |
 | primary.podSecurityContext.enabled | bool | `true` |  |
