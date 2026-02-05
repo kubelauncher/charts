@@ -46,6 +46,9 @@ extraDeploy: []
 ## @param replicaCount Number of Kafka replicas
 replicaCount: 1
 
+## @param podManagementPolicy StatefulSet pod management policy (Parallel for KRaft clusters)
+podManagementPolicy: "Parallel"
+
 ## @section Kafka KRaft configuration parameters
 
 ## @param kraft.clusterId KRaft cluster ID
