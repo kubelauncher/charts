@@ -65,11 +65,11 @@ ldapAdminUsername: "admin"
 
 ## @section OpenLDAP pod parameters
 
-## @param containerPorts.ldap LDAP container port
-## @param containerPorts.ldaps LDAPS container port
+## @param containerPorts.ldap LDAP container port (use 1389 for non-root)
+## @param containerPorts.ldaps LDAPS container port (use 1636 for non-root)
 containerPorts:
-  ldap: 389
-  ldaps: 636
+  ldap: 1389
+  ldaps: 1636
 
 ## @param resourcesPreset Set container resources according to one common preset
 ## @param resources Set container resource requests and limits
