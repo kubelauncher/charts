@@ -35,29 +35,20 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       {{- end }}
       initContainers:
-        - name: init-mysql
+        - name: volume-permissions
           image: {{ include "mysql.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /bin/sh
             - -c
             - |
-              set -ex
-              DATADIR="{{ .Values.primary.persistence.mountPath }}/data"
-              MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
-
+              # Create data directory structure that mysqld expects
+              mkdir -p {{ .Values.primary.persistence.mountPath }}/data
               mkdir -p /run/mysqld
-              chown -R 1001:1001 "${MOUNTPATH}"
+              # Fix ownership for non-root execution
+              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
               chown -R 1001:1001 /run/mysqld
-
-              if [ -d "${DATADIR}/mysql" ]; then
-                echo "MySQL already initialized"
-              else
-                echo "Initializing MySQL database..."
-                # Run mysqld as root - it will chown files to mysql user internally
-                mysqld --initialize-insecure --datadir="${DATADIR}" --user=mysql
-                chown -R 1001:1001 "${DATADIR}"
-              fi
+              chmod 750 {{ .Values.primary.persistence.mountPath }}/data
           securityContext:
             runAsUser: 0
           volumeMounts:
