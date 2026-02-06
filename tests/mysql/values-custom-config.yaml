@@ -13,8 +13,13 @@ primary:
   resourcesPreset: "nano"
   persistence:
     enabled: false
-  # Disable security contexts to test if it's a permission issue
+  # Run as root to bypass permission issues
   podSecurityContext:
     enabled: false
   containerSecurityContext:
-    enabled: false
+    enabled: true
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    allowPrivilegeEscalation: true
+    readOnlyRootFilesystem: false
