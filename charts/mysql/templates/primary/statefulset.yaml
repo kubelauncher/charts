@@ -35,10 +35,24 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       {{- end }}
       initContainers:
-        - name: volume-permissions
+        - name: init-mysql
           image: {{ include "mysql.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh", "-c", "chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}"]
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              DATADIR="{{ .Values.primary.persistence.mountPath }}/data"
+              mkdir -p /run/mysqld
+              if [ ! -d "${DATADIR}/mysql" ]; then
+                echo "Initializing MySQL database..."
+                mysqld --initialize-insecure --datadir="${DATADIR}"
+              else
+                echo "MySQL already initialized, skipping."
+              fi
+              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
+              chown -R 1001:1001 /run/mysqld
           securityContext:
             runAsUser: 0
           volumeMounts:
