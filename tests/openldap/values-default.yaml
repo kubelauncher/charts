@@ -6,6 +6,15 @@ auth:
 organization: "Test Organization"
 domain: "test.local"
 
+# Use /tmp for data to avoid K8s emptyDir permission issues
+extraEnvVars:
+  - name: LDAP_DATA_DIR
+    value: "/tmp/openldap-data"
+  - name: LDAP_CONFIG_DIR
+    value: "/tmp/openldap-config"
+  - name: LDAP_RUN_DIR
+    value: "/tmp/openldap-run"
+
 resources:
   requests:
     memory: 512Mi
