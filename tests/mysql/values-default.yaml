@@ -16,8 +16,13 @@ primary:
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 60
-  # Disable security contexts - run as root for CI testing
+  # Run as root to allow mysql to create data directories
   podSecurityContext:
     enabled: false
   containerSecurityContext:
-    enabled: false
+    enabled: true
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false

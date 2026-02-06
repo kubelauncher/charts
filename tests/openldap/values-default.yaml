@@ -17,11 +17,16 @@ resources:
 persistence:
   enabled: false
 
-# Disable security contexts - run as root for CI testing
+# Run as root to allow slapd to create data directories
 podSecurityContext:
   enabled: false
 containerSecurityContext:
-  enabled: false
+  enabled: true
+  runAsUser: 0
+  runAsGroup: 0
+  runAsNonRoot: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
 
 # Increase startup probe timeout
 startupProbe:
