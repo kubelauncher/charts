@@ -45,14 +45,16 @@ spec:
               set -e
               DATADIR="{{ .Values.primary.persistence.mountPath }}/data"
               mkdir -p /run/mysqld
+              mkdir -p "${DATADIR}"
+              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
+              chown -R 1001:1001 /run/mysqld
               if [ ! -d "${DATADIR}/mysql" ]; then
                 echo "Initializing MySQL database..."
-                mysqld --initialize-insecure --datadir="${DATADIR}"
+                # Run as mysql user since datadir is now owned by 1001
+                su -s /bin/sh -c "mysqld --initialize-insecure --datadir='${DATADIR}'" mysql
               else
                 echo "MySQL already initialized, skipping."
               fi
-              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
-              chown -R 1001:1001 /run/mysqld
           securityContext:
             runAsUser: 0
           volumeMounts:
