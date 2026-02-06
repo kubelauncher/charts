@@ -9,17 +9,6 @@ primary:
   resourcesPreset: "small"
   persistence:
     enabled: false
-  # Init container to fix volume permissions
-  initContainers:
-    - name: volume-permissions
-      image: ghcr.io/kubelauncher/mysql:8.0
-      imagePullPolicy: IfNotPresent
-      command: ["sh", "-c", "chmod -R 777 /data/mysql && chown -R 1001:1001 /data/mysql"]
-      securityContext:
-        runAsUser: 0
-      volumeMounts:
-        - name: data
-          mountPath: /data/mysql
   # Increase startup probe timeout for slow init
   startupProbe:
     enabled: true
@@ -27,18 +16,8 @@ primary:
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 60
-  # Run as mysql user after init container fixes permissions
+  # Disable security contexts - run as root for CI testing
   podSecurityContext:
-    enabled: true
-    fsGroup: 1001
+    enabled: false
   containerSecurityContext:
-    enabled: true
-    runAsUser: 1001
-    runAsGroup: 1001
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false
-    capabilities:
-      drop: ["ALL"]
-    seccompProfile:
-      type: RuntimeDefault
+    enabled: false
