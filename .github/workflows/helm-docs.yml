@@ -7,10 +7,17 @@ on:
       - "charts/**/Chart.yaml"
       - "charts/**/values.yaml"
       - "charts/**/templates/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "charts/**/Chart.yaml"
+      - "charts/**/values.yaml"
+      - "charts/**/templates/**"
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   helm-docs:
@@ -19,6 +26,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref }}
 
       - name: Install helm-docs
         run: |
