@@ -44,10 +44,18 @@ spec:
             - |
               set -e
               MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
-              # Just fix permissions - let the main container handle initialization
+              DATADIR="${MOUNTPATH}/data"
+
               echo "Setting up volume permissions..."
+              # Create data directory with correct permissions
+              # The setgid bit from fsGroup must be removed for mysqld to work
+              mkdir -p "${DATADIR}"
+              chmod 700 "${DATADIR}"
+              chmod g-s "${DATADIR}"  # Remove setgid bit
               chown -R 1001:1001 "${MOUNTPATH}"
-              chmod 755 "${MOUNTPATH}"
+
+              echo "Permissions:"
+              ls -la "${MOUNTPATH}"
               echo "Volume permissions configured"
           securityContext:
             runAsUser: 0
