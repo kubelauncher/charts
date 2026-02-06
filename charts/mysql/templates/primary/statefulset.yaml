@@ -46,6 +46,11 @@ spec:
               MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
               DATADIR="${MOUNTPATH}/data"
 
+              echo "=== DEBUG: Running as $(id) ==="
+              echo "=== DEBUG: Mount permissions ==="
+              ls -la "${MOUNTPATH}" || echo "Mount not accessible"
+              ls -la "$(dirname "${MOUNTPATH}")" || echo "Parent not accessible"
+
               # Check if already initialized
               if [ -d "${DATADIR}/mysql" ]; then
                 echo "MySQL already initialized, fixing permissions..."
@@ -53,11 +58,18 @@ spec:
                 exit 0
               fi
 
-              # Fix emptyDir permissions - fsGroup makes it owned by 1001
-              # but mysqld running as root needs to create subdirectories
-              echo "Fixing mount permissions for initialization..."
-              chown root:root "${MOUNTPATH}"
-              chmod 755 "${MOUNTPATH}"
+              # Create data directory manually - mysqld needs it to NOT exist
+              # but we need to verify we can write
+              echo "Testing write access..."
+              if touch "${MOUNTPATH}/.test" 2>/dev/null; then
+                rm -f "${MOUNTPATH}/.test"
+                echo "Write access OK"
+              else
+                echo "No write access, attempting to fix..."
+                chmod 777 "${MOUNTPATH}" || true
+                chown root:root "${MOUNTPATH}" || true
+                ls -la "${MOUNTPATH}"
+              fi
 
               # Initialize MySQL as root
               echo "Initializing MySQL database..."
