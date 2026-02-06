@@ -17,7 +17,7 @@ resources:
 persistence:
   enabled: false
 
-# Run as root to allow slapd to create data directories
+# Run as root with full capabilities to allow slapd to create data directories
 podSecurityContext:
   enabled: false
 containerSecurityContext:
@@ -25,8 +25,12 @@ containerSecurityContext:
   runAsUser: 0
   runAsGroup: 0
   runAsNonRoot: false
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
+  capabilities:
+    drop: []
+  seccompProfile:
+    type: Unconfined
 
 # Increase startup probe timeout
 startupProbe:
