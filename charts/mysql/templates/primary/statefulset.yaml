@@ -46,17 +46,27 @@ spec:
               MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
               DATADIR="${MOUNTPATH}/data"
 
-              echo "Setting up volume permissions..."
-              # Create data directory with correct permissions
-              # The setgid bit from fsGroup must be removed for mysqld to work
-              mkdir -p "${DATADIR}"
-              chmod 700 "${DATADIR}"
-              chmod g-s "${DATADIR}"  # Remove setgid bit
-              chown -R 1001:1001 "${MOUNTPATH}"
+              # Check if already initialized
+              if [ -d "${DATADIR}/mysql" ]; then
+                echo "MySQL already initialized, fixing permissions..."
+                chown -R 1001:1001 "${MOUNTPATH}"
+                exit 0
+              fi
 
-              echo "Permissions:"
-              ls -la "${MOUNTPATH}"
-              echo "Volume permissions configured"
+              # Remove setgid bit from mount point - fsGroup adds it which
+              # prevents mysqld from creating subdirectories
+              echo "Preparing for MySQL initialization..."
+              chmod g-s "${MOUNTPATH}"
+              chmod 755 "${MOUNTPATH}"
+
+              # Initialize MySQL as root
+              echo "Initializing MySQL database..."
+              mkdir -p /run/mysqld
+              mysqld --initialize-insecure --datadir="${DATADIR}" --user=root
+
+              # Fix ownership for non-root main container
+              chown -R 1001:1001 "${MOUNTPATH}"
+              echo "MySQL initialization complete"
           securityContext:
             runAsUser: 0
           volumeMounts:
