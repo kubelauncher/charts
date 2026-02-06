@@ -20,7 +20,7 @@ primary:
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 60
-  # Run as root to allow mysql to create data directories
+  # Run as root with full capabilities to allow mysql to create data directories
   podSecurityContext:
     enabled: false
   containerSecurityContext:
@@ -28,5 +28,9 @@ primary:
     runAsUser: 0
     runAsGroup: 0
     runAsNonRoot: false
-    allowPrivilegeEscalation: false
+    allowPrivilegeEscalation: true
     readOnlyRootFilesystem: false
+    capabilities:
+      drop: []
+    seccompProfile:
+      type: Unconfined
