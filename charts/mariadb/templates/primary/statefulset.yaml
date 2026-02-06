@@ -38,13 +38,7 @@ spec:
         - name: volume-permissions
           image: {{ include "mariadb.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /bin/sh
-            - -c
-            - |
-              mkdir -p {{ .Values.primary.persistence.mountPath }}/data
-              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
-              chmod 700 {{ .Values.primary.persistence.mountPath }}/data
+          command: ["/bin/sh", "-c", "mkdir -p {{ .Values.primary.persistence.mountPath }}/data && chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }} && chmod 700 {{ .Values.primary.persistence.mountPath }}/data"]
           securityContext:
             runAsUser: 0
           volumeMounts:
