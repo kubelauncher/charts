@@ -53,7 +53,13 @@ spec:
                 exit 0
               fi
 
-              # Initialize MySQL as root (non-root can't create directories in some K8s setups)
+              # Fix emptyDir permissions - fsGroup makes it owned by 1001
+              # but mysqld running as root needs to create subdirectories
+              echo "Fixing mount permissions for initialization..."
+              chown root:root "${MOUNTPATH}"
+              chmod 755 "${MOUNTPATH}"
+
+              # Initialize MySQL as root
               echo "Initializing MySQL database..."
               mkdir -p /run/mysqld
               mysqld --initialize-insecure --datadir="${DATADIR}" --user=root
