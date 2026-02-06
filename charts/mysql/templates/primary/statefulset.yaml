@@ -53,16 +53,26 @@ spec:
                 exit 0
               fi
 
-              # Remove setgid bit from mount point - fsGroup adds it which
-              # prevents mysqld from creating subdirectories
-              echo "Preparing for MySQL initialization..."
-              chmod g-s "${MOUNTPATH}"
-              chmod 755 "${MOUNTPATH}"
+              echo "=== DEBUG: Before chmod ==="
+              echo "Running as: $(id)"
+              ls -la "${MOUNTPATH}"
+
+              # Remove setgid bit - try multiple methods
+              echo "Removing setgid bit..."
+              chmod 0755 "${MOUNTPATH}" || echo "chmod 0755 failed"
+              chmod g-s "${MOUNTPATH}" || echo "chmod g-s failed"
+
+              echo "=== DEBUG: After chmod ==="
+              ls -la "${MOUNTPATH}"
 
               # Initialize MySQL as root
               echo "Initializing MySQL database..."
               mkdir -p /run/mysqld
-              mysqld --initialize-insecure --datadir="${DATADIR}" --user=root
+              mysqld --initialize-insecure --datadir="${DATADIR}" --user=root 2>&1 || {
+                echo "=== mysqld initialize failed ==="
+                ls -la "${MOUNTPATH}"
+                exit 1
+              }
 
               # Fix ownership for non-root main container
               chown -R 1001:1001 "${MOUNTPATH}"
