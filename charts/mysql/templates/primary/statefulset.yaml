@@ -38,7 +38,30 @@ spec:
         - name: volume-permissions
           image: {{ include "mysql.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh", "-c", "chown 1001:1001 {{ .Values.primary.persistence.mountPath }} && chmod 777 {{ .Values.primary.persistence.mountPath }} && ls -la {{ .Values.primary.persistence.mountPath }}"]
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
+              DATADIR="${MOUNTPATH}/data"
+
+              # Check if already initialized
+              if [ -d "${DATADIR}/mysql" ]; then
+                echo "MySQL already initialized, fixing permissions..."
+                chown -R 1001:1001 "${MOUNTPATH}"
+                exit 0
+              fi
+
+              # Initialize MySQL as root (non-root can't create directories in some K8s setups)
+              echo "Initializing MySQL database..."
+              mkdir -p /run/mysqld
+              mysqld --initialize-insecure --datadir="${DATADIR}" --user=root
+
+              # Fix ownership for non-root container
+              chown -R 1001:1001 "${MOUNTPATH}"
+              chmod 755 "${DATADIR}"
+              echo "MySQL initialization complete"
           securityContext:
             runAsUser: 0
           volumeMounts:
