@@ -34,26 +34,8 @@ spec:
         fsGroup: {{ .Values.primary.podSecurityContext.fsGroup }}
         fsGroupChangePolicy: "OnRootMismatch"
       {{- end }}
+      {{- if .Values.primary.initContainers }}
       initContainers:
-        - name: volume-permissions
-          image: {{ include "mysql.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /bin/sh
-            - -c
-            - |
-              # Create data directory structure that mysqld expects
-              mkdir -p {{ .Values.primary.persistence.mountPath }}/data
-              mkdir -p /run/mysqld
-              # Fix ownership for non-root execution
-              chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}
-              chown -R 1001:1001 /run/mysqld
-              chmod 750 {{ .Values.primary.persistence.mountPath }}/data
-          securityContext:
-            runAsUser: 0
-          volumeMounts:
-            - name: data
-              mountPath: {{ .Values.primary.persistence.mountPath }}
         {{- with .Values.primary.initContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
