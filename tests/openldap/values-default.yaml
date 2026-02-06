@@ -6,15 +6,6 @@ auth:
 organization: "Test Organization"
 domain: "test.local"
 
-# Use /tmp for data to avoid K8s emptyDir permission issues
-extraEnvVars:
-  - name: LDAP_DATA_DIR
-    value: "/tmp/openldap-data"
-  - name: LDAP_CONFIG_DIR
-    value: "/tmp/openldap-config"
-  - name: LDAP_RUN_DIR
-    value: "/tmp/openldap-run"
-
 resources:
   requests:
     memory: 512Mi
@@ -25,21 +16,28 @@ resources:
 
 persistence:
   enabled: false
+  # Mount path - env vars must match this
+  mountPath: /tmp/openldap
 
-# Run as root with full capabilities to allow slapd to create data directories
+# Override default data paths to use temp directory
+# Must match persistence.mountPath structure
+extraEnvVars:
+  - name: LDAP_DATA_DIR
+    value: "/tmp/openldap/data"
+  - name: LDAP_CONFIG_DIR
+    value: "/tmp/openldap/config"
+  - name: LDAP_RUN_DIR
+    value: "/tmp/openldap/run"
+
+# Use non-root user with initContainer for permissions
 podSecurityContext:
-  enabled: false
+  enabled: true
+  fsGroup: 1001
 containerSecurityContext:
   enabled: true
-  runAsUser: 0
-  runAsGroup: 0
-  runAsNonRoot: false
-  allowPrivilegeEscalation: true
-  readOnlyRootFilesystem: false
-  capabilities:
-    drop: []
-  seccompProfile:
-    type: Unconfined
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
 
 # Increase startup probe timeout
 startupProbe:
