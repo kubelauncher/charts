@@ -50,13 +50,22 @@ jobs:
             helm package "$chart" -d .cr-release-packages
           done
 
-      - name: Login to GHCR
+      - name: Login to GHCR (Helm)
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Login to GHCR (Docker/Cosign)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3
 
       - name: Push and sign charts to OCI registry
+        env:
+          COSIGN_EXPERIMENTAL: "true"
         run: |
           for pkg in .cr-release-packages/*.tgz; do
             # Push chart to OCI registry
