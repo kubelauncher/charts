@@ -3,9 +3,9 @@ entries:
   cassandra:
   - apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-02-06T08:03:29.117446757Z"
+    created: "2026-02-06T08:08:58.310190242Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: c033f56dfc2079572dd6bced9f820b62befbbe68c3d9342c66128b1cf79d909a
+    digest: 3f7c87ea0a3439875d44df0b6c3bc87701977201138a771c58195c2eee3b1682
     home: https://github.com/kubelauncher/charts
     keywords:
     - cassandra
@@ -27,9 +27,9 @@ entries:
   kafka:
   - apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-02-06T08:03:29.118154272Z"
+    created: "2026-02-06T08:08:58.31087794Z"
     description: Apache Kafka distributed streaming platform
-    digest: ee0417a4c677e53e700e9138bda1ab7dcbd94594a6e2b0f74f2f33047c757ed2
+    digest: 6093e312b00e33f1bd3d1965ad01ec292481524a7a574af2db1a08867676b448
     home: https://github.com/kubelauncher/charts
     keywords:
     - kafka
@@ -51,9 +51,9 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-06T08:03:29.118819799Z"
+    created: "2026-02-06T08:08:58.311588049Z"
     description: Keycloak identity and access management
-    digest: ec6bc885d11f7548f55fe2d04aada20452db1b11e93f0061b1fe507bbf177dce
+    digest: d3ed3de6b7f9cbae666620ca8531ec599ee492b93fc8231bd9271900b6d08ba2
     home: https://github.com/kubelauncher/charts
     keywords:
     - keycloak
@@ -76,9 +76,9 @@ entries:
   kubectl:
   - apiVersion: v2
     appVersion: 1.35.0
-    created: "2026-02-06T08:03:29.119282819Z"
+    created: "2026-02-06T08:08:58.312063663Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: afb80f9b24790082c5d3194e77bfbdbecf9a7bd002bd289c55e204539c2cf41c
+    digest: 72f4aaf483ee54e2d51ac14b2410f3c765ab9fe3af3f723daca04fddb00bd7ef
     home: https://github.com/kubelauncher/charts
     keywords:
     - kubectl
@@ -99,9 +99,9 @@ entries:
   mariadb:
   - apiVersion: v2
     appVersion: 12.1.2
-    created: "2026-02-06T08:03:29.119946493Z"
+    created: "2026-02-06T08:08:58.312695096Z"
     description: MariaDB relational database
-    digest: d8e095aae3d26dcbf6301ff9d107b81a690e1dd1f36653cb63eabbcf8a15ebb8
+    digest: f624315def23bacfd4c59acd5282e977af070dc98ae643db53930f468f0ce3f4
     home: https://github.com/kubelauncher/charts
     keywords:
     - mariadb
@@ -123,9 +123,9 @@ entries:
   memcached:
   - apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-06T08:03:29.120462572Z"
+    created: "2026-02-06T08:08:58.313206026Z"
     description: Memcached in-memory caching system
-    digest: f6e821dc6260d8e062e2007231c69575a498fe81effb275847c8bf882523a9b7
+    digest: 1533844800213d6828b92063dd8d483571d30fb1723ddc258e8efb1031003509
     home: https://github.com/kubelauncher/charts
     keywords:
     - memcached
@@ -145,10 +145,10 @@ entries:
     version: 0.1.0
   mongodb:
   - apiVersion: v2
-    appVersion: "8.0"
-    created: "2026-02-06T08:03:29.121671629Z"
+    appVersion: "8.2"
+    created: "2026-02-06T08:08:58.314664616Z"
     description: MongoDB document database
-    digest: a28450b4810d4b85b3d92fd25795b90d3597cc96f99b39b5817a00b0cccbb024
+    digest: 8dec16af4e68a0bc27ec6e7065aac64463b306555f8baedbe2cccce73e5357b9
     home: https://github.com/kubelauncher/charts
     keywords:
     - mongodb
@@ -165,14 +165,14 @@ entries:
     - https://github.com/kubelauncher/charts
     type: application
     urls:
-    - https://github.com/kubelauncher/charts/releases/download/charts/mongodb-0.1.0.tgz
-    version: 0.1.0
+    - https://github.com/kubelauncher/charts/releases/download/charts/mongodb-0.2.0.tgz
+    version: 0.2.0
   mysql:
   - apiVersion: v2
     appVersion: "8.0"
-    created: "2026-02-06T08:03:29.122667607Z"
+    created: "2026-02-06T08:08:58.315304825Z"
     description: MySQL relational database
-    digest: f78f0474e9c0593a1bdfeef423d0457196b4c903352de6d09934aa10064eaad5
+    digest: 3ae66f4525028a962cbb53ae2c643e75d3509fc3584e9dc0c0ab7d89bf9b2c36
     home: https://github.com/kubelauncher/charts
     keywords:
     - mysql
@@ -193,9 +193,9 @@ entries:
   openldap:
   - apiVersion: v2
     appVersion: 2.6.9
-    created: "2026-02-06T08:03:29.123278162Z"
+    created: "2026-02-06T08:08:58.315961275Z"
     description: OpenLDAP directory service
-    digest: f140b3dce3ec762f36d56514fa2c48a3e379604ff7d367d0263e05cf9147168c
+    digest: 2173ea6c5f5319d1075081040b85cefb3833c950567aa8f7dbda4e2137dea159
     home: https://github.com/kubelauncher/charts
     keywords:
     - openldap
@@ -216,9 +216,9 @@ entries:
   postgresql:
   - apiVersion: v2
     appVersion: "18"
-    created: "2026-02-06T08:03:29.12413278Z"
+    created: "2026-02-06T08:08:58.316813578Z"
     description: PostgreSQL relational database
-    digest: 3c5dc235ce5574aa12bff7536c35ee9d3fccef253b0ce92cd6951d8ed7468cef
+    digest: 1cf425d91adfff1d22f08c222ba5af2a14aa8aad059cd3ed713c9fbdce8e6dc7
     home: https://github.com/kubelauncher/charts
     keywords:
     - postgresql
@@ -241,9 +241,9 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 4.2.3
-    created: "2026-02-06T08:03:29.124920784Z"
+    created: "2026-02-06T08:08:58.317619145Z"
     description: RabbitMQ message broker
-    digest: 7fabd13ea5c3fade8cdd89cd9bdd1c1192f9c3311c08f990a3a3ecd3e9b8de1a
+    digest: 6a5439af648932f1b8edc1a621a36b802c4c974112d08b398781cc15f38f2797
     home: https://github.com/kubelauncher/charts
     keywords:
     - rabbitmq
@@ -265,9 +265,9 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 8.4.0
-    created: "2026-02-06T08:03:29.126105045Z"
+    created: "2026-02-06T08:08:58.318822Z"
     description: Redis in-memory data store
-    digest: 04e1597989d696eed8f2866116b8a2732e80663739155583b3b852c052546ab8
+    digest: 465980e316fc47bdd4dfaa6e6c1f6766a5ccc798bdc11e0808921bb501c40f34
     home: https://github.com/kubelauncher/charts
     keywords:
     - redis
@@ -289,9 +289,9 @@ entries:
   zookeeper:
   - apiVersion: v2
     appVersion: 3.9.3
-    created: "2026-02-06T08:03:29.126702586Z"
+    created: "2026-02-06T08:08:58.319465966Z"
     description: Apache ZooKeeper distributed coordination service
-    digest: af4030df9c32f4bf1d28b1b82bd6cb41a3c39940b619a4a978b3cb5c569c0818
+    digest: 6eb5a7f8b6038a313ed6f4a697036e5a2617f437af970d6d6a7461cd3dd189bf
     home: https://github.com/kubelauncher/charts
     keywords:
     - zookeeper
@@ -309,4 +309,4 @@ entries:
     urls:
     - https://github.com/kubelauncher/charts/releases/download/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-06T08:03:29.116670584Z"
+generated: "2026-02-06T08:08:58.309318893Z"
