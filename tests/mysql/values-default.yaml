@@ -9,3 +9,6 @@ primary:
   resourcesPreset: "nano"
   persistence:
     enabled: false
+  # Disable fsGroup to avoid setgid permission issues with mysqld
+  podSecurityContext:
+    enabled: false
