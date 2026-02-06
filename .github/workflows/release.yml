@@ -53,10 +53,24 @@ jobs:
       - name: Login to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push charts to OCI registry
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Push and sign charts to OCI registry
         run: |
           for pkg in .cr-release-packages/*.tgz; do
-            helm push "$pkg" "oci://ghcr.io/${{ github.repository_owner }}/charts"
+            # Push chart to OCI registry
+            OUTPUT=$(helm push "$pkg" "oci://ghcr.io/${{ github.repository_owner }}/charts" 2>&1)
+            echo "$OUTPUT"
+
+            # Extract the digest from helm push output
+            DIGEST=$(echo "$OUTPUT" | grep -oP 'Digest: \Ksha256:[a-f0-9]+')
+            CHART_NAME=$(basename "$pkg" .tgz | sed 's/-[0-9].*$//')
+
+            if [ -n "$DIGEST" ]; then
+              echo "Signing ghcr.io/${{ github.repository_owner }}/charts/${CHART_NAME}@${DIGEST}"
+              cosign sign --yes "ghcr.io/${{ github.repository_owner }}/charts/${CHART_NAME}@${DIGEST}"
+            fi
           done
 
       - name: Generate index
