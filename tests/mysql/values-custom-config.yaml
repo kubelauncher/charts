@@ -12,13 +12,13 @@ primary:
     innodb_buffer_pool_size=128M
   # Use /tmp for data to avoid K8s emptyDir permission issues
   extraEnvVars:
-    - name: MYSQL_DATA_DIR
-      value: "/tmp/mysql-data"
     - name: MYSQL_LOG_DIR
       value: "/tmp/mysql-logs"
   resourcesPreset: "small"
   persistence:
     enabled: false
+    # Mount emptyDir to /tmp/mysql to avoid permission issues
+    mountPath: /tmp/mysql
   # Increase startup probe timeout for slow init
   startupProbe:
     enabled: true
