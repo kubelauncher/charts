@@ -46,29 +46,17 @@ spec:
               DATADIR="{{ .Values.primary.persistence.mountPath }}/data"
               MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
 
-              echo "=== Debug: Initial state ==="
-              ls -la "${MOUNTPATH}" || true
-              id
-
               mkdir -p /run/mysqld
-              chown 1001:1001 "${MOUNTPATH}"
-              chmod 755 "${MOUNTPATH}"
-              chown 1001:1001 /run/mysqld
-
-              echo "=== Debug: After chown/chmod ==="
-              ls -la "${MOUNTPATH}"
+              chown -R 1001:1001 "${MOUNTPATH}"
+              chown -R 1001:1001 /run/mysqld
 
               if [ -d "${DATADIR}/mysql" ]; then
-                echo "MySQL already initialized, fixing permissions..."
-                chown -R 1001:1001 "${MOUNTPATH}"
+                echo "MySQL already initialized"
               else
-                echo "=== Debug: Testing write as mysql user ==="
-                rm -rf "${DATADIR}" || true
-                su -s /bin/sh -c "touch '${MOUNTPATH}/test'" mysql && rm -f "${MOUNTPATH}/test"
-                su -s /bin/sh -c "mkdir '${MOUNTPATH}/testdir'" mysql && rmdir "${MOUNTPATH}/testdir"
-
                 echo "Initializing MySQL database..."
-                su -s /bin/sh -c "mysqld --initialize-insecure --datadir='${DATADIR}'" mysql
+                # Run mysqld as root - it will chown files to mysql user internally
+                mysqld --initialize-insecure --datadir="${DATADIR}" --user=mysql
+                chown -R 1001:1001 "${DATADIR}"
               fi
           securityContext:
             runAsUser: 0
