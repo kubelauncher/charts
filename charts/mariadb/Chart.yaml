@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: 0.1.0
+version: "0.1.0"
 appVersion: "12.1.2"
 home: https://github.com/kubelauncher/charts
 sources:
