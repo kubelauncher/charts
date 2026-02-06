@@ -53,33 +53,28 @@ spec:
                 exit 0
               fi
 
-              echo "=== DEBUG: Test mkdir ==="
-              echo "Running as: $(id)"
+              # Create data directory with mysql ownership
+              # mysqld will use this directory as-is when running as mysql user
+              echo "Creating data directory..."
+              mkdir -p "${DATADIR}"
+              chown -R 1001:1001 "${MOUNTPATH}"
+              chmod 700 "${DATADIR}"
+
+              echo "Permissions:"
               ls -la "${MOUNTPATH}"
 
-              # Test if we can create the data directory
-              echo "Testing mkdir..."
-              if mkdir -p "${DATADIR}"; then
-                echo "mkdir succeeded"
-                ls -la "${MOUNTPATH}"
-                # Remove it so mysqld can create it
-                rmdir "${DATADIR}"
-              else
-                echo "mkdir FAILED"
-                exit 1
-              fi
-
-              # Initialize MySQL as root
-              echo "Initializing MySQL database..."
+              # Initialize MySQL as mysql user (not root)
+              # The --user flag tells mysqld to run as that user
+              echo "Initializing MySQL database as mysql user..."
               mkdir -p /run/mysqld
-              mysqld --initialize-insecure --datadir="${DATADIR}" --user=root 2>&1 || {
+              chown 1001:1001 /run/mysqld
+              su -s /bin/sh mysql -c "mysqld --initialize-insecure --datadir='${DATADIR}'" 2>&1 || {
                 echo "=== mysqld initialize failed ==="
                 ls -la "${MOUNTPATH}"
+                ls -la "${DATADIR}" || true
                 exit 1
               }
 
-              # Fix ownership for non-root main container
-              chown -R 1001:1001 "${MOUNTPATH}"
               echo "MySQL initialization complete"
           securityContext:
             runAsUser: 0
