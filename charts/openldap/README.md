@@ -28,8 +28,8 @@ OpenLDAP directory service
 | clusterDomain | string | `"cluster.local"` |  |
 | commonAnnotations | object | `{}` |  |
 | commonLabels | object | `{}` |  |
-| containerPorts.ldap | int | `389` |  |
-| containerPorts.ldaps | int | `636` |  |
+| containerPorts.ldap | int | `1389` |  |
+| containerPorts.ldaps | int | `1636` |  |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
 | containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | containerSecurityContext.enabled | bool | `true` |  |
