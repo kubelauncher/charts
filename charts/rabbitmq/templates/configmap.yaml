@@ -8,8 +8,12 @@ metadata:
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
 data:
+  {{- $allPlugins := printf "%s %s" .Values.plugins .Values.extraPlugins | trim }}
+  {{- if gt (int .Values.replicaCount) 1 }}
+  {{- $allPlugins = printf "%s rabbitmq_peer_discovery_k8s" $allPlugins }}
+  {{- end }}
   enabled_plugins: |-
-    [{{ range $i, $p := (splitList " " (printf "%s %s" .Values.plugins .Values.extraPlugins | trim)) }}{{ if $i }},{{ end }}{{ $p }}{{ end }}].
+    [{{ range $i, $p := (splitList " " $allPlugins) }}{{ if $i }},{{ end }}{{ $p }}{{ end }}].
   rabbitmq.conf: |-
     default_vhost = /
     loopback_users = none
