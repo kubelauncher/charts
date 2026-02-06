@@ -10,9 +10,16 @@ primary:
     [mysqld]
     max_connections=150
     innodb_buffer_pool_size=128M
-  resourcesPreset: "nano"
+  resourcesPreset: "small"
   persistence:
     enabled: false
+  # Increase startup probe timeout for slow init
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 60
   # Run as root to bypass permission issues
   podSecurityContext:
     enabled: false
@@ -23,3 +30,7 @@ primary:
     runAsNonRoot: false
     allowPrivilegeEscalation: true
     readOnlyRootFilesystem: false
+    capabilities:
+      drop: []
+    seccompProfile:
+      type: Unconfined
