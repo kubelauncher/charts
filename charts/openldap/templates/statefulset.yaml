@@ -73,6 +73,8 @@ spec:
               value: {{ .Values.ldapRoot | quote }}
             - name: LDAP_ADMIN_USERNAME
               value: {{ .Values.ldapAdminUsername | quote }}
+            - name: LDAP_PORT
+              value: {{ .Values.containerPorts.ldap | quote }}
             {{- with .Values.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -87,7 +89,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - ldapsearch -x -H ldap://localhost -b "" -s base
+                - ldapsearch -x -H ldap://localhost:{{ .Values.containerPorts.ldap }} -b "" -s base
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
@@ -100,7 +102,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - ldapsearch -x -H ldap://localhost -b "" -s base
+                - ldapsearch -x -H ldap://localhost:{{ .Values.containerPorts.ldap }} -b "" -s base
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -113,7 +115,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - ldapsearch -x -H ldap://localhost -b "" -s base
+                - ldapsearch -x -H ldap://localhost:{{ .Values.containerPorts.ldap }} -b "" -s base
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
