@@ -5,6 +5,7 @@ auth:
 
 organization: "Test Organization"
 domain: "test.local"
+ldapRoot: "dc=test,dc=local"
 
 resources:
   requests:
