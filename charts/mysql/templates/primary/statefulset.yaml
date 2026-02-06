@@ -53,17 +53,21 @@ spec:
                 exit 0
               fi
 
-              echo "=== DEBUG: Before chmod ==="
+              echo "=== DEBUG: Test mkdir ==="
               echo "Running as: $(id)"
               ls -la "${MOUNTPATH}"
 
-              # Remove setgid bit - try multiple methods
-              echo "Removing setgid bit..."
-              chmod 0755 "${MOUNTPATH}" || echo "chmod 0755 failed"
-              chmod g-s "${MOUNTPATH}" || echo "chmod g-s failed"
-
-              echo "=== DEBUG: After chmod ==="
-              ls -la "${MOUNTPATH}"
+              # Test if we can create the data directory
+              echo "Testing mkdir..."
+              if mkdir -p "${DATADIR}"; then
+                echo "mkdir succeeded"
+                ls -la "${MOUNTPATH}"
+                # Remove it so mysqld can create it
+                rmdir "${DATADIR}"
+              else
+                echo "mkdir FAILED"
+                exit 1
+              fi
 
               # Initialize MySQL as root
               echo "Initializing MySQL database..."
