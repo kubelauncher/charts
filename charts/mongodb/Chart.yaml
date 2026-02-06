@@ -3,7 +3,7 @@ name: mongodb
 description: MongoDB document database
 type: application
 version: 0.1.0
-appVersion: "8.0"
+appVersion: "8.2"
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
