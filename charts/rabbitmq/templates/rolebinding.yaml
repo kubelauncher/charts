@@ -1,0 +1,19 @@
+{{- if gt (int .Values.replicaCount) 1 }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "rabbitmq.fullname" . }}
+  namespace: {{ include "rabbitmq.namespace" . }}
+  labels: {{- include "rabbitmq.labels" . | nindent 4 }}
+  {{- with .Values.commonAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "rabbitmq.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "rabbitmq.serviceAccountName" . }}
+    namespace: {{ include "rabbitmq.namespace" . }}
+{{- end }}
