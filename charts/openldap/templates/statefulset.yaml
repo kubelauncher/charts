@@ -38,13 +38,7 @@ spec:
         - name: volume-permissions
           image: {{ include "openldap.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /bin/sh
-            - -c
-            - |
-              mkdir -p {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data {{ .Values.persistence.mountPath }}/run
-              chown -R 1001:1001 {{ .Values.persistence.mountPath }}
-              chmod 700 {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data
+          command: ["/bin/sh", "-c", "mkdir -p {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data {{ .Values.persistence.mountPath }}/run && chown -R 1001:1001 {{ .Values.persistence.mountPath }} && chmod 700 {{ .Values.persistence.mountPath }}/config {{ .Values.persistence.mountPath }}/data"]
           securityContext:
             runAsUser: 0
           volumeMounts:
