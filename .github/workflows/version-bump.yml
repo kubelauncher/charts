@@ -16,7 +16,7 @@ jobs:
     # Only run on Renovate PRs
     if: github.actor == 'renovate[bot]' || github.actor == 'renovate'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}

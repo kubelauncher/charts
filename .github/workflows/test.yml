@@ -32,7 +32,7 @@ jobs:
       has_charts: ${{ steps.set-matrix.outputs.has_charts }}
       all_charts: ${{ steps.set-matrix.outputs.all_charts }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -135,7 +135,7 @@ jobs:
     needs: detect-charts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: azure/setup-helm@v4
 
       - name: Install helm-docs
@@ -189,7 +189,7 @@ jobs:
     name: "${{ matrix.chart }} / ${{ matrix.test_name }}"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: azure/setup-helm@v4
 
