@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Kubescape
         run: |
-          KUBESCAPE_VERSION="3.0.26"
+          KUBESCAPE_VERSION="3.0.48"
           curl -fsSL "https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-ubuntu-latest" -o kubescape
           chmod +x kubescape
           sudo mv kubescape /usr/local/bin/
