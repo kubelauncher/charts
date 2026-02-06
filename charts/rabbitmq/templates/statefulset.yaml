@@ -77,12 +77,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "rabbitmq.erlangSecretName" . }}
                   key: {{ include "rabbitmq.erlangSecretKey" . }}
-            - name: RABBITMQ_NODE_NAME
-              value: "rabbit@$(POD_NAME).{{ include "rabbitmq.fullname" . }}-headless.{{ include "rabbitmq.namespace" . }}.svc.{{ .Values.clusterDomain }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: RABBITMQ_NODE_NAME
+              value: "rabbit@$(POD_NAME).{{ include "rabbitmq.fullname" . }}-headless.{{ include "rabbitmq.namespace" . }}.svc.{{ .Values.clusterDomain }}"
             {{- with .Values.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
