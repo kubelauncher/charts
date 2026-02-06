@@ -22,7 +22,7 @@ jobs:
   kubescape:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: azure/setup-helm@v4
 
       - name: Install Kubescape
@@ -62,7 +62,7 @@ jobs:
   helm-lint-strict:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: azure/setup-helm@v4
 
       - name: Strict lint all charts
@@ -82,7 +82,7 @@ jobs:
   check-deprecated-apis:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: azure/setup-helm@v4
 
       - name: Install pluto
