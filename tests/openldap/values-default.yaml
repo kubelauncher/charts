@@ -16,3 +16,17 @@ resources:
 
 persistence:
   enabled: false
+
+# Disable security contexts - run as root for CI testing
+podSecurityContext:
+  enabled: false
+containerSecurityContext:
+  enabled: false
+
+# Increase startup probe timeout
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 60
