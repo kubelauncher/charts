@@ -26,17 +26,37 @@ primary:
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 60
-  # Run as root with full capabilities to allow mysql to create data directories
+  # Init container to set up permissions
+  initContainers:
+    - name: init-permissions
+      image: busybox:latest
+      command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /tmp/mysql/data /tmp/mysql-logs
+          chown -R 1001:1001 /tmp/mysql /tmp/mysql-logs
+          chmod 755 /tmp/mysql /tmp/mysql-logs
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: data
+          mountPath: /tmp/mysql
+        - name: logs
+          mountPath: /tmp/mysql-logs
+  # Run as mysql user after init container sets up permissions
   podSecurityContext:
-    enabled: false
+    enabled: true
+    fsGroup: 1001
   containerSecurityContext:
     enabled: true
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: true
-    readOnlyRootFilesystem: false
-    capabilities:
-      drop: []
-    seccompProfile:
-      type: Unconfined
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+  # Extra volume for logs
+  extraVolumes:
+    - name: logs
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: logs
+      mountPath: /tmp/mysql-logs
