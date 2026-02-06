@@ -3,7 +3,7 @@ name: mariadb
 description: MariaDB relational database
 type: application
 version: 0.1.0
-appVersion: "11.4.5"
+appVersion: "12.1.2"
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
