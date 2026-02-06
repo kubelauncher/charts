@@ -62,7 +62,7 @@
       "customType": "regex",
       "fileMatch": ["charts/mongodb/Chart\\.yaml$"],
       "matchStrings": ["appVersion:\\s*\"(?<currentValue>[^\"]+)\""],
-      "depNameTemplate": "mongodb/mongo",
+      "depNameTemplate": "mongo",
       "datasourceTemplate": "docker",
       "extractVersionTemplate": "^(?<version>.+)$"
     },
@@ -114,6 +114,30 @@
       "datasourceTemplate": "github-tags",
       "extractVersionTemplate": "^OPENLDAP_REL_ENG_(?<version>[\\d_]+)$",
       "versioningTemplate": "regex:^(?<major>\\d+)_(?<minor>\\d+)_(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/security\\.yml$"],
+      "matchStrings": ["KUBESCAPE_VERSION=\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "kubescape/kubescape",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/security\\.yml$"],
+      "matchStrings": ["PLUTO_VERSION=\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "FairwindsOps/pluto",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/helm-docs\\.yml$"],
+      "matchStrings": ["HELM_DOCS_VERSION=\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "norwoodj/helm-docs",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
     }
   ],
   "packageRules": [
