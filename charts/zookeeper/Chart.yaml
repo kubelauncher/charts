@@ -2,7 +2,7 @@ apiVersion: v2
 name: zookeeper
 description: Apache ZooKeeper distributed coordination service
 type: application
-version: 0.1.0
+version: "0.1.0"
 appVersion: "3.9.3"
 home: https://github.com/kubelauncher/charts
 sources:
