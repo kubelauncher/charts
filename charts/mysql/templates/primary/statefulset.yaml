@@ -38,44 +38,7 @@ spec:
         - name: volume-permissions
           image: {{ include "mysql.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /bin/sh
-            - -c
-            - |
-              set -e
-              MOUNTPATH="{{ .Values.primary.persistence.mountPath }}"
-              DATADIR="${MOUNTPATH}/data"
-
-              # Check if already initialized
-              if [ -d "${DATADIR}/mysql" ]; then
-                echo "MySQL already initialized, fixing permissions..."
-                chown -R 1001:1001 "${MOUNTPATH}"
-                exit 0
-              fi
-
-              # Create data directory with mysql ownership
-              # mysqld will use this directory as-is when running as mysql user
-              echo "Creating data directory..."
-              mkdir -p "${DATADIR}"
-              chown -R 1001:1001 "${MOUNTPATH}"
-              chmod 700 "${DATADIR}"
-
-              echo "Permissions:"
-              ls -la "${MOUNTPATH}"
-
-              # Initialize MySQL as mysql user (not root)
-              # The --user flag tells mysqld to run as that user
-              echo "Initializing MySQL database as mysql user..."
-              mkdir -p /run/mysqld
-              chown 1001:1001 /run/mysqld
-              su -s /bin/sh mysql -c "mysqld --initialize-insecure --datadir='${DATADIR}'" 2>&1 || {
-                echo "=== mysqld initialize failed ==="
-                ls -la "${MOUNTPATH}"
-                ls -la "${DATADIR}" || true
-                exit 1
-              }
-
-              echo "MySQL initialization complete"
+          command: ["/bin/sh", "-c", "chown -R 1001:1001 {{ .Values.primary.persistence.mountPath }}"]
           securityContext:
             runAsUser: 0
           volumeMounts:
