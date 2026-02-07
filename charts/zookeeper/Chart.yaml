@@ -4,6 +4,7 @@ description: Apache ZooKeeper distributed coordination service
 type: application
 version: "0.1.0"
 appVersion: "3.9.3"
+icon: https://raw.githubusercontent.com/kubelauncher/charts/main/icons/zookeeper.svg
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
