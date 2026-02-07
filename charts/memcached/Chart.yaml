@@ -4,6 +4,7 @@ description: Memcached in-memory caching system
 type: application
 version: "0.1.0"
 appVersion: "1.6.40"
+icon: https://raw.githubusercontent.com/kubelauncher/charts/main/icons/memcached.svg
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker

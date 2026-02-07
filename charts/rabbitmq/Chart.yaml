@@ -4,6 +4,7 @@ description: RabbitMQ message broker
 type: application
 version: "0.1.0"
 appVersion: "4.2.3"
+icon: https://cdn.simpleicons.org/rabbitmq
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
