@@ -21,7 +21,6 @@ keywords:
   - oidc
 annotations:
   artifacthub.io/license: Apache-2.0
-  artifacthub.io/signKey: "cosign"
   artifacthub.io/changes: |
     - kind: added
       description: Initial release of keycloak chart (appVersion 26.5.2)

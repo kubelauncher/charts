@@ -19,7 +19,6 @@ keywords:
   - memory
 annotations:
   artifacthub.io/license: Apache-2.0
-  artifacthub.io/signKey: "cosign"
   artifacthub.io/changes: |
     - kind: added
       description: Initial release of memcached chart (appVersion 1.6.40)

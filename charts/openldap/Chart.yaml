@@ -19,7 +19,6 @@ keywords:
   - directory
 annotations:
   artifacthub.io/license: Apache-2.0
-  artifacthub.io/signKey: "cosign"
   artifacthub.io/changes: |
     - kind: added
       description: Initial release of openldap chart (appVersion 2.6.12)
