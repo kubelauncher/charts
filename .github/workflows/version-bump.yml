@@ -90,11 +90,35 @@ jobs:
 
           echo "bumped=${BUMPED}" >> "$GITHUB_OUTPUT"
 
+      - name: Install helm-docs
+        if: steps.bump.outputs.bumped != ''
+        run: |
+          HELM_DOCS_VERSION="1.14.2"
+          curl -fsSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
+            | tar xz -C /usr/local/bin helm-docs
+
+      - name: Install helm-values-schema-json
+        if: steps.bump.outputs.bumped != ''
+        run: |
+          SCHEMA_VERSION="2.3.1"
+          curl -fsSL "https://github.com/losisin/helm-values-schema-json/releases/download/v${SCHEMA_VERSION}/helm-values-schema-json_${SCHEMA_VERSION}_linux_amd64.tgz" \
+            | tar xz -C /usr/local/bin helm-values-schema-json
+
+      - name: Regenerate helm-docs and schemas
+        if: steps.bump.outputs.bumped != ''
+        run: |
+          helm-docs --chart-search-root charts
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "Generating schema for ${name}..."
+            helm-values-schema-json -input "${chart}values.yaml" -output "${chart}values.schema.json"
+          done
+
       - name: Commit version bump
         if: steps.bump.outputs.bumped != ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add charts/*/Chart.yaml
-          git diff --staged --quiet || git commit -m "chore: bump chart versions"
+          git add charts/*/Chart.yaml charts/*/README.md charts/*/values.schema.json
+          git diff --staged --quiet || git commit -m "chore: bump chart versions and regenerate docs"
           git push
