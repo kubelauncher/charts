@@ -89,23 +89,41 @@ jobs:
         if: steps.check.outputs.skip != 'true'
         uses: sigstore/cosign-installer@v3
 
-      - name: Push and sign charts to OCI registry
+      - name: Login to Docker Hub (Helm)
+        if: steps.check.outputs.skip != 'true'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Login to Docker Hub (Cosign)
+        if: steps.check.outputs.skip != 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push and sign charts to OCI registries
         if: steps.check.outputs.skip != 'true'
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
           for pkg in .cr-release-packages/*.tgz; do
-            # Push chart to OCI registry
-            OUTPUT=$(helm push "$pkg" "oci://ghcr.io/${{ github.repository_owner }}/charts" 2>&1)
-            echo "$OUTPUT"
-
-            # Extract the digest from helm push output
-            DIGEST=$(echo "$OUTPUT" | grep -oP 'Digest: \Ksha256:[a-f0-9]+')
             CHART_NAME=$(basename "$pkg" .tgz | sed 's/-[0-9].*$//')
 
+            # Push to GHCR
+            OUTPUT=$(helm push "$pkg" "oci://ghcr.io/${{ github.repository_owner }}/charts" 2>&1)
+            echo "$OUTPUT"
+            DIGEST=$(echo "$OUTPUT" | grep -oP 'Digest: \Ksha256:[a-f0-9]+')
             if [ -n "$DIGEST" ]; then
               echo "Signing ghcr.io/${{ github.repository_owner }}/charts/${CHART_NAME}@${DIGEST}"
               cosign sign --yes "ghcr.io/${{ github.repository_owner }}/charts/${CHART_NAME}@${DIGEST}"
+            fi
+
+            # Push to Docker Hub
+            OUTPUT=$(helm push "$pkg" "oci://registry-1.docker.io/${{ github.repository_owner }}" 2>&1)
+            echo "$OUTPUT"
+            DIGEST=$(echo "$OUTPUT" | grep -oP 'Digest: \Ksha256:[a-f0-9]+')
+            if [ -n "$DIGEST" ]; then
+              echo "Signing registry-1.docker.io/${{ github.repository_owner }}/${CHART_NAME}@${DIGEST}"
+              cosign sign --yes "registry-1.docker.io/${{ github.repository_owner }}/${CHART_NAME}@${DIGEST}"
             fi
           done
 
