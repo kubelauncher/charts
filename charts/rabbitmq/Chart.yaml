@@ -20,3 +20,6 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/signKey: "cosign"
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release of rabbitmq chart (appVersion 4.2.3)
