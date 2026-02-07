@@ -189,12 +189,24 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/\\.github/workflows/helm-docs\\.yml$/"
+        "/\\.github/workflows/version-bump\\.yml$/"
       ],
       "matchStrings": [
         "HELM_DOCS_VERSION=\"(?<currentValue>[^\"]+)\""
       ],
       "depNameTemplate": "norwoodj/helm-docs",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.github/workflows/version-bump\\.yml$/"
+      ],
+      "matchStrings": [
+        "SCHEMA_VERSION=\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "losisin/helm-values-schema-json",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.+)$"
     }
