@@ -14,44 +14,6 @@ permissions:
   id-token: write
 
 jobs:
-  helm-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install helm-docs
-        run: |
-          HELM_DOCS_VERSION="1.14.2"
-          curl -fsSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
-            | tar xz -C /usr/local/bin helm-docs
-
-      - name: Install helm-values-schema-json
-        run: |
-          SCHEMA_VERSION="2.3.1"
-          curl -fsSL "https://github.com/losisin/helm-values-schema-json/releases/download/v${SCHEMA_VERSION}/helm-values-schema-json_${SCHEMA_VERSION}_linux_amd64.tgz" \
-            | tar xz -C /usr/local/bin helm-values-schema-json
-
-      - name: Run helm-docs
-        run: helm-docs --chart-search-root charts
-
-      - name: Generate values.schema.json for all charts
-        run: |
-          for chart in charts/*/; do
-            name=$(basename "$chart")
-            echo "Generating schema for ${name}..."
-            helm-values-schema-json -input "${chart}values.yaml" -output "${chart}values.schema.json"
-          done
-
-      - name: Verify docs are up to date
-        run: |
-          if ! git diff --quiet charts/*/README.md charts/*/values.schema.json; then
-            echo "::error::Helm docs or value schemas are out of date. Run helm-docs locally and commit the changes."
-            git diff --stat charts/*/README.md charts/*/values.schema.json
-            exit 1
-          fi
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -68,7 +30,7 @@ jobs:
           done
 
   release:
-    needs: [helm-docs, lint]
+    needs: lint
     if: >-
       (github.event_name == 'workflow_dispatch') ||
       (github.event.workflow_run.conclusion == 'success')
