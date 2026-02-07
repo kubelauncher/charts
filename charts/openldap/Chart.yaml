@@ -4,7 +4,7 @@ description: OpenLDAP directory service
 type: application
 version: "0.1.1"
 appVersion: "2.6.12"
-icon: https://raw.githubusercontent.com/kubelauncher/charts/main/icons/openldap.svg
+icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
