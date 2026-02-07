@@ -9,7 +9,8 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
-  "dependencyDashboard": false,
+  "dependencyDashboard": true,
+  "dependencyDashboardApproval": false,
   "schedule": [
     "at any time"
   ],
@@ -22,9 +23,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "redis/redis",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/redis",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -34,9 +34,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "rabbitmq/rabbitmq-server",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/rabbitmq",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -46,9 +45,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "kubernetes/kubernetes",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^v(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/kubectl",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -58,9 +56,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "postgres",
-      "datasourceTemplate": "docker",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/postgresql",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -70,9 +67,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "mysql/mysql-server",
-      "datasourceTemplate": "docker",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/mysql",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -82,9 +78,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "mariadb",
-      "datasourceTemplate": "docker",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/mariadb",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -94,9 +89,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "mongo",
-      "datasourceTemplate": "docker",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/mongodb",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -106,9 +100,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "memcached/memcached",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/memcached",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -118,9 +111,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "apache/kafka",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/kafka",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -130,9 +122,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "apache/zookeeper",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^release-(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/zookeeper",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -142,9 +133,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "apache/cassandra",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^cassandra-(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/cassandra",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -154,9 +144,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "keycloak/keycloak",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^(?<version>.+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/keycloak",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -166,10 +155,8 @@
       "matchStrings": [
         "appVersion:\\s*\"(?<currentValue>[^\"]+)\""
       ],
-      "depNameTemplate": "openldap/openldap",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^OPENLDAP_REL_ENG_(?<version>[\\d_]+)$",
-      "versioningTemplate": "regex:^(?<major>\\d+)_(?<minor>\\d+)_(?<patch>\\d+)$"
+      "depNameTemplate": "ghcr.io/kubelauncher/openldap",
+      "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
@@ -222,42 +209,6 @@
       ],
       "automerge": true,
       "automergeStrategy": "squash"
-    },
-    {
-      "matchPackageNames": [
-        "kubernetes/kubernetes"
-      ],
-      "allowedVersions": "!/alpha|beta|rc/"
-    },
-    {
-      "matchPackageNames": [
-        "rabbitmq/rabbitmq-server"
-      ],
-      "allowedVersions": "!/alpha|beta|rc/"
-    },
-    {
-      "matchPackageNames": [
-        "apache/kafka"
-      ],
-      "allowedVersions": "!/alpha|beta|rc/"
-    },
-    {
-      "matchPackageNames": [
-        "apache/zookeeper"
-      ],
-      "allowedVersions": "!/alpha|beta|rc/"
-    },
-    {
-      "matchPackageNames": [
-        "apache/cassandra"
-      ],
-      "allowedVersions": "!/alpha|beta|rc|tent/"
-    },
-    {
-      "matchPackageNames": [
-        "keycloak/keycloak"
-      ],
-      "allowedVersions": "!/alpha|beta|rc|nightly/"
     }
   ]
 }
