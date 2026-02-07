@@ -4,6 +4,7 @@ description: MongoDB document database
 type: application
 version: "0.1.1"
 appVersion: "8.2.0"
+icon: https://cdn.simpleicons.org/mongodb
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker

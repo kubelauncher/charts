@@ -4,6 +4,7 @@ description: PostgreSQL relational database
 type: application
 version: "0.1.0"
 appVersion: "17.0.0"
+icon: https://cdn.simpleicons.org/postgresql
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker

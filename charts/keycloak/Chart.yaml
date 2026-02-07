@@ -4,6 +4,7 @@ description: Keycloak identity and access management
 type: application
 version: "0.1.0"
 appVersion: "26.5.2"
+icon: https://cdn.simpleicons.org/keycloak
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
