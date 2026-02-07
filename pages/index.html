@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KubeLauncher Helm Charts</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container { max-width: 640px; text-align: center; }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .tagline {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .usage {
+      background: #1e1e2e;
+      border: 1px solid #2d2d3d;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .usage h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    code {
+      display: block;
+      background: #0f0f1a;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.9rem;
+      color: #a5b4fc;
+      overflow-x: auto;
+      margin-bottom: 0.5rem;
+    }
+    code:last-child { margin-bottom: 0; }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #2d2d3d;
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .links a:hover {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .footer {
+      color: #475569;
+      font-size: 0.85rem;
+    }
+    .footer a { color: #3b82f6; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>KubeLauncher Charts</h1>
+    <p class="tagline">Bringing love to the Kubernetes community, one chart at a time.</p>
+
+    <div class="usage">
+      <h2>Install a chart</h2>
+      <code>helm repo add kubelauncher https://kubelauncher.github.io/charts</code>
+      <code>helm install my-release kubelauncher/redis</code>
+    </div>
+
+    <div class="usage">
+      <h2>Or via OCI registry</h2>
+      <code>helm install my-release oci://ghcr.io/kubelauncher/charts/redis</code>
+    </div>
+
+    <div class="links">
+      <a href="https://artifacthub.io/packages/search?repo=kubelauncher">ArtifactHub</a>
+      <a href="https://hub.docker.com/u/kubelauncher">Docker Hub</a>
+      <a href="https://github.com/kubelauncher/charts">GitHub</a>
+      <a href="https://www.kubelauncher.com">KubeLauncher</a>
+    </div>
+
+    <p class="footer">
+      Open-source Helm charts & Docker images by <a href="https://www.kubelauncher.com">KubeLauncher</a><br>
+      Production Kubernetes in days, not months.
+    </p>
+  </div>
+</body>
+</html>
