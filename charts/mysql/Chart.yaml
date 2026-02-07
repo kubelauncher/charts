@@ -2,8 +2,8 @@ apiVersion: v2
 name: mysql
 description: MySQL relational database
 type: application
-version: "0.1.0"
-appVersion: "8.0.0"
+version: "0.1.1"
+appVersion: "8.0.32"
 home: https://github.com/kubelauncher/charts
 sources:
   - https://github.com/kubelauncher/docker
