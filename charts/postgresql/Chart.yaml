@@ -21,3 +21,6 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/signKey: "cosign"
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release of postgresql chart (appVersion 17.0.0)
