@@ -3,6 +3,10 @@
   "extends": [
     "config:recommended"
   ],
+  "enabledManagers": [
+    "regex",
+    "github-actions"
+  ],
   "labels": [
     "dependencies"
   ],
