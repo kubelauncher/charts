@@ -81,6 +81,50 @@
       border-color: #3b82f6;
       background: rgba(59, 130, 246, 0.1);
     }
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .charts a {
+      display: block;
+      padding: 0.7rem;
+      background: #1e1e2e;
+      border: 1px solid #2d2d3d;
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .charts a:hover {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+    .charts .name { font-weight: 600; }
+    .charts .ver { color: #64748b; font-size: 0.75rem; }
+    .section-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    .cta {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      transition: opacity 0.2s;
+    }
+    .cta:hover { opacity: 0.9; }
     .footer {
       color: #475569;
       font-size: 0.85rem;
@@ -105,12 +149,30 @@
       <code>helm install my-release oci://ghcr.io/kubelauncher/charts/redis</code>
     </div>
 
+    <p class="section-title">Available Charts</p>
+    <div class="charts">
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/redis"><span class="name">Redis</span><br><span class="ver">8.4.0</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/postgresql"><span class="name">PostgreSQL</span><br><span class="ver">17.0.0</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/mongodb"><span class="name">MongoDB</span><br><span class="ver">8.2.0</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/mysql"><span class="name">MySQL</span><br><span class="ver">8.0.0</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/mariadb"><span class="name">MariaDB</span><br><span class="ver">12.1.2</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/kafka"><span class="name">Kafka</span><br><span class="ver">3.9.0</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/rabbitmq"><span class="name">RabbitMQ</span><br><span class="ver">4.2.3</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/cassandra"><span class="name">Cassandra</span><br><span class="ver">5.0.6</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/memcached"><span class="name">Memcached</span><br><span class="ver">1.6.40</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/zookeeper"><span class="name">ZooKeeper</span><br><span class="ver">3.9.3</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/keycloak"><span class="name">Keycloak</span><br><span class="ver">26.5.2</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/openldap"><span class="name">OpenLDAP</span><br><span class="ver">2.6.12</span></a>
+      <a href="https://artifacthub.io/packages/helm/kubelauncher/kubectl"><span class="name">kubectl</span><br><span class="ver">1.35.0</span></a>
+    </div>
+
     <div class="links">
       <a href="https://artifacthub.io/packages/search?repo=kubelauncher">ArtifactHub</a>
       <a href="https://hub.docker.com/u/kubelauncher">Docker Hub</a>
       <a href="https://github.com/kubelauncher/charts">GitHub</a>
-      <a href="https://www.kubelauncher.com">KubeLauncher</a>
     </div>
+
+    <a class="cta" href="https://www.kubelauncher.com">Need production Kubernetes? Let's talk</a>
 
     <p class="footer">
       Open-source Helm charts & Docker images by <a href="https://www.kubelauncher.com">KubeLauncher</a><br>
