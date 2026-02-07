@@ -2,13 +2,16 @@ apiVersion: v1
 entries:
   cassandra:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of cassandra chart (appVersion 5.0.6)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-02-07T19:49:36.920734177Z"
+    created: "2026-02-07T19:53:41.437058014Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: 476d2e4fcecce4ce95ae026042fad2f294934541536f853ff618ebe60fa76a4e
+    digest: 631488413a9528a1927684fc1d09157a18abbb7e86b8282daac0f345840c0de8
     home: https://github.com/kubelauncher/charts
     keywords:
     - cassandra
@@ -29,13 +32,16 @@ entries:
     version: 0.1.0
   kafka:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of kafka chart (appVersion 3.9.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-02-07T19:49:36.921464999Z"
+    created: "2026-02-07T19:53:41.437800546Z"
     description: Apache Kafka distributed streaming platform
-    digest: 3897ea5aa7a654e71c6f53e43b8d6010eb8775696057b313d09942a723b99f05
+    digest: 0bac06ea12fe0ebaaf13f4cac91dded6dd5ea92c156d4ba95dfcf19b06b67bdc
     home: https://github.com/kubelauncher/charts
     keywords:
     - kafka
@@ -56,13 +62,16 @@ entries:
     version: 0.1.0
   keycloak:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of keycloak chart (appVersion 26.5.2)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-07T19:49:36.92221111Z"
+    created: "2026-02-07T19:53:41.438539413Z"
     description: Keycloak identity and access management
-    digest: 288c577df9195f9cf1f17c22e3351feb6b4e96c65044be7816115b5502bc0ba8
+    digest: 4a4910ccedf385a4b2406c78699754ca1db7bd0ab00b8c59cd415163a8dae6a5
     home: https://github.com/kubelauncher/charts
     keywords:
     - keycloak
@@ -84,13 +93,16 @@ entries:
     version: 0.1.0
   kubectl:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of kubectl chart (appVersion 1.35.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 1.35.0
-    created: "2026-02-07T19:49:36.922675987Z"
+    created: "2026-02-07T19:53:41.439064701Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: 7071c23415587ea5bf1edf2e9103e1ec3ecc7f5e459177877fc767ee4d4c02d4
+    digest: afbcd9b02279e1e7bf12dd99350c72d052018735353376c7cb65b5385d341658
     home: https://github.com/kubelauncher/charts
     keywords:
     - kubectl
@@ -110,13 +122,16 @@ entries:
     version: 0.1.0
   mariadb:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of mariadb chart (appVersion 12.1.2)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 12.1.2
-    created: "2026-02-07T19:49:36.923366825Z"
+    created: "2026-02-07T19:53:41.439738455Z"
     description: MariaDB relational database
-    digest: 89f25499bab5231599944fcea8064119ae9e090a16a0ef5e71b5e184bfedaffb
+    digest: cdd4a20b5f524e59fca2f2f11f268505c912dbefecffd83ba496ea55835c3d46
     home: https://github.com/kubelauncher/charts
     keywords:
     - mariadb
@@ -137,13 +152,16 @@ entries:
     version: 0.1.0
   memcached:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of memcached chart (appVersion 1.6.40)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-07T19:49:36.923939543Z"
+    created: "2026-02-07T19:53:41.440309759Z"
     description: Memcached in-memory caching system
-    digest: a72132966c815c8e7b6de7583387b82e192338bdedf409e5cfa574c9f8885636
+    digest: 978884359193795418d029846609d9edb1de96fc34df1e87fe5856c5862ef379
     home: https://github.com/kubelauncher/charts
     keywords:
     - memcached
@@ -163,13 +181,16 @@ entries:
     version: 0.1.0
   mongodb:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of mongodb chart (appVersion 8.2.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-07T19:49:36.924987787Z"
+    created: "2026-02-07T19:53:41.441619448Z"
     description: MongoDB document database
-    digest: f074222567bf004b5b0763c16d1563be2c1a8cdfb3947d6bfa4131444df0e40c
+    digest: 82b1484275992a3079be3618a09ab5071e14c0d078cab7a259f0017822cd40d4
     home: https://github.com/kubelauncher/charts
     keywords:
     - mongodb
@@ -190,13 +211,16 @@ entries:
     version: 0.1.1
   mysql:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of mysql chart (appVersion 8.0.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 8.0.0
-    created: "2026-02-07T19:49:36.926027335Z"
+    created: "2026-02-07T19:53:41.442573359Z"
     description: MySQL relational database
-    digest: 0a6c25182d6c5658008d810f55e57eac3cae2752a965163156dba159f146f8b7
+    digest: 242c95082f78bc425b25ab6cba0e9ae94b75ec85482e52daa06fdd910f2aa56d
     home: https://github.com/kubelauncher/charts
     keywords:
     - mysql
@@ -216,13 +240,16 @@ entries:
     version: 0.1.1
   openldap:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of openldap chart (appVersion 2.6.12)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 2.6.12
-    created: "2026-02-07T19:49:36.926668641Z"
+    created: "2026-02-07T19:53:41.443248086Z"
     description: OpenLDAP directory service
-    digest: b58240c717978b74bfdd8de5304b8ec814b489fb3947af42ecdd9721dc82831a
+    digest: 170443c44c5d53a3a8dd7e4e10ae015461f5b6ed17581ea8822d8ef6c6bbd8d2
     home: https://github.com/kubelauncher/charts
     keywords:
     - openldap
@@ -242,13 +269,16 @@ entries:
     version: 0.1.1
   postgresql:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of postgresql chart (appVersion 17.0.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2026-02-07T19:49:36.927529947Z"
+    created: "2026-02-07T19:53:41.444110392Z"
     description: PostgreSQL relational database
-    digest: 9d72ec5845ea0d948e27fd987c25abcea42658737df54c47df44c72777d13201
+    digest: 6b32cb28aa1fae095dc1df75b8d000d8483322a33781e6f360a3f3dc77580d73
     home: https://github.com/kubelauncher/charts
     keywords:
     - postgresql
@@ -270,13 +300,16 @@ entries:
     version: 0.1.0
   rabbitmq:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of rabbitmq chart (appVersion 4.2.3)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 4.2.3
-    created: "2026-02-07T19:49:36.928312115Z"
+    created: "2026-02-07T19:53:41.444908087Z"
     description: RabbitMQ message broker
-    digest: d02f4fd4c3a3189f2d908bba61151b51d90077b0012e0b05ea3ccfff730a3f92
+    digest: d39b822d5860d94e12cf30c6370c80569349cdd05040275c5b8ed77ffd1caa5c
     home: https://github.com/kubelauncher/charts
     keywords:
     - rabbitmq
@@ -297,13 +330,16 @@ entries:
     version: 0.1.0
   redis:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of redis chart (appVersion 8.4.0)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 8.4.0
-    created: "2026-02-07T19:49:36.929556736Z"
+    created: "2026-02-07T19:53:41.446143157Z"
     description: Redis in-memory data store
-    digest: 0085dc13b0e6f038b9ff3fc9e9f059113dfaf387fad7cd50bb61ae5156e2ec4f
+    digest: 6a662ee9b3a60a199e3fb5b0f656d28b90b48fd467e7c4d9f4ccfb1a46cb0566
     home: https://github.com/kubelauncher/charts
     keywords:
     - redis
@@ -324,13 +360,16 @@ entries:
     version: 0.1.0
   zookeeper:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of zookeeper chart (appVersion 3.9.3)
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: cosign
     apiVersion: v2
     appVersion: 3.9.3
-    created: "2026-02-07T19:49:36.930185869Z"
+    created: "2026-02-07T19:53:41.446784722Z"
     description: Apache ZooKeeper distributed coordination service
-    digest: ea75c8a2a1be442a75461fbee353c2a2ab359adf2852c4a1f31612f909d32654
+    digest: d4daad4e938fac91bfc57d1d4dae2c604cbdf9df5a7d6f9acbeefdbfff20962a
     home: https://github.com/kubelauncher/charts
     keywords:
     - zookeeper
@@ -348,4 +387,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-07T19:49:36.919930358Z"
+generated: "2026-02-07T19:53:41.436158789Z"
