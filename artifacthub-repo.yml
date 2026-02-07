@@ -1,7 +1,7 @@
 # Artifact Hub repository metadata file
 # https://artifacthub.io/docs/topics/repositories/#helm-charts-repositories
 
-repositoryID: kubelauncher
+repositoryID: 00b6abc1-5cc7-401f-a514-c670d5285f55
 owners:
   - name: kubelauncher
     email: platform@kubelauncher.com
