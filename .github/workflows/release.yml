@@ -110,8 +110,8 @@ jobs:
         if: steps.check.outputs.skip != 'true'
         run: |
           mkdir -p .cr-index
-          helm repo index .cr-release-packages --url "https://github.com/${{ github.repository }}/releases/download/charts"
-          mv .cr-release-packages/index.yaml .cr-index/
+          cp .cr-release-packages/*.tgz .cr-index/
+          helm repo index .cr-index --url "https://${{ github.repository_owner }}.github.io/charts"
           cp artifacthub-repo.yml .cr-index/
 
       - name: Deploy to GitHub Pages
