@@ -113,6 +113,7 @@ jobs:
           cp .cr-release-packages/*.tgz .cr-index/
           helm repo index .cr-index --url "https://${{ github.repository_owner }}.github.io/charts"
           cp artifacthub-repo.yml .cr-index/
+          cp pages/index.html .cr-index/
 
       - name: Deploy to GitHub Pages
         if: steps.check.outputs.skip != 'true'
