@@ -14,6 +14,44 @@ permissions:
   id-token: write
 
 jobs:
+  helm-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install helm-docs
+        run: |
+          HELM_DOCS_VERSION="1.14.2"
+          curl -fsSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
+            | tar xz -C /usr/local/bin helm-docs
+
+      - name: Install helm-values-schema-json
+        run: |
+          SCHEMA_VERSION="2.3.1"
+          curl -fsSL "https://github.com/losisin/helm-values-schema-json/releases/download/v${SCHEMA_VERSION}/helm-values-schema-json_${SCHEMA_VERSION}_linux_amd64.tgz" \
+            | tar xz -C /usr/local/bin helm-values-schema-json
+
+      - name: Run helm-docs
+        run: helm-docs --chart-search-root charts
+
+      - name: Generate values.schema.json for all charts
+        run: |
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            echo "Generating schema for ${name}..."
+            helm-values-schema-json -input "${chart}values.yaml" -output "${chart}values.schema.json"
+          done
+
+      - name: Verify docs are up to date
+        run: |
+          if ! git diff --quiet charts/*/README.md charts/*/values.schema.json; then
+            echo "::error::Helm docs or value schemas are out of date. Run helm-docs locally and commit the changes."
+            git diff --stat charts/*/README.md charts/*/values.schema.json
+            exit 1
+          fi
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +68,7 @@ jobs:
           done
 
   release:
-    needs: lint
+    needs: [helm-docs, lint]
     if: >-
       (github.event_name == 'workflow_dispatch') ||
       (github.event.workflow_run.conclusion == 'success')
@@ -43,17 +81,42 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v4
 
-      - name: Package charts
-        run: |
-          mkdir -p .cr-release-packages
-          for chart in charts/*/; do
-            helm package "$chart" -d .cr-release-packages
-          done
-
       - name: Login to GHCR (Helm)
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Check for already published charts
+        id: check
+        run: |
+          CHARTS_TO_RELEASE=""
+          for chart in charts/*/; do
+            name=$(basename "$chart")
+            version=$(grep '^version:' "${chart}Chart.yaml" | awk '{print $2}')
+            echo "Checking ${name}:${version}..."
+            if helm pull "oci://ghcr.io/${{ github.repository_owner }}/charts/${name}" --version "${version}" 2>/dev/null; then
+              echo "::warning::${name}-${version} already exists in registry, skipping"
+              rm -f "${name}-${version}.tgz"
+            else
+              CHARTS_TO_RELEASE="${CHARTS_TO_RELEASE} ${chart}"
+            fi
+          done
+          echo "charts=${CHARTS_TO_RELEASE}" >> "$GITHUB_OUTPUT"
+          if [ -z "${CHARTS_TO_RELEASE}" ]; then
+            echo "::warning::All charts are already published at their current versions. Bump chart versions to release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Package charts
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          mkdir -p .cr-release-packages
+          for chart in ${{ steps.check.outputs.charts }}; do
+            helm package "$chart" -d .cr-release-packages
+          done
+
       - name: Login to GHCR (Docker/Cosign)
+        if: steps.check.outputs.skip != 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -61,9 +124,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install cosign
+        if: steps.check.outputs.skip != 'true'
         uses: sigstore/cosign-installer@v3
 
       - name: Push and sign charts to OCI registry
+        if: steps.check.outputs.skip != 'true'
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
@@ -83,12 +148,14 @@ jobs:
           done
 
       - name: Generate index
+        if: steps.check.outputs.skip != 'true'
         run: |
           mkdir -p .cr-index
           helm repo index .cr-release-packages --url "https://github.com/${{ github.repository }}/releases/download/charts"
           mv .cr-release-packages/index.yaml .cr-index/
 
       - name: Deploy to GitHub Pages
+        if: steps.check.outputs.skip != 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
