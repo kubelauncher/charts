@@ -23,4 +23,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of postgresql chart (appVersion 17.0.0)
+      description: PostgreSQL 17.0.0
+      links:
+        - name: Release Notes
+          url: https://www.postgresql.org/docs/release/17-0/

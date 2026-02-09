@@ -22,4 +22,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of mariadb chart (appVersion 12.1.2)
+      description: MariaDB 12.1.2
+      links:
+        - name: Release Notes
+          url: https://mariadb.com/kb/en/mariadb-1212-release-notes/
