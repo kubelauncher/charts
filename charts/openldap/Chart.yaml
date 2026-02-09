@@ -21,4 +21,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of openldap chart (appVersion 2.6.12)
+      description: OpenLDAP 2.6.12
+      links:
+        - name: Release Notes
+          url: https://git.openldap.org/openldap/openldap/-/tags/OPENLDAP_REL_ENG_2_6_12

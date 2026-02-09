@@ -21,5 +21,8 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-      - kind: changed
-        description: Update redis to 8.4.1
+    - kind: changed
+      description: Update redis to 8.4.1
+      links:
+        - name: Release Notes
+          url: https://github.com/redis/redis/releases/tag/8.4.1

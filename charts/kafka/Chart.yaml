@@ -22,4 +22,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of kafka chart (appVersion 3.9.0)
+      description: Apache Kafka 3.9.0
+      links:
+        - name: Release Notes
+          url: https://github.com/apache/kafka/releases/tag/3.9.0

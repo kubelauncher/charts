@@ -22,4 +22,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of cassandra chart (appVersion 5.0.6)
+      description: Apache Cassandra 5.0.6
+      links:
+        - name: Release Notes
+          url: https://github.com/apache/cassandra/releases/tag/cassandra-5.0.6
