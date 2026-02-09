@@ -4,13 +4,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of cassandra chart (appVersion 5.0.6)
+          description: Apache Cassandra 5.0.6
+          links:
+            - name: Release Notes
+              url: https://github.com/apache/cassandra/releases/tag/cassandra-5.0.6
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-02-08T16:06:45.979189586Z"
+    created: "2026-02-09T08:49:53.77120126Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: 7a84d7f10b72a09bb74aa954e56fd24081053ec5bd6dd390cae70eeb90101910
+    digest: d9d490823614d029b3bc230fc171337bcead762d8f75f744d4a5e71b215c6e88
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachecassandra
     keywords:
@@ -34,13 +37,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of kafka chart (appVersion 3.9.0)
+          description: Apache Kafka 3.9.0
+          links:
+            - name: Release Notes
+              url: https://github.com/apache/kafka/releases/tag/3.9.0
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-02-08T16:06:45.97985805Z"
+    created: "2026-02-09T08:49:53.771937027Z"
     description: Apache Kafka distributed streaming platform
-    digest: 8540f61d2ab43e4e5312f4f93c8fe7cf505613bde47d9c4646a41343c1b73fbc
+    digest: c51240a3d676af0409b72afba718e3d86c25b9fc657f794acf9841211794dcd2
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachekafka
     keywords:
@@ -64,13 +70,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of keycloak chart (appVersion 26.5.2)
+          description: Keycloak 26.5.2
+          links:
+            - name: Release Notes
+              url: https://github.com/keycloak/keycloak/releases/tag/26.5.2
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-08T16:06:45.980599759Z"
+    created: "2026-02-09T08:49:53.77271888Z"
     description: Keycloak identity and access management
-    digest: 0c89405baa2c40d60caf9209f8ccc8f26c043b24e232e2fc4b158a01ba7759ea
+    digest: a08b836d0463884a8cf8e3ca110c71ae522c2342755cde12d4e332273554973f
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/keycloak
     keywords:
@@ -95,13 +104,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of kubectl chart (appVersion 1.35.0)
+          description: Kubernetes 1.35.0
+          links:
+            - name: Release Notes
+              url: https://github.com/kubernetes/kubernetes/releases/tag/v1.35.0
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.35.0
-    created: "2026-02-08T16:06:45.981134374Z"
+    created: "2026-02-09T08:49:53.773261814Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: 33acfdf59aaa27f9f83bd1ea841f7d9b3db5d7aa5c9f74f929c3bd2c5c24f870
+    digest: 25dc5dbcb757fc2135e0eb5607c38d30d83825b1cec43d3165f3aa9feddd47a1
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/kubernetes
     keywords:
@@ -124,13 +136,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of mariadb chart (appVersion 12.1.2)
+          description: MariaDB 12.1.2
+          links:
+            - name: Release Notes
+              url: https://mariadb.com/kb/en/mariadb-1212-release-notes/
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 12.1.2
-    created: "2026-02-08T16:06:45.981815111Z"
+    created: "2026-02-09T08:49:53.773985828Z"
     description: MariaDB relational database
-    digest: b9e8a7060f4a750d185e43f39687c35d732f832579479b393b66dcb62d3aa552
+    digest: 5445e18f7c7dfbabc84270dd0b48534cfd337ac8fd84681e57fb68a2637147fa
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mariadb
     keywords:
@@ -154,13 +169,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of memcached chart (appVersion 1.6.40)
+          description: Memcached 1.6.40
+          links:
+            - name: Release Notes
+              url: https://github.com/memcached/memcached/releases/tag/1.6.40
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-08T16:06:45.982379541Z"
+    created: "2026-02-09T08:49:53.774557215Z"
     description: Memcached in-memory caching system
-    digest: 8e626cee483b0212a8d0a758c85add71edf982a96aa230844aa6fae0d974425c
+    digest: 1fa8bef9f531cb6f558e5801c2b4315fe4471b22fc6440edea8232f3ad167a09
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
     keywords:
@@ -183,13 +201,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of mongodb chart (appVersion 8.2.0)
+          description: MongoDB 8.2.0
+          links:
+            - name: Release Notes
+              url: https://www.mongodb.com/docs/manual/release-notes/8.2/
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-08T16:06:45.984005061Z"
+    created: "2026-02-09T08:49:53.775241695Z"
     description: MongoDB document database
-    digest: 69fd49dc3471d4319fe3568ce865b37f69036a9587a4dcd6e8069847baa74727
+    digest: d476a101cb3688ad2234d41c19dd64f0a9fd7b3670f364d1196f37b80eb7462f
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mongodb
     keywords:
@@ -213,13 +234,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of mysql chart (appVersion 8.0.0)
+          description: MySQL 8.0.0
+          links:
+            - name: Release Notes
+              url: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.0.0
-    created: "2026-02-08T16:06:45.98474028Z"
+    created: "2026-02-09T08:49:53.776927285Z"
     description: MySQL relational database
-    digest: 6a6250dbdaecf4bd79093f8de95dad2ecbe08b542268db321b84fb1a63db2398
+    digest: 93d16da8b4376bea01390f2ad99f8e7a152d40883f1ece5c364d55827573b9b6
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mysql
     keywords:
@@ -242,13 +266,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of openldap chart (appVersion 2.6.12)
+          description: OpenLDAP 2.6.12
+          links:
+            - name: Release Notes
+              url: https://git.openldap.org/openldap/openldap/-/tags/OPENLDAP_REL_ENG_2_6_12
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 2.6.12
-    created: "2026-02-08T16:06:45.985533736Z"
+    created: "2026-02-09T08:49:53.777653454Z"
     description: OpenLDAP directory service
-    digest: 37f6da10f059f7627b8f4eb5d95fa922a19e1d441eebd72b59b6634d3606943b
+    digest: 3d0771f07a846177639ddf2b61136c5efb38e1b81256627a2b6ef71797e85273
     home: https://github.com/kubelauncher/charts
     icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
     keywords:
@@ -271,13 +298,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of postgresql chart (appVersion 17.0.0)
+          description: PostgreSQL 17.0.0
+          links:
+            - name: Release Notes
+              url: https://www.postgresql.org/docs/release/17-0/
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2026-02-08T16:06:45.986480878Z"
+    created: "2026-02-09T08:49:53.778540095Z"
     description: PostgreSQL relational database
-    digest: 9f1fd8929598cf050d1dfbb395b8e1f7b533a8ae236a393ee5a69aa6a6076f86
+    digest: 93ed6143218d05a4b377175356f6ef584dbcbb7db5ca4dc70f826a9ef4087459
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/postgresql
     keywords:
@@ -302,13 +332,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of rabbitmq chart (appVersion 4.2.3)
+          description: RabbitMQ 4.2.3
+          links:
+            - name: Release Notes
+              url: https://github.com/rabbitmq/rabbitmq-server/releases/tag/v4.2.3
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 4.2.3
-    created: "2026-02-08T16:06:45.987310712Z"
+    created: "2026-02-09T08:49:53.779363206Z"
     description: RabbitMQ message broker
-    digest: 7652f7fb1311fc060df7e0b7546864fd298c56e882beebf7a798eb9934c849ec
+    digest: 6f9a0557b6dd80c2625f15385349d0037a0a5b5c36a41115fd5fd74315b2f3d2
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/rabbitmq
     keywords:
@@ -333,12 +366,15 @@ entries:
       artifacthub.io/changes: |
         - kind: changed
           description: Update redis to 8.4.1
+          links:
+            - name: Release Notes
+              url: https://github.com/redis/redis/releases/tag/8.4.1
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.4.1
-    created: "2026-02-08T16:06:45.9886046Z"
+    created: "2026-02-09T08:49:53.780641095Z"
     description: Redis in-memory data store
-    digest: 7ebd898ed73b0e6bb75c6573adae70e93eacc252ae79c585671ebdb96047ad17
+    digest: 268276ef8b1b9ba668da4eb402ba4959ceee2148b75544f2af6b57b211d3d744
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/redis
     keywords:
@@ -362,13 +398,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Initial release of zookeeper chart (appVersion 3.9.3)
+          description: Apache ZooKeeper 3.9.3
+          links:
+            - name: Release Notes
+              url: https://github.com/apache/zookeeper/releases/tag/release-3.9.3
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.3
-    created: "2026-02-08T16:06:45.9895664Z"
+    created: "2026-02-09T08:49:53.781313913Z"
     description: Apache ZooKeeper distributed coordination service
-    digest: 8e19eedd2b35136bbe0eeaf4de1f65dbaf82002f0b3b94ba35a160369d90cc2d
+    digest: aa53aa5c63655ca1dbc4d50e901aa680bc8ce21c95b0a92893b1b8a5b8d18172
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
     keywords:
@@ -387,4 +426,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-08T16:06:45.9783214Z"
+generated: "2026-02-09T08:49:53.770282138Z"
