@@ -21,4 +21,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of kubectl chart (appVersion 1.35.0)
+      description: Kubernetes 1.35.0
+      links:
+        - name: Release Notes
+          url: https://github.com/kubernetes/kubernetes/releases/tag/v1.35.0

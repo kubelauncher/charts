@@ -22,4 +22,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of mongodb chart (appVersion 8.2.0)
+      description: MongoDB 8.2.0
+      links:
+        - name: Release Notes
+          url: https://www.mongodb.com/docs/manual/release-notes/8.2/

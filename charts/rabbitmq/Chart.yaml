@@ -22,4 +22,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of rabbitmq chart (appVersion 4.2.3)
+      description: RabbitMQ 4.2.3
+      links:
+        - name: Release Notes
+          url: https://github.com/rabbitmq/rabbitmq-server/releases/tag/v4.2.3

@@ -21,4 +21,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of memcached chart (appVersion 1.6.40)
+      description: Memcached 1.6.40
+      links:
+        - name: Release Notes
+          url: https://github.com/memcached/memcached/releases/tag/1.6.40

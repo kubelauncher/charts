@@ -83,11 +83,51 @@ jobs:
             # Update Chart.yaml
             sed -i "s/^version: .*/version: \"${NEW_CHART_VERSION}\"/" "$CHART_FILE"
 
-            # Update changelog annotation
+            # Update changelog annotation with upstream release link
             CHART_NAME=$(basename "$chart_dir")
-            sed -i "s|artifacthub.io/changes: .*|artifacthub.io/changes: \||" "$CHART_FILE"
-            sed -i "/artifacthub.io\/changes:/!b;n;c\\      - kind: changed" "$CHART_FILE"
-            sed -i "/kind: changed/!b;n;c\\        description: Update ${CHART_NAME} to ${NEW_APP_VERSION}" "$CHART_FILE"
+            python3 - "$CHART_FILE" "$CHART_NAME" "$NEW_APP_VERSION" << 'PYEOF'
+            import sys, re
+
+            chart_file, chart_name, version = sys.argv[1], sys.argv[2], sys.argv[3]
+
+            urls = {
+                "redis": f"https://github.com/redis/redis/releases/tag/{version}",
+                "postgresql": f"https://www.postgresql.org/docs/release/{version.replace('.', '-')}/",
+                "mongodb": f"https://www.mongodb.com/docs/manual/release-notes/{'.'.join(version.split('.')[:2])}/",
+                "mysql": f"https://dev.mysql.com/doc/relnotes/mysql/{'.'.join(version.split('.')[:2])}/en/",
+                "mariadb": f"https://mariadb.com/kb/en/mariadb-{version.replace('.', '')}-release-notes/",
+                "kafka": f"https://github.com/apache/kafka/releases/tag/{version}",
+                "rabbitmq": f"https://github.com/rabbitmq/rabbitmq-server/releases/tag/v{version}",
+                "cassandra": f"https://github.com/apache/cassandra/releases/tag/cassandra-{version}",
+                "memcached": f"https://github.com/memcached/memcached/releases/tag/{version}",
+                "zookeeper": f"https://github.com/apache/zookeeper/releases/tag/release-{version}",
+                "keycloak": f"https://github.com/keycloak/keycloak/releases/tag/{version}",
+                "openldap": f"https://git.openldap.org/openldap/openldap/-/tags/OPENLDAP_REL_ENG_{version.replace('.', '_')}",
+                "kubectl": f"https://github.com/kubernetes/kubernetes/releases/tag/v{version}",
+            }
+
+            url = urls.get(chart_name, "")
+            changelog = f"    artifacthub.io/changes: |\n"
+            changelog += f"      - kind: changed\n"
+            changelog += f"        description: Update {chart_name} to {version}\n"
+            if url:
+                changelog += f"        links:\n"
+                changelog += f"          - name: Release Notes\n"
+                changelog += f"            url: {url}\n"
+
+            with open(chart_file) as f:
+                content = f.read()
+
+            content = re.sub(
+                r'    artifacthub\.io/changes: \|.*?(?=\n    [a-zA-Z]|\nannotations:|\n[a-z])',
+                changelog.rstrip(),
+                content,
+                flags=re.DOTALL
+            )
+
+            with open(chart_file, 'w') as f:
+                f.write(content)
+            PYEOF
             echo "Bumped $CHART_NAME: $CHART_VERSION -> $NEW_CHART_VERSION ($BUMP_TYPE, appVersion: $OLD_APP_VERSION -> $NEW_APP_VERSION)"
             BUMPED="${BUMPED}${CHART_NAME} "
           done

@@ -21,4 +21,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: added
-      description: Initial release of zookeeper chart (appVersion 3.9.3)
+      description: Apache ZooKeeper 3.9.3
+      links:
+        - name: Release Notes
+          url: https://github.com/apache/zookeeper/releases/tag/release-3.9.3
