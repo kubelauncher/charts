@@ -3,7 +3,7 @@ name: redis
 description: Redis in-memory data store
 type: application
 version: "0.1.1"
-appVersion: "8.4.1"
+appVersion: "8.6.0"
 icon: https://cdn.simpleicons.org/redis
 home: https://github.com/kubelauncher/charts
 sources:
