@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "keycloak.fullname" . }}-headless
+  namespace: {{ include "keycloak.namespace" . }}
+  labels: {{- include "keycloak.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: http
+      port: {{ .Values.service.ports.http }}
+      targetPort: http
+  selector: {{- include "keycloak.selectorLabels" . | nindent 4 }}

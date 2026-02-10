@@ -82,6 +82,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: RABBITMQ_USE_LONGNAME
+              value: "true"
             - name: RABBITMQ_NODE_NAME
               value: "rabbit@$(POD_NAME).{{ include "rabbitmq.fullname" . }}-headless.{{ include "rabbitmq.namespace" . }}.svc.{{ .Values.clusterDomain }}"
             {{- with .Values.extraEnvVars }}

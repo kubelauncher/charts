@@ -142,7 +142,7 @@ primary:
     enabled: true
     initialDelaySeconds: 10
     periodSeconds: 10
-    timeoutSeconds: 5
+    timeoutSeconds: 10
     failureThreshold: 30
     successThreshold: 1
 
@@ -156,7 +156,7 @@ primary:
     enabled: true
     initialDelaySeconds: 30
     periodSeconds: 10
-    timeoutSeconds: 5
+    timeoutSeconds: 10
     failureThreshold: 6
     successThreshold: 1
 
@@ -170,7 +170,7 @@ primary:
     enabled: true
     initialDelaySeconds: 5
     periodSeconds: 10
-    timeoutSeconds: 5
+    timeoutSeconds: 10
     failureThreshold: 6
     successThreshold: 1
 

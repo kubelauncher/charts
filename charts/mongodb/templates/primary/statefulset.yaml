@@ -86,11 +86,8 @@ spec:
               containerPort: {{ .Values.primary.containerPorts.mongodb }}
           {{- if .Values.primary.startupProbe.enabled }}
           startupProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+            tcpSocket:
+              port: tcp-mongodb
             initialDelaySeconds: {{ .Values.primary.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.startupProbe.timeoutSeconds }}
@@ -99,11 +96,8 @@ spec:
           {{- end }}
           {{- if .Values.primary.livenessProbe.enabled }}
           livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+            tcpSocket:
+              port: tcp-mongodb
             initialDelaySeconds: {{ .Values.primary.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.livenessProbe.timeoutSeconds }}
@@ -112,11 +106,8 @@ spec:
           {{- end }}
           {{- if .Values.primary.readinessProbe.enabled }}
           readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+            tcpSocket:
+              port: tcp-mongodb
             initialDelaySeconds: {{ .Values.primary.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.readinessProbe.timeoutSeconds }}
