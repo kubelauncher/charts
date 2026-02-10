@@ -1,0 +1,167 @@
+{{- if eq .Values.architecture "replication" }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "postgresql.fullname" . }}-read
+  namespace: {{ include "postgresql.namespace" . }}
+  labels: {{- include "postgresql.labels" . | nindent 4 }}
+    app.kubernetes.io/component: read
+spec:
+  replicas: {{ .Values.readReplicas.replicaCount }}
+  selector:
+    matchLabels: {{- include "postgresql.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: read
+  serviceName: {{ include "postgresql.fullname" . }}-read-hl
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {{- include "postgresql.labels" . | nindent 8 }}
+        app.kubernetes.io/component: read
+        {{- with .Values.readReplicas.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.readReplicas.podAnnotations }}
+      annotations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "postgresql.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.readReplicas.podSecurityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.readReplicas.podSecurityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.readReplicas.initContainers }}
+      initContainers: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: postgresql
+          image: {{ include "postgresql.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.readReplicas.containerSecurityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.readReplicas.containerSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.readReplicas.containerSecurityContext.runAsGroup }}
+            runAsNonRoot: {{ .Values.readReplicas.containerSecurityContext.runAsNonRoot }}
+            allowPrivilegeEscalation: {{ .Values.readReplicas.containerSecurityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.readReplicas.containerSecurityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.readReplicas.containerSecurityContext.capabilities.drop | nindent 16 }}
+            seccompProfile:
+              type: {{ .Values.readReplicas.containerSecurityContext.seccompProfile.type }}
+          {{- end }}
+          env:
+            - name: POSTGRESQL_PORT_NUMBER
+              value: {{ .Values.readReplicas.containerPorts.postgresql | quote }}
+            - name: PGPORT
+              value: {{ .Values.readReplicas.containerPorts.postgresql | quote }}
+            - name: POSTGRESQL_REPLICATION_MODE
+              value: "slave"
+            - name: POSTGRESQL_PRIMARY_HOST
+              value: {{ include "postgresql.fullname" . }}-hl
+            - name: POSTGRESQL_PRIMARY_PORT
+              value: {{ .Values.primary.service.ports.postgresql | quote }}
+            - name: POSTGRESQL_REPLICATION_USER
+              value: {{ .Values.auth.replicationUsername | quote }}
+            - name: POSTGRESQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.secretName" . }}
+                  key: {{ .Values.auth.secretKeys.replicationPasswordKey }}
+            - name: POSTGRESQL_DATA_DIR
+              value: {{ .Values.readReplicas.persistence.mountPath }}/data
+            - name: PGDATA
+              value: {{ .Values.readReplicas.persistence.mountPath }}/data
+            {{- with .Values.readReplicas.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: tcp-postgresql
+              containerPort: {{ .Values.readReplicas.containerPorts.postgresql }}
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.readReplicas.containerPorts.postgresql }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.readReplicas.containerPorts.postgresql }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+            successThreshold: 1
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U postgres -h 127.0.0.1 -p {{ .Values.readReplicas.containerPorts.postgresql }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+            successThreshold: 1
+          {{- if .Values.readReplicas.resources }}
+          resources: {{- toYaml .Values.readReplicas.resources | nindent 12 }}
+          {{- else if .Values.readReplicas.resourcesPreset }}
+          resources: {{- include "postgresql.resources" (dict "preset" .Values.readReplicas.resourcesPreset) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.readReplicas.persistence.mountPath }}
+            {{- with .Values.readReplicas.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        {{- with .Values.readReplicas.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.readReplicas.extraVolumes }}
+      volumes: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.readReplicas.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.readReplicas.affinity }}
+      affinity: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.readReplicas.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.readReplicas.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: {{- include "postgresql.labels" . | nindent 10 }}
+          app.kubernetes.io/component: read
+        {{- with .Values.readReplicas.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.readReplicas.persistence.accessModes | nindent 10 }}
+        {{- $sc := .Values.global.defaultStorageClass | default .Values.global.storageClass | default .Values.readReplicas.persistence.storageClass }}
+        {{- if $sc }}
+        storageClassName: {{ $sc }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.readReplicas.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: data
+          emptyDir: {}
+  {{- end }}
+{{- end }}
