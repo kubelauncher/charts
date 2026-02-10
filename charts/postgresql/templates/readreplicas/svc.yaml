@@ -1,0 +1,26 @@
+{{- if eq .Values.architecture "replication" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgresql.fullname" . }}-read
+  namespace: {{ include "postgresql.namespace" . }}
+  labels: {{- include "postgresql.labels" . | nindent 4 }}
+    app.kubernetes.io/component: read
+  {{- with (merge (.Values.readReplicas.service.annotations | default dict) (.Values.commonAnnotations | default dict)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.readReplicas.service.type }}
+  {{- if and (eq .Values.readReplicas.service.type "ClusterIP") .Values.readReplicas.service.clusterIP }}
+  clusterIP: {{ .Values.readReplicas.service.clusterIP }}
+  {{- end }}
+  ports:
+    - name: tcp-postgresql
+      port: {{ .Values.readReplicas.service.ports.postgresql }}
+      targetPort: tcp-postgresql
+      {{- if and (eq .Values.readReplicas.service.type "NodePort") .Values.readReplicas.service.nodePorts.postgresql }}
+      nodePort: {{ .Values.readReplicas.service.nodePorts.postgresql }}
+      {{- end }}
+  selector: {{- include "postgresql.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: read
+{{- end }}

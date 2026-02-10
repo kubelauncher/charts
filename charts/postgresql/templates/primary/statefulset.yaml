@@ -58,6 +58,17 @@ spec:
               value: {{ .Values.primary.containerPorts.postgresql | quote }}
             - name: PGPORT
               value: {{ .Values.primary.containerPorts.postgresql | quote }}
+            {{- if eq .Values.architecture "replication" }}
+            - name: POSTGRESQL_REPLICATION_MODE
+              value: "master"
+            - name: POSTGRESQL_REPLICATION_USER
+              value: {{ .Values.auth.replicationUsername | quote }}
+            - name: POSTGRESQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.secretName" . }}
+                  key: {{ .Values.auth.secretKeys.replicationPasswordKey }}
+            {{- end }}
             - name: POSTGRESQL_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
