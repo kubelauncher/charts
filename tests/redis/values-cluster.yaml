@@ -1,14 +1,12 @@
-# Redis Cluster test configuration
+# Redis Cluster test configuration (6 nodes: 3 masters + 3 replicas)
 cluster:
   enabled: true
   nodes: 6
   replicas: 1
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
 
 auth:
   enabled: true
   password: "testpass123"
-
-cluster:
-  resourcesPreset: "nano"
-  persistence:
-    enabled: false
