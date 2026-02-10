@@ -127,7 +127,7 @@ jobs:
 
             with open(chart_file, 'w') as f:
                 f.write(content)
-            PYEOF
+          PYEOF
             echo "Bumped $CHART_NAME: $CHART_VERSION -> $NEW_CHART_VERSION ($BUMP_TYPE, appVersion: $OLD_APP_VERSION -> $NEW_APP_VERSION)"
             BUMPED="${BUMPED}${CHART_NAME} "
           done
