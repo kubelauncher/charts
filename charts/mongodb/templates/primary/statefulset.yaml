@@ -6,7 +6,7 @@ metadata:
   labels: {{- include "mongodb.labels" . | nindent 4 }}
     app.kubernetes.io/component: primary
 spec:
-  replicas: 1
+  replicas: {{ .Values.primary.replicaCount }}
   selector:
     matchLabels: {{- include "mongodb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: primary
@@ -25,8 +25,8 @@ spec:
       {{- end }}
     spec:
       serviceAccountName: {{ include "mongodb.serviceAccountName" . }}
-      automountServiceAccountToken: false
-      enableServiceLinks: false
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
       imagePullSecrets: {{- toYaml . | nindent 8 }}
       {{- end }}

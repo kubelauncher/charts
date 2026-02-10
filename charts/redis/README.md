@@ -105,6 +105,7 @@ helm uninstall my-redis
 | commonAnnotations | object | `{}` |  |
 | commonConfiguration | string | `"appendonly yes\nsave \"\""` |  |
 | commonLabels | object | `{}` |  |
+| enableServiceLinks | bool | `false` |  |
 | extraDeploy | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | global.defaultStorageClass | string | `""` |  |

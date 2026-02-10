@@ -50,6 +50,7 @@ helm uninstall my-pg
 | clusterDomain | string | `"cluster.local"` |  |
 | commonAnnotations | object | `{}` |  |
 | commonLabels | object | `{}` |  |
+| enableServiceLinks | bool | `false` |  |
 | extraDeploy | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | global.defaultStorageClass | string | `""` |  |
@@ -119,6 +120,7 @@ helm uninstall my-pg
 | primary.readinessProbe.periodSeconds | int | `10` |  |
 | primary.readinessProbe.successThreshold | int | `1` |  |
 | primary.readinessProbe.timeoutSeconds | int | `5` |  |
+| primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
 | primary.resourcesPreset | string | `"nano"` |  |
 | primary.service.annotations | object | `{}` |  |

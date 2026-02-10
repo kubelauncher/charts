@@ -62,6 +62,7 @@ helm uninstall my-rmq
 | containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | containerSecurityContext.runAsUser | int | `1001` |  |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| enableServiceLinks | bool | `false` |  |
 | extraConfiguration | string | `""` |  |
 | extraDeploy | list | `[]` |  |
 | extraEnvVars | list | `[]` |  |

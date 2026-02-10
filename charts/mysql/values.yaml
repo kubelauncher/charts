@@ -59,6 +59,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param architecture MySQL architecture (`standalone`)
 architecture: standalone
 
@@ -83,10 +86,12 @@ auth:
 
 ## @section MySQL primary parameters
 
+## @param primary.replicaCount Number of primary replicas
 ## @param primary.name Name for the primary statefulset
 ## @param primary.containerPorts.mysql MySQL primary container port
 ## @param primary.configuration MySQL primary configuration (my.cnf content)
 primary:
+  replicaCount: 1
   name: primary
   containerPorts:
     mysql: 3306

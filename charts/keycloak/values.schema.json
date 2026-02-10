@@ -113,6 +113,9 @@
                 }
             }
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "extraDeploy": {
             "type": "array"
         },
