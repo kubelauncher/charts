@@ -2,7 +2,7 @@ apiVersion: v2
 name: kafka
 description: Apache Kafka distributed streaming platform
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "3.9.0"
 icon: https://cdn.simpleicons.org/apachekafka
 home: https://github.com/kubelauncher/charts
@@ -21,8 +21,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Apache Kafka 3.9.0
-      links:
-        - name: Release Notes
-          url: https://github.com/apache/kafka/releases/tag/3.9.0
+    - kind: fixed
+      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts

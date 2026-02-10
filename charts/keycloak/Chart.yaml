@@ -2,7 +2,7 @@ apiVersion: v2
 name: keycloak
 description: Keycloak identity and access management
 type: application
-version: "0.1.1"
+version: "0.1.2"
 appVersion: "26.5.3"
 icon: https://cdn.simpleicons.org/keycloak
 home: https://github.com/kubelauncher/charts
@@ -22,8 +22,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Keycloak 26.5.2
-      links:
-        - name: Release Notes
-          url: https://github.com/keycloak/keycloak/releases/tag/26.5.2
+    - kind: fixed
+      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts

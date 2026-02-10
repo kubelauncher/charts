@@ -2,7 +2,7 @@ apiVersion: v2
 name: memcached
 description: Memcached in-memory caching system
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "1.6.40"
 icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
 home: https://github.com/kubelauncher/charts
@@ -20,8 +20,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Memcached 1.6.40
-      links:
-        - name: Release Notes
-          url: https://github.com/memcached/memcached/releases/tag/1.6.40
+    - kind: fixed
+      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts

@@ -2,7 +2,7 @@ apiVersion: v2
 name: openldap
 description: OpenLDAP directory service
 type: application
-version: "0.1.1"
+version: "0.1.2"
 appVersion: "2.6.12"
 icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
 home: https://github.com/kubelauncher/charts
@@ -20,8 +20,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: OpenLDAP 2.6.12
-      links:
-        - name: Release Notes
-          url: https://git.openldap.org/openldap/openldap/-/tags/OPENLDAP_REL_ENG_2_6_12
+    - kind: fixed
+      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
