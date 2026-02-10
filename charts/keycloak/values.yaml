@@ -165,6 +165,23 @@ readinessProbe:
   failureThreshold: 3
   successThreshold: 1
 
+## @section Keycloak persistence parameters
+
+## @param persistence.enabled Enable persistence using PVC
+## @param persistence.storageClass PVC Storage Class
+## @param persistence.accessModes PVC access modes
+## @param persistence.size PVC size
+## @param persistence.mountPath Mount path for the data volume
+## @param persistence.annotations PVC annotations
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
+  mountPath: /opt/keycloak/data
+  annotations: {}
+
 ## @section Keycloak service parameters
 
 ## @param service.type Keycloak Kubernetes service type

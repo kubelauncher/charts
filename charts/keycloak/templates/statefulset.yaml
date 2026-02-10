@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "keycloak.fullname" . }}
   namespace: {{ include "keycloak.namespace" . }}
@@ -8,6 +8,9 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels: {{- include "keycloak.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "keycloak.fullname" . }}-headless
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels: {{- include "keycloak.labels" . | nindent 8 }}
@@ -136,10 +139,12 @@ spec:
           {{- else if .Values.resourcesPreset }}
           resources: {{- include "keycloak.resources" (dict "preset" .Values.resourcesPreset) | nindent 12 }}
           {{- end }}
-          {{- with .Values.extraVolumeMounts }}
           volumeMounts:
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- end }}
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -155,3 +160,24 @@ spec:
       {{- with .Values.tolerations }}
       tolerations: {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: {{- include "keycloak.labels" . | nindent 10 }}
+        {{- with .Values.persistence.annotations }}
+        annotations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.persistence.accessModes | nindent 10 }}
+        {{- if .Values.persistence.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+  {{- else }}
+      volumes:
+        - name: data
+          emptyDir: {}
+  {{- end }}
