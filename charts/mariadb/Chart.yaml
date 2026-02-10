@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "12.1.2"
 icon: https://cdn.simpleicons.org/mariadb
 home: https://github.com/kubelauncher/charts
@@ -21,8 +21,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: MariaDB 12.1.2
-      links:
-        - name: Release Notes
-          url: https://mariadb.com/kb/en/mariadb-1212-release-notes/
+    - kind: fixed
+      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
