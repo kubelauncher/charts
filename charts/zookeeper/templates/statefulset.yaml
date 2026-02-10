@@ -61,7 +61,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: ZOO_SERVERS
-              value: {{ printf "%s-0.%s-headless.%s.svc.%s:2888:3888;2181" (include "zookeeper.fullname" .) (include "zookeeper.fullname" .) (include "zookeeper.namespace" .) .Values.clusterDomain | quote }}
+              value: {{ include "zookeeper.servers" . | quote }}
             - name: ZOO_TICK_TIME
               value: {{ .Values.tickTime | quote }}
             {{- with .Values.extraEnvVars }}

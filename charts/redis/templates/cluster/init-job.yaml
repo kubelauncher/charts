@@ -1,0 +1,94 @@
+{{- if .Values.cluster.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "redis.fullname" . }}-cluster-init
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cluster-init
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      labels: {{- include "redis.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: cluster-init
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: {{ include "redis.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: cluster-init
+          image: {{ include "redis.cluster.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              NODES="{{ .Values.cluster.nodes }}"
+              FULLNAME="{{ include "redis.fullname" . }}"
+              HEADLESS="${FULLNAME}-cluster-headless"
+              NAMESPACE="{{ include "redis.namespace" . }}"
+              PORT="{{ .Values.cluster.containerPorts.redis }}"
+              {{- if .Values.auth.enabled }}
+              AUTH="-a ${REDIS_PASSWORD}"
+              {{- else }}
+              AUTH=""
+              {{- end }}
+
+              echo "Waiting for all ${NODES} cluster nodes to be ready..."
+              for i in $(seq 0 $((NODES - 1))); do
+                HOST="${FULLNAME}-cluster-${i}.${HEADLESS}.${NAMESPACE}.svc.cluster.local"
+                echo "Waiting for ${HOST}:${PORT}..."
+                for attempt in $(seq 1 60); do
+                  if redis-cli -h "$HOST" -p "$PORT" $AUTH PING 2>/dev/null | grep -q PONG; then
+                    echo "  ${HOST} is ready"
+                    break
+                  fi
+                  if [ "$attempt" -eq 60 ]; then
+                    echo "  ERROR: ${HOST} did not become ready in time"
+                    exit 1
+                  fi
+                  sleep 2
+                done
+              done
+
+              # Build the list of nodes for cluster create
+              NODE_LIST=""
+              for i in $(seq 0 $((NODES - 1))); do
+                HOST="${FULLNAME}-cluster-${i}.${HEADLESS}.${NAMESPACE}.svc.cluster.local"
+                NODE_LIST="${NODE_LIST} ${HOST}:${PORT}"
+              done
+
+              # Check if cluster is already initialized
+              FIRST_HOST="${FULLNAME}-cluster-0.${HEADLESS}.${NAMESPACE}.svc.cluster.local"
+              CLUSTER_INFO=$(redis-cli -h "$FIRST_HOST" -p "$PORT" $AUTH CLUSTER INFO 2>/dev/null || true)
+              if echo "$CLUSTER_INFO" | grep -q "cluster_state:ok"; then
+                echo "Cluster already initialized, skipping."
+                exit 0
+              fi
+
+              echo "Creating Redis cluster with nodes:${NODE_LIST}"
+              redis-cli --cluster create ${NODE_LIST} \
+                --cluster-replicas {{ .Values.cluster.replicas }} \
+                --cluster-yes \
+                $AUTH
+
+              echo "Redis cluster created successfully!"
+              redis-cli -h "$FIRST_HOST" -p "$PORT" $AUTH CLUSTER INFO
+          {{- if .Values.auth.enabled }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "redis.secretName" . }}
+                  key: {{ include "redis.secretPasswordKey" . }}
+          {{- end }}
+{{- end }}

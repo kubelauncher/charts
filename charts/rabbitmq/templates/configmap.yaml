@@ -19,11 +19,14 @@ data:
     loopback_users = none
     listeners.tcp.default = {{ .Values.containerPorts.amqp }}
     management.tcp.port = {{ .Values.containerPorts.manager }}
+    log.console = true
+    log.console.level = info
     {{- if gt (int .Values.replicaCount) 1 }}
     cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
     cluster_formation.k8s.host = kubernetes.default.svc.{{ .Values.clusterDomain }}
     cluster_formation.k8s.address_type = {{ .Values.clustering.addressType }}
     cluster_formation.k8s.service_name = {{ include "rabbitmq.fullname" . }}-headless
+    cluster_formation.k8s.hostname_suffix = .{{ include "rabbitmq.fullname" . }}-headless.{{ include "rabbitmq.namespace" . }}.svc.{{ .Values.clusterDomain }}
     cluster_partition_handling = {{ .Values.clustering.partitionHandling }}
     {{- end }}
     {{- if .Values.extraConfiguration }}

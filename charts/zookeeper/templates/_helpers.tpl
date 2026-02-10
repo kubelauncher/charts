@@ -82,6 +82,21 @@ Return the ServiceAccount name.
 {{- end }}
 
 {{/*
+Generate ZOO_SERVERS list for ensemble mode.
+*/}}
+{{- define "zookeeper.servers" -}}
+{{- $fullname := include "zookeeper.fullname" . -}}
+{{- $namespace := include "zookeeper.namespace" . -}}
+{{- $domain := .Values.clusterDomain -}}
+{{- $replicas := int .Values.replicaCount -}}
+{{- $servers := list -}}
+{{- range $i := until $replicas -}}
+{{- $servers = append $servers (printf "server.%d=%s-%d.%s-headless.%s.svc.%s:2888:3888;2181" (add $i 1) $fullname $i $fullname $namespace $domain) -}}
+{{- end -}}
+{{- join "," $servers -}}
+{{- end }}
+
+{{/*
 Resource presets mapping.
 */}}
 {{- define "zookeeper.resources" -}}
