@@ -55,6 +55,7 @@ helm uninstall my-job
 | containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | containerSecurityContext.runAsUser | int | `1001` |  |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| enableServiceLinks | bool | `false` |  |
 | extraEnvVars | list | `[]` |  |
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |

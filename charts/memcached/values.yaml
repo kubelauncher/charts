@@ -39,6 +39,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param replicaCount Number of Memcached replicas
 replicaCount: 1
 
