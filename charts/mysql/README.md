@@ -1,6 +1,6 @@
 # mysql
 
-![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.0.0](https://img.shields.io/badge/AppVersion-8.0.0-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.0.0](https://img.shields.io/badge/AppVersion-8.0.0-informational?style=flat-square)
 
 MySQL relational database
 
@@ -32,6 +32,7 @@ MySQL relational database
 | clusterDomain | string | `"cluster.local"` |  |
 | commonAnnotations | object | `{}` |  |
 | commonLabels | object | `{}` |  |
+| enableServiceLinks | bool | `false` |  |
 | extraDeploy | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | global.defaultStorageClass | string | `""` |  |
@@ -96,6 +97,7 @@ MySQL relational database
 | primary.readinessProbe.periodSeconds | int | `10` |  |
 | primary.readinessProbe.successThreshold | int | `1` |  |
 | primary.readinessProbe.timeoutSeconds | int | `5` |  |
+| primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
 | primary.resourcesPreset | string | `"nano"` |  |
 | primary.service.annotations | object | `{}` |  |

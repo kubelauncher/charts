@@ -119,6 +119,9 @@
                 }
             }
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "extraConfiguration": {
             "type": "string"
         },

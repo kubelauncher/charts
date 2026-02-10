@@ -61,6 +61,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param architecture MongoDB architecture (`standalone`)
 architecture: standalone
 
@@ -87,10 +90,12 @@ auth:
 
 ## @section MongoDB primary parameters
 
+## @param primary.replicaCount Number of primary replicas
 ## @param primary.name Name for the primary statefulset
 ## @param primary.containerPorts.mongodb MongoDB primary container port
 ## @param primary.configuration MongoDB primary configuration (mongod.conf content)
 primary:
+  replicaCount: 1
   name: primary
   containerPorts:
     mongodb: 27017

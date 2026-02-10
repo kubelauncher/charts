@@ -35,6 +35,9 @@ commonLabels: {}
 ## @param commonAnnotations Annotations to add to all deployed objects
 commonAnnotations: {}
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param command Command to run (overrides ENTRYPOINT)
 command: []
 

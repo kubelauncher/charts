@@ -43,6 +43,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param replicaCount Number of OpenLDAP replicas
 replicaCount: 1
 

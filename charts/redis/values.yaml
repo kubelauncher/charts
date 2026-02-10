@@ -46,6 +46,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param architecture Redis architecture (`standalone` or `replication`)
 architecture: standalone
 

@@ -76,6 +76,9 @@
         "datacenter": {
             "type": "string"
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "endpointSnitch": {
             "type": "string"
         },

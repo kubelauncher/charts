@@ -43,6 +43,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param replicaCount Number of ZooKeeper replicas
 replicaCount: 1
 

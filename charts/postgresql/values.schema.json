@@ -57,6 +57,9 @@
         "commonLabels": {
             "type": "object"
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "extraDeploy": {
             "type": "array"
         },
@@ -352,6 +355,9 @@
                             "type": "integer"
                         }
                     }
+                },
+                "replicaCount": {
+                    "type": "integer"
                 },
                 "resources": {
                     "type": "object"

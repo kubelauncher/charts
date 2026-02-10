@@ -305,6 +305,9 @@
         "commonLabels": {
             "type": "object"
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "extraDeploy": {
             "type": "array"
         },

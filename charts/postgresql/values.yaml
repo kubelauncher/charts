@@ -59,6 +59,9 @@ commonAnnotations: {}
 clusterDomain: cluster.local
 extraDeploy: []
 
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
 ## @param architecture PostgreSQL architecture (`standalone` or `replication`)
 architecture: standalone
 
@@ -91,11 +94,13 @@ auth:
 
 ## @section PostgreSQL primary parameters
 
+## @param primary.replicaCount Number of primary replicas
 ## @param primary.name Name for the primary statefulset
 ## @param primary.containerPorts.postgresql PostgreSQL primary container port
 ## @param primary.configuration PostgreSQL primary configuration (postgresql.conf content)
 ## @param primary.pgHbaConfiguration PostgreSQL primary pg_hba.conf content
 primary:
+  replicaCount: 1
   name: primary
   containerPorts:
     postgresql: 5432

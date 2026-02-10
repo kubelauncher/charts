@@ -62,6 +62,9 @@
                 }
             }
         },
+        "enableServiceLinks": {
+            "type": "boolean"
+        },
         "extraEnvVars": {
             "type": "array"
         },

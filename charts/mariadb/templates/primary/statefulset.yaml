@@ -6,7 +6,7 @@ metadata:
   labels: {{- include "mariadb.labels" . | nindent 4 }}
     app.kubernetes.io/component: primary
 spec:
-  replicas: 1
+  replicas: {{ .Values.primary.replicaCount }}
   selector:
     matchLabels: {{- include "mariadb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: primary
@@ -25,8 +25,8 @@ spec:
       {{- end }}
     spec:
       serviceAccountName: {{ include "mariadb.serviceAccountName" . }}
-      automountServiceAccountToken: false
-      enableServiceLinks: false
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
       imagePullSecrets: {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -99,7 +99,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - mariadb-admin ping -u root -p$MARIADB_ROOT_PASSWORD
+                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
             initialDelaySeconds: {{ .Values.primary.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.startupProbe.timeoutSeconds }}
@@ -112,7 +112,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - mariadb-admin ping -u root -p$MARIADB_ROOT_PASSWORD
+                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
             initialDelaySeconds: {{ .Values.primary.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.livenessProbe.timeoutSeconds }}
@@ -125,7 +125,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - mariadb-admin ping -u root -p$MARIADB_ROOT_PASSWORD
+                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
             initialDelaySeconds: {{ .Values.primary.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.readinessProbe.timeoutSeconds }}
