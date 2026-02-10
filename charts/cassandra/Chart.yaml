@@ -2,7 +2,7 @@ apiVersion: v2
 name: cassandra
 description: Apache Cassandra distributed NoSQL database
 type: application
-version: "0.1.1"
+version: "0.1.2"
 appVersion: "5.0.6"
 icon: https://cdn.simpleicons.org/apachecassandra
 home: https://github.com/kubelauncher/charts
