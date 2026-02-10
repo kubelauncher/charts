@@ -26,6 +26,7 @@ spec:
     spec:
       serviceAccountName: {{ include "redis.serviceAccountName" . }}
       automountServiceAccountToken: false
+      enableServiceLinks: false
       {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
       imagePullSecrets: {{- toYaml . | nindent 8 }}
       {{- end }}

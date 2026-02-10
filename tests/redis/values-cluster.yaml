@@ -1,8 +1,8 @@
-# Redis Cluster test configuration (6 nodes: 3 masters + 3 replicas)
+# Redis Cluster test configuration (3 masters, no replicas)
 cluster:
   enabled: true
-  nodes: 6
-  replicas: 1
+  nodes: 3
+  replicas: 0
   resourcesPreset: "nano"
   persistence:
     enabled: false
