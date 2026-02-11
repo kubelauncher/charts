@@ -8,9 +8,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-02-11T16:02:52.05215721Z"
+    created: "2026-02-11T18:16:35.367146005Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: 1d8a878c2f60c63bb6b6fa500c8cc1a3e6148c81c1c11a909a479382ba6bd5c7
+    digest: 929f2f164c42769b0b1188c6ca8fe88c721769959e41abb2a79188ee4292c573
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachecassandra
     keywords:
@@ -99,9 +99,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-02-11T16:02:52.052886761Z"
+    created: "2026-02-11T18:16:35.367849218Z"
     description: Apache Kafka distributed streaming platform
-    digest: 647e047783469f367be8375a292c4d6c1ae909e799a01c91ced55ca70e95270d
+    digest: 7a7d396f0474873d04d7d932c621fb92fe2b689ef28bba2a4bd774332afdad44
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachekafka
     keywords:
@@ -190,9 +190,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 26.5.3
-    created: "2026-02-11T16:02:52.053720455Z"
+    created: "2026-02-11T18:16:35.368739419Z"
     description: Keycloak identity and access management
-    digest: 667c11bc7642e99bf76bcb164aa695ad887899d06ca36f91b625aea9d8eab644
+    digest: f3c9df46788477ae62eda846ef330fbb5bdd0c61623d3c0c15640ff26e20dc33
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/keycloak
     keywords:
@@ -347,9 +347,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.35.0
-    created: "2026-02-11T16:02:52.054270641Z"
+    created: "2026-02-11T18:16:35.369304714Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: 69d2e03c8f7139f78585b3ef6766a11a56e852ff920fccc110b7d4cb55f37ea1
+    digest: 0dfcaed55c186f9764112f2fb2da3a9966f6f83ae5b08bf6cd63b9fec4debdd7
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/kubernetes
     keywords:
@@ -437,9 +437,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 12.1.2
-    created: "2026-02-11T16:02:52.055181299Z"
+    created: "2026-02-11T18:16:35.370294853Z"
     description: MariaDB relational database
-    digest: a8af1c479670e112babe5fe138493b45e93833ee59a0849e31fa3358cdd59635
+    digest: 16f0bfe79d8d4609990cd8c50639d042cfe55a057849d563adeee8c9d7b4eebe
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mariadb
     keywords:
@@ -586,9 +586,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-11T16:02:52.055784714Z"
+    created: "2026-02-11T18:16:35.371462728Z"
     description: Memcached in-memory caching system
-    digest: f417c6062eb6fce98c002bcf77df3b871f04d19a3cd5e452f3a8a060b83d89ca
+    digest: ce469fcc1fc3a6aab3cdfad042de5d7196b5bc607ce7a51eb35f30d5058616c1
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
     keywords:
@@ -702,9 +702,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-11T16:02:52.057769974Z"
+    created: "2026-02-11T18:16:35.372813744Z"
     description: MongoDB document database
-    digest: d1c660e494a34eb8f109088779f00f1da85ca30822cd2c909d585c630b0703c6
+    digest: 135a17d1075370a68cf8cc1674ef650e1f5dea70afc17d0c6381944deede5659
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mongodb
     keywords:
@@ -909,9 +909,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.0.0
-    created: "2026-02-11T16:02:52.058725445Z"
+    created: "2026-02-11T18:16:35.373736577Z"
     description: MySQL relational database
-    digest: acf4ee8f20be2ffe5bc8f99b86eb45325c9f8c5ffb90b74a1f4961ee13ee099a
+    digest: cbd88310625d78176bc642ab5200d36d869df0da8285d312cb26388c783b87be
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mysql
     keywords:
@@ -1053,9 +1053,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 2.6.12
-    created: "2026-02-11T16:02:52.059404912Z"
+    created: "2026-02-11T18:16:35.374438517Z"
     description: OpenLDAP directory service
-    digest: 3db9cfebac28d32a221a186bf52e87f377e5c1a0c674c889c9dbfbfd72abe0b7
+    digest: 8c8121f38a853c7a012167eebf8aedf23c4d72bbd1ac6a8edef7fd46e23173ff
     home: https://github.com/kubelauncher/charts
     icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
     keywords:
@@ -1143,9 +1143,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2026-02-11T16:02:52.060324457Z"
+    created: "2026-02-11T18:16:35.375398179Z"
     description: PostgreSQL relational database
-    digest: 53d02bef9917057dbf19162dd2ce2294def27bc2f44240e4310506cd37c3c0b3
+    digest: 9c60afcc47c52e6b66ba6a1c3bf50b83e07524d76d1cac2ad1fcd44443b82103
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/postgresql
     keywords:
@@ -1239,9 +1239,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 4.2.3
-    created: "2026-02-11T16:02:52.061176766Z"
+    created: "2026-02-11T18:16:35.37626703Z"
     description: RabbitMQ message broker
-    digest: 402bdff830e4b8219001cdf2563aa263eb54dcd01671ee49ece85d119ef63440
+    digest: 8d639627df5e5c95cbd1b2d1182fe2915fc7fc231da5d7ff3835d9d95ebe31d5
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/rabbitmq
     keywords:
@@ -1361,9 +1361,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.6.0
-    created: "2026-02-11T16:02:52.063191753Z"
+    created: "2026-02-11T18:16:35.3787835Z"
     description: Redis in-memory data store
-    digest: f309616f05384cce0511368018eef3f92150f765e138d1f3f9cbec709e77ad39
+    digest: 1971bb4b9c4827d70d312eba82527a93a902afa5f31ab12d79f1776be1d4885d
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/redis
     keywords:
@@ -1573,9 +1573,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.3
-    created: "2026-02-11T16:02:52.064342676Z"
+    created: "2026-02-11T18:16:35.379509615Z"
     description: Apache ZooKeeper distributed coordination service
-    digest: 9fabd2674f79250b5ba2f16dc9e24f5cf1a061300e726cb02cf8cf8411933329
+    digest: 23f1374703212e12677e578447f8a269829c6e5369ad1cbbd821950f5a7cc1aa
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
     keywords:
@@ -1681,4 +1681,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-11T16:02:52.051157145Z"
+generated: "2026-02-11T18:16:35.366096426Z"
