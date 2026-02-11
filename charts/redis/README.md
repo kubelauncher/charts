@@ -52,6 +52,7 @@ helm uninstall my-redis
 | cluster.extraVolumeMounts | list | `[]` |  |
 | cluster.extraVolumes | list | `[]` |  |
 | cluster.image.digest | string | `""` |  |
+| cluster.image.pullPolicy | string | `"IfNotPresent"` |  |
 | cluster.image.registry | string | `"ghcr.io"` |  |
 | cluster.image.repository | string | `"kubelauncher/redis-cluster"` |  |
 | cluster.image.tag | string | `""` |  |
@@ -253,6 +254,7 @@ helm uninstall my-redis
 | sentinel.extraVolumes | list | `[]` |  |
 | sentinel.failoverTimeout | int | `60000` |  |
 | sentinel.image.digest | string | `""` |  |
+| sentinel.image.pullPolicy | string | `"IfNotPresent"` |  |
 | sentinel.image.registry | string | `"ghcr.io"` |  |
 | sentinel.image.repository | string | `"kubelauncher/redis-sentinel"` |  |
 | sentinel.image.tag | string | `""` |  |
