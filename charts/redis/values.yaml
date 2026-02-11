@@ -315,6 +315,7 @@ replica:
 ## @param sentinel.image.repository Sentinel image repository
 ## @param sentinel.image.tag Sentinel image tag (defaults to Chart appVersion)
 ## @param sentinel.image.digest Sentinel image digest (overrides tag)
+## @param sentinel.image.pullPolicy Sentinel image pull policy
 ## @param sentinel.replicaCount Number of sentinel instances
 ## @param sentinel.containerPorts.sentinel Sentinel container port
 ## @param sentinel.resourcesPreset Resource preset (nano, micro, small)
@@ -330,6 +331,7 @@ sentinel:
     repository: kubelauncher/redis-sentinel
     tag: ""
     digest: ""
+    pullPolicy: IfNotPresent
   replicaCount: 3
   containerPorts:
     sentinel: 26379
@@ -412,6 +414,7 @@ sentinel:
 ## @param cluster.image.repository Cluster image repository
 ## @param cluster.image.tag Cluster image tag (defaults to Chart appVersion)
 ## @param cluster.image.digest Cluster image digest (overrides tag)
+## @param cluster.image.pullPolicy Cluster image pull policy
 ## @param cluster.nodes Number of cluster nodes
 ## @param cluster.replicas Number of replicas per master in the cluster
 ## @param cluster.containerPorts.redis Redis container port
@@ -425,6 +428,7 @@ cluster:
     repository: kubelauncher/redis-cluster
     tag: ""
     digest: ""
+    pullPolicy: IfNotPresent
   nodes: 6
   replicas: 1
   containerPorts:

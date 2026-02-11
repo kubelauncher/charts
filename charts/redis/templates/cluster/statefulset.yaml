@@ -41,7 +41,7 @@ spec:
       containers:
         - name: redis
           image: {{ include "redis.cluster.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.cluster.image.pullPolicy }}
           {{- if .Values.cluster.containerSecurityContext.enabled }}
           securityContext:
             runAsUser: {{ .Values.cluster.containerSecurityContext.runAsUser }}
