@@ -127,6 +127,12 @@ case "${CHART}" in
             echo "Auth disabled, no password"
         fi
 
+        # Use -c flag for cluster mode (follows MOVED redirects)
+        CLUSTER_FLAG=""
+        if [ "${CLUSTER_ENABLED}" = "True" ]; then
+            CLUSTER_FLAG="-c"
+        fi
+
         echo "Testing Redis (${SVC}:${PORT}, cluster=${CLUSTER_ENABLED}, sentinel=${SENTINEL_ENABLED})..."
 
         # PING test with retry
@@ -134,7 +140,7 @@ case "${CHART}" in
         for attempt in 1 2 3; do
             RESULT=$(kubectl run "redis-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
                 --image=redis:alpine -- \
-                sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} PING" 2>&1) || true
+                sh -c "redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} PING" 2>&1) || true
             echo "PING attempt ${attempt}: ${RESULT}"
             if echo "${RESULT}" | grep -q "PONG"; then
                 break
@@ -147,7 +153,7 @@ case "${CHART}" in
         # SET/GET test
         RESULT=$(kubectl run redis-write --rm -i --restart=Never -n "${NAMESPACE}" \
             --image=redis:alpine -- \
-            sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
+            sh -c "redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
         echo "SET/GET result: ${RESULT}"
         echo "${RESULT}" | grep -q "ok" || fail "Redis SET/GET failed"
         log "Redis SET/GET works"
