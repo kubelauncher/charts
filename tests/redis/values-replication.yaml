@@ -1,0 +1,17 @@
+# Redis Replication test configuration (primary + replicas, no sentinel)
+architecture: replication
+
+auth:
+  enabled: true
+  password: "testpass123"
+
+primary:
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+replica:
+  replicaCount: 2
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
