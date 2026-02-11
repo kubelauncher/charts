@@ -55,22 +55,22 @@ spec:
               type: {{ .Values.sentinel.containerSecurityContext.seccompProfile.type }}
           {{- end }}
           env:
-            - name: REDIS_PRIMARY_HOST
+            - name: REDIS_MASTER_HOST
               value: {{ include "redis.fullname" . }}-primary
-            - name: REDIS_PRIMARY_PORT
+            - name: REDIS_MASTER_PORT
               value: {{ .Values.primary.containerPorts.redis | quote }}
+            - name: REDIS_MASTER_SET
+              value: {{ .Values.sentinel.masterSet | quote }}
             - name: REDIS_SENTINEL_QUORUM
               value: {{ .Values.sentinel.quorum | quote }}
-            - name: REDIS_SENTINEL_DOWN_AFTER_MS
+            - name: REDIS_SENTINEL_DOWN_AFTER
               value: {{ .Values.sentinel.downAfterMilliseconds | quote }}
             - name: REDIS_SENTINEL_FAILOVER_TIMEOUT
               value: {{ .Values.sentinel.failoverTimeout | quote }}
-            - name: REDIS_PRIMARY_SET
-              value: {{ .Values.sentinel.masterSet | quote }}
             - name: REDIS_SENTINEL_PORT
               value: {{ .Values.sentinel.containerPorts.sentinel | quote }}
             {{- if .Values.auth.enabled }}
-            - name: REDIS_PASSWORD
+            - name: REDIS_MASTER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "redis.secretName" . }}
