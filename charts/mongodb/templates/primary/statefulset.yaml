@@ -34,9 +34,24 @@ spec:
       securityContext:
         fsGroup: {{ .Values.primary.podSecurityContext.fsGroup }}
       {{- end }}
-      {{- with .Values.primary.initContainers }}
-      initContainers: {{- toYaml . | nindent 8 }}
-      {{- end }}
+      initContainers:
+        {{- if include "mongodb.replicaSetEnabled" . }}
+        - name: keyfile-permissions
+          image: {{ include "mongodb.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c', 'cp /keyfile-secret/keyfile /keyfile/keyfile && chmod 400 /keyfile/keyfile && chown 1001:1001 /keyfile/keyfile']
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: keyfile-secret
+              mountPath: /keyfile-secret
+              readOnly: true
+            - name: keyfile
+              mountPath: /keyfile
+        {{- end }}
+        {{- with .Values.primary.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: mongodb
           image: {{ include "mongodb.image" . }}
@@ -152,10 +167,11 @@ spec:
           emptyDir: {}
         {{- end }}
         {{- if include "mongodb.replicaSetEnabled" . }}
-        - name: keyfile
+        - name: keyfile-secret
           secret:
             secretName: {{ include "mongodb.keyfileSecretName" . }}
-            defaultMode: 0400
+        - name: keyfile
+          emptyDir: {}
         {{- end }}
         {{- with .Values.primary.extraVolumes }}
         {{- toYaml . | nindent 8 }}
