@@ -69,31 +69,31 @@ commonConfiguration: |-
   appendonly yes
   save ""
 
-## @section Redis master parameters
+## @section Redis primary parameters
 
-## @param master.count Number of master instances
-## @param master.containerPorts.redis Redis master container port
-## @param master.resourcesPreset Resource preset (nano, micro, small)
-## @param master.resources Custom resource requests/limits (overrides preset)
-master:
+## @param primary.count Number of primary instances
+## @param primary.containerPorts.redis Redis primary container port
+## @param primary.resourcesPreset Resource preset (nano, micro, small)
+## @param primary.resources Custom resource requests/limits (overrides preset)
+primary:
   count: 1
   containerPorts:
     redis: 6379
   resourcesPreset: "nano"
   resources: {}
 
-  ## @param master.podSecurityContext.enabled Enable pod security context
-  ## @param master.podSecurityContext.fsGroup Group ID for the pod volumes
+  ## @param primary.podSecurityContext.enabled Enable pod security context
+  ## @param primary.podSecurityContext.fsGroup Group ID for the pod volumes
   podSecurityContext:
     enabled: true
     fsGroup: 1001
 
-  ## @param master.containerSecurityContext.enabled Enable container security context
-  ## @param master.containerSecurityContext.runAsUser User ID for the container
-  ## @param master.containerSecurityContext.runAsGroup Group ID for the container
-  ## @param master.containerSecurityContext.runAsNonRoot Require non-root
-  ## @param master.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
-  ## @param master.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param primary.containerSecurityContext.enabled Enable container security context
+  ## @param primary.containerSecurityContext.runAsUser User ID for the container
+  ## @param primary.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param primary.containerSecurityContext.runAsNonRoot Require non-root
+  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
   containerSecurityContext:
     enabled: true
     runAsUser: 1001
@@ -106,12 +106,12 @@ master:
     seccompProfile:
       type: RuntimeDefault
 
-  ## @param master.startupProbe.enabled Enable startup probe
-  ## @param master.startupProbe.initialDelaySeconds Startup probe initial delay
-  ## @param master.startupProbe.periodSeconds Startup probe period
-  ## @param master.startupProbe.timeoutSeconds Startup probe timeout
-  ## @param master.startupProbe.failureThreshold Startup probe failure threshold
-  ## @param master.startupProbe.successThreshold Startup probe success threshold
+  ## @param primary.startupProbe.enabled Enable startup probe
+  ## @param primary.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param primary.startupProbe.periodSeconds Startup probe period
+  ## @param primary.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param primary.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param primary.startupProbe.successThreshold Startup probe success threshold
   startupProbe:
     enabled: true
     initialDelaySeconds: 5
@@ -120,12 +120,12 @@ master:
     failureThreshold: 30
     successThreshold: 1
 
-  ## @param master.livenessProbe.enabled Enable liveness probe
-  ## @param master.livenessProbe.initialDelaySeconds Liveness probe initial delay
-  ## @param master.livenessProbe.periodSeconds Liveness probe period
-  ## @param master.livenessProbe.timeoutSeconds Liveness probe timeout
-  ## @param master.livenessProbe.failureThreshold Liveness probe failure threshold
-  ## @param master.livenessProbe.successThreshold Liveness probe success threshold
+  ## @param primary.livenessProbe.enabled Enable liveness probe
+  ## @param primary.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param primary.livenessProbe.periodSeconds Liveness probe period
+  ## @param primary.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param primary.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param primary.livenessProbe.successThreshold Liveness probe success threshold
   livenessProbe:
     enabled: true
     initialDelaySeconds: 20
@@ -134,12 +134,12 @@ master:
     failureThreshold: 5
     successThreshold: 1
 
-  ## @param master.readinessProbe.enabled Enable readiness probe
-  ## @param master.readinessProbe.initialDelaySeconds Readiness probe initial delay
-  ## @param master.readinessProbe.periodSeconds Readiness probe period
-  ## @param master.readinessProbe.timeoutSeconds Readiness probe timeout
-  ## @param master.readinessProbe.failureThreshold Readiness probe failure threshold
-  ## @param master.readinessProbe.successThreshold Readiness probe success threshold
+  ## @param primary.readinessProbe.enabled Enable readiness probe
+  ## @param primary.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param primary.readinessProbe.periodSeconds Readiness probe period
+  ## @param primary.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param primary.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param primary.readinessProbe.successThreshold Readiness probe success threshold
   readinessProbe:
     enabled: true
     initialDelaySeconds: 5
@@ -148,14 +148,14 @@ master:
     failureThreshold: 5
     successThreshold: 1
 
-  ## @param master.persistence.enabled Enable persistence using PVC
-  ## @param master.persistence.storageClass PVC Storage Class
-  ## @param master.persistence.accessModes PVC access modes
-  ## @param master.persistence.size PVC size
-  ## @param master.persistence.existingClaim Name of existing PVC to use
-  ## @param master.persistence.mountPath Mount path for the data volume
-  ## @param master.persistence.annotations PVC annotations
-  ## @param master.persistence.labels PVC labels
+  ## @param primary.persistence.enabled Enable persistence using PVC
+  ## @param primary.persistence.storageClass PVC Storage Class
+  ## @param primary.persistence.accessModes PVC access modes
+  ## @param primary.persistence.size PVC size
+  ## @param primary.persistence.existingClaim Name of existing PVC to use
+  ## @param primary.persistence.mountPath Mount path for the data volume
+  ## @param primary.persistence.annotations PVC annotations
+  ## @param primary.persistence.labels PVC labels
   persistence:
     enabled: true
     storageClass: ""
@@ -167,12 +167,12 @@ master:
     annotations: {}
     labels: {}
 
-  ## @param master.service.type Service type
-  ## @param master.service.ports.redis Service port
-  ## @param master.service.nodePorts.redis NodePort (when type is NodePort)
-  ## @param master.service.clusterIP Static ClusterIP
-  ## @param master.service.annotations Service annotations
-  ## @param master.service.labels Service labels
+  ## @param primary.service.type Service type
+  ## @param primary.service.ports.redis Service port
+  ## @param primary.service.nodePorts.redis NodePort (when type is NodePort)
+  ## @param primary.service.clusterIP Static ClusterIP
+  ## @param primary.service.annotations Service annotations
+  ## @param primary.service.labels Service labels
   service:
     type: ClusterIP
     ports:
@@ -183,16 +183,16 @@ master:
     annotations: {}
     labels: {}
 
-  ## @param master.nodeSelector Node labels for pod assignment
-  ## @param master.tolerations Tolerations for pod assignment
-  ## @param master.affinity Affinity rules for pod assignment
-  ## @param master.podLabels Extra labels for pods
-  ## @param master.podAnnotations Extra annotations for pods
-  ## @param master.extraVolumes Extra volumes
-  ## @param master.extraVolumeMounts Extra volume mounts
-  ## @param master.extraEnvVars Extra environment variables
-  ## @param master.sidecars Extra sidecar containers
-  ## @param master.initContainers Extra init containers
+  ## @param primary.nodeSelector Node labels for pod assignment
+  ## @param primary.tolerations Tolerations for pod assignment
+  ## @param primary.affinity Affinity rules for pod assignment
+  ## @param primary.podLabels Extra labels for pods
+  ## @param primary.podAnnotations Extra annotations for pods
+  ## @param primary.extraVolumes Extra volumes
+  ## @param primary.extraVolumeMounts Extra volume mounts
+  ## @param primary.extraEnvVars Extra environment variables
+  ## @param primary.sidecars Extra sidecar containers
+  ## @param primary.initContainers Extra init containers
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -320,10 +320,10 @@ replica:
 ## @param sentinel.containerPorts.sentinel Sentinel container port
 ## @param sentinel.resourcesPreset Resource preset (nano, micro, small)
 ## @param sentinel.resources Custom resource requests/limits (overrides preset)
-## @param sentinel.quorum Number of sentinels needed to agree on master failure
-## @param sentinel.downAfterMilliseconds Time in ms before marking master as down
+## @param sentinel.quorum Number of sentinels needed to agree on primary failure
+## @param sentinel.downAfterMilliseconds Time in ms before marking primary as down
 ## @param sentinel.failoverTimeout Failover timeout in ms
-## @param sentinel.masterSet Name of the sentinel master set
+## @param sentinel.masterSet Name of the sentinel primary set
 sentinel:
   enabled: false
   image:
@@ -416,7 +416,7 @@ sentinel:
 ## @param cluster.image.digest Cluster image digest (overrides tag)
 ## @param cluster.image.pullPolicy Cluster image pull policy
 ## @param cluster.nodes Number of cluster nodes
-## @param cluster.replicas Number of replicas per master in the cluster
+## @param cluster.replicas Number of replicas per primary in the cluster
 ## @param cluster.containerPorts.redis Redis container port
 ## @param cluster.containerPorts.bus Redis cluster bus port
 ## @param cluster.resourcesPreset Resource preset (nano, micro, small)

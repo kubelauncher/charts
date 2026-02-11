@@ -21,7 +21,7 @@ spec:
         {{- end }}
       ports:
         - protocol: TCP
-          port: {{ .Values.master.containerPorts.redis }}
+          port: {{ .Values.primary.containerPorts.redis }}
         {{- if .Values.sentinel.enabled }}
         - protocol: TCP
           port: {{ .Values.sentinel.containerPorts.sentinel }}

@@ -11,7 +11,7 @@ metadata:
 data:
   redis.conf: |
     bind 0.0.0.0
-    port {{ .Values.master.containerPorts.redis }}
+    port {{ .Values.primary.containerPorts.redis }}
     dir /data
     protected-mode no
     {{- if .Values.auth.enabled }}

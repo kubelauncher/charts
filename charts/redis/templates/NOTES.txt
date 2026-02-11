@@ -1,7 +1,7 @@
 Redis has been deployed.
 
 {{- if .Values.cluster.enabled }}
-Mode: Redis Cluster ({{ .Values.cluster.nodes }} nodes, {{ .Values.cluster.replicas }} replicas per master)
+Mode: Redis Cluster ({{ .Values.cluster.nodes }} nodes, {{ .Values.cluster.replicas }} replicas per primary)
 
 To get your Redis password:
 
@@ -17,7 +17,7 @@ Cluster headless service:
   {{ include "redis.fullname" . }}-cluster-headless.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}
 
 {{- else if .Values.sentinel.enabled }}
-Mode: Redis Sentinel ({{ .Values.sentinel.replicaCount }} sentinels, master set: {{ .Values.sentinel.masterSet }})
+Mode: Redis Sentinel ({{ .Values.sentinel.replicaCount }} sentinels, primary set: {{ .Values.sentinel.masterSet }})
 
 To get your Redis password:
 
@@ -32,8 +32,8 @@ To connect via Sentinel:
 Sentinel service:
   {{ include "redis.fullname" . }}-sentinel.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.sentinel.service.ports.sentinel }}
 
-Master service:
-  {{ include "redis.fullname" . }}-master.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.master.service.ports.redis }}
+Primary service:
+  {{ include "redis.fullname" . }}-primary.{{ include "redis.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.primary.service.ports.redis }}
 
 {{- else if eq .Values.architecture "standalone" }}
 Architecture: standalone
@@ -46,10 +46,10 @@ To connect:
 
   kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
     --image {{ include "redis.image" . }} -- \
-    redis-cli -h {{ include "redis.fullname" . }}-master -a $REDIS_PASSWORD
+    redis-cli -h {{ include "redis.fullname" . }}-primary -a $REDIS_PASSWORD
 
 {{- else }}
-Architecture: replication (master + {{ .Values.replica.replicaCount }} replicas)
+Architecture: replication (primary + {{ .Values.replica.replicaCount }} replicas)
 
 To get your Redis password:
 
@@ -59,5 +59,5 @@ To connect:
 
   kubectl run --namespace {{ include "redis.namespace" . }} redis-client --rm -it --restart=Never \
     --image {{ include "redis.image" . }} -- \
-    redis-cli -h {{ include "redis.fullname" . }}-master -a $REDIS_PASSWORD
+    redis-cli -h {{ include "redis.fullname" . }}-primary -a $REDIS_PASSWORD
 {{- end }}
