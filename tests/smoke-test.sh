@@ -157,6 +157,49 @@ case "${CHART}" in
         echo "SET/GET result: ${RESULT}"
         echo "${RESULT}" | grep -q "ok" || fail "Redis SET/GET failed"
         log "Redis SET/GET works"
+
+        # Replication checks (sentinel or replication mode)
+        ARCHITECTURE=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('architecture','standalone'))" 2>/dev/null || echo "standalone")
+        if [ "${SENTINEL_ENABLED}" = "True" ] || [ "${ARCHITECTURE}" = "replication" ]; then
+            EXPECTED_REPLICAS=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('replica',{}).get('replicaCount',3))" 2>/dev/null || echo "3")
+            echo "Checking replication (expected ${EXPECTED_REPLICAS} replicas)..."
+
+            RESULT=""
+            for attempt in $(seq 1 10); do
+                RESULT=$(kubectl run "redis-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=redis:alpine -- \
+                    sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} INFO replication" 2>&1) || true
+                CONNECTED=$(echo "${RESULT}" | grep -o 'connected_slaves:[0-9]*' | cut -d: -f2 || echo "0")
+                echo "Replication attempt ${attempt}: connected_slaves=${CONNECTED}"
+                if [ "${CONNECTED}" = "${EXPECTED_REPLICAS}" ]; then
+                    break
+                fi
+                sleep 5
+            done
+            echo "${RESULT}" | grep -q "connected_slaves:${EXPECTED_REPLICAS}" || fail "Expected ${EXPECTED_REPLICAS} connected replicas, got ${CONNECTED}"
+            log "Replication: ${EXPECTED_REPLICAS} replicas connected"
+        fi
+
+        # Sentinel checks
+        if [ "${SENTINEL_ENABLED}" = "True" ]; then
+            SENTINEL_SVC="${FULLNAME}-sentinel"
+            SENTINEL_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SENTINEL_SVC}" -o jsonpath='{.spec.ports[?(@.name=="tcp-sentinel")].port}' 2>/dev/null || echo "26379")
+            echo "Checking Sentinel at ${SENTINEL_SVC}:${SENTINEL_PORT}..."
+
+            RESULT=""
+            for attempt in $(seq 1 5); do
+                RESULT=$(kubectl run "redis-sent-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=redis:alpine -- \
+                    sh -c "redis-cli -h '${SENTINEL_SVC}' -p '${SENTINEL_PORT}' SENTINEL master mymaster" 2>&1) || true
+                echo "Sentinel attempt ${attempt}: ${RESULT}"
+                if echo "${RESULT}" | grep -q "flags"; then
+                    break
+                fi
+                sleep 5
+            done
+            echo "${RESULT}" | grep -q "flags" || fail "Sentinel SENTINEL master command failed"
+            log "Sentinel monitoring primary"
+        fi
         ;;
 
     postgresql)
@@ -244,28 +287,60 @@ case "${CHART}" in
         echo "${RESULT}" | grep -q "ok" || fail "RabbitMQ management API health check failed"
         log "RabbitMQ management API healthy"
 
-        # AMQP port connectivity with retry - use alpine/socat for reliable nc
+        # Queue publish/consume test via management API
+        echo "Testing queue publish/consume..."
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run "rmq-amqp-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=alpine -- \
-                sh -c "nc -zv ${SVC} ${AMQP_PORT} 2>&1 || echo FAILED" 2>&1) || true
-            echo "AMQP port attempt ${attempt}: ${RESULT}"
-            # Alpine nc outputs to stderr, check for connection success
-            if echo "${RESULT}" | grep -qE "(open|succeeded|\(${SVC}:${AMQP_PORT}\))"; then
+            RESULT=$(kubectl run "rmq-queue-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=curlimages/curl -- \
+                sh -c "
+                    # Create queue
+                    curl -sf -u '${RMQ_USER}:${RMQ_PASS}' -X PUT \
+                        -H 'content-type: application/json' \
+                        -d '{\"durable\":true}' \
+                        'http://${SVC}:${MGMT_PORT}/api/queues/%2F/smoke-test-queue' && \
+                    # Publish message
+                    curl -sf -u '${RMQ_USER}:${RMQ_PASS}' -X POST \
+                        -H 'content-type: application/json' \
+                        -d '{\"properties\":{},\"routing_key\":\"smoke-test-queue\",\"payload\":\"hello-smoke\",\"payload_encoding\":\"string\"}' \
+                        'http://${SVC}:${MGMT_PORT}/api/exchanges/%2F/amq.default/publish' && \
+                    # Consume message
+                    curl -sf -u '${RMQ_USER}:${RMQ_PASS}' -X POST \
+                        -H 'content-type: application/json' \
+                        -d '{\"count\":1,\"ackmode\":\"ack_requeue_false\",\"encoding\":\"auto\"}' \
+                        'http://${SVC}:${MGMT_PORT}/api/queues/%2F/smoke-test-queue/get' && \
+                    # Delete queue
+                    curl -sf -u '${RMQ_USER}:${RMQ_PASS}' -X DELETE \
+                        'http://${SVC}:${MGMT_PORT}/api/queues/%2F/smoke-test-queue'
+                " 2>&1) || true
+            echo "Queue test attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "hello-smoke"; then
                 break
             fi
-            # Also consider no "FAILED" as success
-            if ! echo "${RESULT}" | grep -q "FAILED"; then
-                break
-            fi
-            sleep 2
+            sleep 3
         done
-        # If no explicit FAILED, consider it success
-        if echo "${RESULT}" | grep -q "FAILED"; then
-            fail "RabbitMQ AMQP port not reachable"
+        echo "${RESULT}" | grep -q "hello-smoke" || fail "RabbitMQ queue publish/consume failed"
+        log "RabbitMQ queue publish/consume works"
+
+        # Cluster membership check (if replicaCount > 1)
+        REPLICA_COUNT=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('replicaCount',1))" 2>/dev/null || echo "1")
+        if [ "${REPLICA_COUNT}" -gt 1 ]; then
+            echo "Checking cluster membership (expected ${REPLICA_COUNT} nodes)..."
+            RESULT=""
+            for attempt in $(seq 1 10); do
+                RESULT=$(kubectl run "rmq-cluster-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=curlimages/curl -- \
+                    curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/nodes" 2>&1) || true
+                RUNNING=$(echo "${RESULT}" | python3 -c "import sys,json; nodes=json.load(sys.stdin); print(sum(1 for n in nodes if n.get('running',False)))" 2>/dev/null || echo "0")
+                echo "Cluster attempt ${attempt}: ${RUNNING}/${REPLICA_COUNT} nodes running"
+                if [ "${RUNNING}" = "${REPLICA_COUNT}" ]; then
+                    break
+                fi
+                sleep 10
+            done
+            [ "${RUNNING}" = "${REPLICA_COUNT}" ] || fail "Expected ${REPLICA_COUNT} running nodes, got ${RUNNING}"
+            log "RabbitMQ cluster: ${REPLICA_COUNT} nodes running"
         fi
-        log "RabbitMQ AMQP port reachable"
         ;;
 
     kubectl)
@@ -330,6 +405,30 @@ case "${CHART}" in
         done
         echo "${RESULT}" | grep -q "1" || fail "MariaDB SELECT 1 failed after 3 attempts"
         log "MariaDB SELECT 1 works"
+
+        # Replication check
+        ARCHITECTURE=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('architecture','standalone'))" 2>/dev/null || echo "standalone")
+        if [ "${ARCHITECTURE}" = "replication" ]; then
+            EXPECTED_SECONDARIES=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('secondary',{}).get('replicaCount',2))" 2>/dev/null || echo "2")
+            echo "Checking MariaDB replication (expected ${EXPECTED_SECONDARIES} secondaries)..."
+
+            # Check SHOW SLAVE HOSTS on primary
+            RESULT=""
+            for attempt in $(seq 1 10); do
+                RESULT=$(kubectl run "mariadb-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=mariadb:11 \
+                    --env="MYSQL_PWD=${MARIADB_PASS}" -- \
+                    mariadb -h "${SVC}" -P "${PORT}" -u root -e "SHOW SLAVE HOSTS;" 2>&1) || true
+                CONNECTED=$(echo "${RESULT}" | grep -c "^[0-9]" || echo "0")
+                echo "Replication attempt ${attempt}: ${CONNECTED}/${EXPECTED_SECONDARIES} secondaries connected"
+                if [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ]; then
+                    break
+                fi
+                sleep 10
+            done
+            [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ] || fail "Expected ${EXPECTED_SECONDARIES} secondaries, got ${CONNECTED}"
+            log "MariaDB replication: ${EXPECTED_SECONDARIES} secondaries connected"
+        fi
         ;;
 
     mongodb)

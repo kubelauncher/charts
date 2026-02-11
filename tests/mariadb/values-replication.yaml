@@ -1,0 +1,22 @@
+architecture: replication
+
+auth:
+  rootPassword: "rootpass123"
+  username: "testuser"
+  password: "testpass123"
+  database: "testdb"
+
+replication:
+  user: "replicator"
+  password: "replpass123"
+
+primary:
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+secondary:
+  replicaCount: 2
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false

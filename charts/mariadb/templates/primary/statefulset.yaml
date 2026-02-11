@@ -87,6 +87,17 @@ spec:
             {{- end }}
             - name: MARIADB_DATA_DIR
               value: {{ .Values.primary.persistence.mountPath }}/data
+            {{- if eq .Values.architecture "replication" }}
+            - name: MARIADB_REPLICATION_MODE
+              value: "primary"
+            - name: MARIADB_REPLICATION_USER
+              value: {{ .Values.replication.user | quote }}
+            - name: MARIADB_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mariadb.secretName" . }}
+                  key: mariadb-replication-password
+            {{- end }}
             {{- with .Values.primary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

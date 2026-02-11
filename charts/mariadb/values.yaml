@@ -62,8 +62,15 @@ extraDeploy: []
 ## @param enableServiceLinks Enable Kubernetes service links in pod env vars
 enableServiceLinks: false
 
-## @param architecture MariaDB architecture (`standalone`)
+## @param architecture MariaDB architecture (`standalone` or `replication`)
 architecture: standalone
+
+## @section MariaDB replication parameters
+## @param replication.user Replication user name
+## @param replication.password Replication user password
+replication:
+  user: "replicator"
+  password: ""
 
 ## @section MariaDB auth parameters
 
@@ -218,6 +225,81 @@ primary:
   ## @param primary.extraEnvVars Extra environment variables
   ## @param primary.sidecars Extra sidecar containers
   ## @param primary.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section MariaDB secondary parameters
+
+## @param secondary.replicaCount Number of secondary replicas
+## @param secondary.containerPorts.mariadb MariaDB secondary container port
+secondary:
+  replicaCount: 2
+  containerPorts:
+    mariadb: 3306
+  resourcesPreset: "nano"
+  resources: {}
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+    mountPath: /data/mariadb
+    annotations: {}
+    labels: {}
+  service:
+    type: ClusterIP
+    ports:
+      mariadb: 3306
+    nodePorts:
+      mariadb: ""
+    clusterIP: ""
+    annotations: {}
+    labels: {}
   nodeSelector: {}
   tolerations: []
   affinity: {}
