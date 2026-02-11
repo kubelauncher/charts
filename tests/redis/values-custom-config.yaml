@@ -7,7 +7,7 @@ commonConfiguration: |-
   save ""
   maxmemory 64mb
   maxmemory-policy allkeys-lru
-master:
+primary:
   persistence:
     enabled: false
   resources:

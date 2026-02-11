@@ -1,4 +1,4 @@
-# Redis Cluster test configuration (3 masters, no replicas)
+# Redis Cluster test configuration (3 nodes, no replicas)
 cluster:
   enabled: true
   nodes: 3

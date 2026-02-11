@@ -1,7 +1,7 @@
 architecture: standalone
 auth:
   enabled: false
-master:
+primary:
   containerPorts:
     redis: 6380
   persistence:
