@@ -1,0 +1,89 @@
+{{- if eq .Values.architecture "replicaset" }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "mongodb.fullname" . }}-init
+  namespace: {{ include "mongodb.namespace" . }}
+  labels: {{- include "mongodb.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels: {{- include "mongodb.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: OnFailure
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: init
+          image: {{ include "mongodb.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - bash
+            - -c
+            - |
+              set -e
+
+              PRIMARY_HOST="{{ include "mongodb.primaryHost" . }}"
+              PORT={{ .Values.primary.containerPorts.mongodb }}
+              ROOT_USER="${MONGODB_ROOT_USERNAME}"
+              ROOT_PASS="${MONGODB_ROOT_PASSWORD}"
+              EXPECTED_MEMBERS={{ add 1 (int .Values.secondary.replicaCount) }}
+
+              echo "Waiting for primary at ${PRIMARY_HOST}:${PORT}..."
+              for i in $(seq 1 120); do
+                if bash -c "echo > /dev/tcp/${PRIMARY_HOST}/${PORT}" 2>/dev/null; then
+                  echo "Primary is reachable."
+                  break
+                fi
+                if [ "$i" -eq 120 ]; then
+                  echo "ERROR: Primary not reachable after 120s"
+                  exit 1
+                fi
+                sleep 2
+              done
+
+              echo "Waiting for replica set to stabilize..."
+              sleep 10
+
+              echo "Checking replica set status..."
+              for attempt in $(seq 1 30); do
+                MEMBER_COUNT=$(mongosh "mongodb://${ROOT_USER}:${ROOT_PASS}@${PRIMARY_HOST}:${PORT}/admin" \
+                  --quiet --eval "rs.status().members.length" 2>/dev/null || echo "0")
+                echo "Attempt ${attempt}: ${MEMBER_COUNT}/${EXPECTED_MEMBERS} members"
+                if [ "${MEMBER_COUNT}" -eq "${EXPECTED_MEMBERS}" ]; then
+                  echo "All members present."
+                  break
+                fi
+                if [ "$attempt" -eq 30 ]; then
+                  echo "WARNING: Only ${MEMBER_COUNT}/${EXPECTED_MEMBERS} members after 30 attempts"
+                  mongosh "mongodb://${ROOT_USER}:${ROOT_PASS}@${PRIMARY_HOST}:${PORT}/admin" \
+                    --quiet --eval "printjson(rs.status())" 2>/dev/null || true
+                  exit 1
+                fi
+                sleep 10
+              done
+
+              echo "Verifying replica set health..."
+              mongosh "mongodb://${ROOT_USER}:${ROOT_PASS}@${PRIMARY_HOST}:${PORT}/admin" --quiet --eval "
+                var status = rs.status();
+                var primary = status.members.filter(m => m.stateStr === 'PRIMARY');
+                var secondary = status.members.filter(m => m.stateStr === 'SECONDARY');
+                print('PRIMARY: ' + primary.length + ', SECONDARY: ' + secondary.length);
+                if (primary.length !== 1) { throw new Error('Expected 1 PRIMARY'); }
+                print('Replica set is healthy.');
+              "
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              value: {{ include "mongodb.rootUsername" . | quote }}
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mongodb.secretName" . }}
+                  key: {{ include "mongodb.rootPasswordKey" . }}
+{{- end }}

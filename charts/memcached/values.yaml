@@ -50,9 +50,11 @@ replicaCount: 1
 ## @param memcachedMaxMemory Max memory for Memcached in MB
 ## @param memcachedThreads Number of threads to use
 ## @param memcachedMaxConnections Max simultaneous connections
+## @param memcachedExtraFlags Extra flags passed to memcached (e.g. `-v` for verbose logging)
 memcachedMaxMemory: 64
 memcachedThreads: 4
 memcachedMaxConnections: 1024
+memcachedExtraFlags: "-v"
 
 ## @section Memcached pod parameters
 
