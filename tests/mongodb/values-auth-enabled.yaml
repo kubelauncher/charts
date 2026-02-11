@@ -6,13 +6,14 @@ auth:
   username: "testuser"
   password: "testuser123"
 
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 100m
-  limits:
-    memory: 512Mi
-    cpu: 500m
+primary:
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 500m
 
 persistence:
   enabled: false

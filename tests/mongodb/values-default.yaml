@@ -2,13 +2,14 @@
 auth:
   enabled: false
 
-resources:
-  requests:
-    memory: 512Mi
-    cpu: 100m
-  limits:
-    memory: 1Gi
-    cpu: 500m
+primary:
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+      cpu: 500m
 
 persistence:
   enabled: false
