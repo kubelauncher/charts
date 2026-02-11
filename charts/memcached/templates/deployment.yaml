@@ -54,6 +54,8 @@ spec:
               value: {{ .Values.memcachedThreads | quote }}
             - name: MEMCACHED_MAX_CONNECTIONS
               value: {{ .Values.memcachedMaxConnections | quote }}
+            - name: MEMCACHED_EXTRA_FLAGS
+              value: {{ .Values.memcachedExtraFlags | quote }}
             {{- with .Values.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

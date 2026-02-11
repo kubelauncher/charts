@@ -1,0 +1,22 @@
+# MongoDB replica set test configuration
+architecture: replicaset
+
+auth:
+  rootPassword: "rootpass123"
+  database: "testdb"
+  username: "testuser"
+  password: "testuser123"
+
+replicaset:
+  name: rs0
+
+primary:
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false
+
+secondary:
+  replicaCount: 2
+  resourcesPreset: "nano"
+  persistence:
+    enabled: false

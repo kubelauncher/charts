@@ -337,18 +337,22 @@ case "${CHART}" in
         SVC="${FULLNAME}"
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
 
-        # Check if auth is enabled
-        AUTH_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('auth',{}).get('enabled',False))" 2>/dev/null || echo "False")
+        # Detect architecture
+        ARCHITECTURE=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; print(json.load(sys.stdin).get('architecture','standalone'))" 2>/dev/null || echo "standalone")
 
-        echo "Testing MongoDB at ${SVC}:${PORT} (auth=${AUTH_ENABLED})..."
-
-        if [ "${AUTH_ENABLED}" = "True" ]; then
-            MONGO_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mongodb-root-password}' | base64 -d)
+        # Check if auth is enabled (root password exists in secret)
+        MONGO_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mongodb-root-password}' 2>/dev/null | base64 -d 2>/dev/null || echo "")
+        if [ -n "${MONGO_PASS}" ]; then
             AUTH_ARGS="-u root -p '${MONGO_PASS}' --authenticationDatabase admin"
+            AUTH_ENABLED="true"
         else
             AUTH_ARGS=""
+            AUTH_ENABLED="false"
         fi
 
+        echo "Testing MongoDB at ${SVC}:${PORT} (auth=${AUTH_ENABLED}, architecture=${ARCHITECTURE})..."
+
+        # Ping test
         RESULT=""
         for attempt in 1 2 3; do
             RESULT=$(kubectl run "mongo-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
@@ -362,6 +366,32 @@ case "${CHART}" in
         done
         echo "${RESULT}" | grep -q "ok" || fail "MongoDB ping failed after 3 attempts"
         log "MongoDB ping works"
+
+        # Replica set checks
+        if [ "${ARCHITECTURE}" = "replicaset" ]; then
+            echo "Checking replica set status..."
+            EXPECTED_MEMBERS=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json | python3 -c "import sys,json; v=json.load(sys.stdin); print(1 + int(v.get('secondary',{}).get('replicaCount',2)))" 2>/dev/null || echo "3")
+
+            RESULT=""
+            for attempt in $(seq 1 5); do
+                RESULT=$(kubectl run "mongo-rs-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=mongo:7 -- \
+                    mongosh "mongodb://${SVC}:${PORT}" ${AUTH_ARGS} --quiet --eval "
+                        var s = rs.status();
+                        print('members=' + s.members.length);
+                        print('primary=' + s.members.filter(m => m.stateStr === 'PRIMARY').length);
+                        print('secondary=' + s.members.filter(m => m.stateStr === 'SECONDARY').length);
+                    " 2>&1) || true
+                echo "RS attempt ${attempt}: ${RESULT}"
+                if echo "${RESULT}" | grep -q "members=${EXPECTED_MEMBERS}"; then
+                    break
+                fi
+                sleep 10
+            done
+            echo "${RESULT}" | grep -q "members=${EXPECTED_MEMBERS}" || fail "Expected ${EXPECTED_MEMBERS} replica set members"
+            echo "${RESULT}" | grep -q "primary=1" || fail "Expected 1 PRIMARY member"
+            log "Replica set has ${EXPECTED_MEMBERS} members (1 PRIMARY + $(( EXPECTED_MEMBERS - 1 )) SECONDARY)"
+        fi
         ;;
 
     memcached)

@@ -105,6 +105,34 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- .Values.global.mongodb.service.ports.mongodb | default .Values.primary.service.ports.mongodb }}
 {{- end }}
 
+{{- define "mongodb.replicaSetEnabled" -}}
+{{- if eq .Values.architecture "replicaset" -}}true{{- end -}}
+{{- end -}}
+
+{{- define "mongodb.keyfileSecretName" -}}
+{{- if .Values.replicaset.existingKeyfileSecret -}}
+{{- .Values.replicaset.existingKeyfileSecret -}}
+{{- else -}}
+{{- printf "%s-keyfile" (include "mongodb.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "mongodb.primaryHost" -}}
+{{- printf "%s-0.%s-hl.%s.svc.%s" (include "mongodb.fullname" .) (include "mongodb.fullname" .) (include "mongodb.namespace" .) .Values.clusterDomain -}}
+{{- end -}}
+
+{{- define "mongodb.secondaryHosts" -}}
+{{- $fullname := include "mongodb.fullname" . -}}
+{{- $namespace := include "mongodb.namespace" . -}}
+{{- $clusterDomain := .Values.clusterDomain -}}
+{{- $replicaCount := int .Values.secondary.replicaCount -}}
+{{- $hosts := list -}}
+{{- range $i := until $replicaCount -}}
+{{- $hosts = append $hosts (printf "%s-secondary-%d.%s-secondary-hl.%s.svc.%s" $fullname $i $fullname $namespace $clusterDomain) -}}
+{{- end -}}
+{{- join "," $hosts -}}
+{{- end -}}
+
 {{- define "mongodb.resources" -}}
 {{- $preset := .preset -}}
 {{- if eq $preset "nano" }}

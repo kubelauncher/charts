@@ -4,8 +4,30 @@ To get the root password:
 
   export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace {{ include "mongodb.namespace" . }} {{ include "mongodb.secretName" . }} -o jsonpath="{.data.{{ include "mongodb.rootPasswordKey" . }}}" | base64 -d)
 
+{{- if eq .Values.architecture "replicaset" }}
+
+Architecture: Replica Set ({{ .Values.replicaset.name }})
+  - Primary: {{ include "mongodb.fullname" . }}-0
+  - Secondaries: {{ .Values.secondary.replicaCount }}
+
+To connect to the replica set:
+
+  kubectl run --namespace {{ include "mongodb.namespace" . }} mongodb-client --rm -it --restart=Never \
+    --image {{ include "mongodb.image" . }} -- \
+    mongosh "mongodb://{{ include "mongodb.rootUsername" . }}:$MONGODB_ROOT_PASSWORD@{{ include "mongodb.fullname" . }}-0.{{ include "mongodb.fullname" . }}-hl.{{ include "mongodb.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.primary.containerPorts.mongodb }}/admin?replicaSet={{ .Values.replicaset.name }}"
+
+To check replica set status:
+
+  kubectl run --namespace {{ include "mongodb.namespace" . }} mongodb-client --rm -it --restart=Never \
+    --image {{ include "mongodb.image" . }} -- \
+    mongosh "mongodb://{{ include "mongodb.rootUsername" . }}:$MONGODB_ROOT_PASSWORD@{{ include "mongodb.fullname" . }}-0.{{ include "mongodb.fullname" . }}-hl.{{ include "mongodb.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.primary.containerPorts.mongodb }}/admin?replicaSet={{ .Values.replicaset.name }}" --eval "rs.status()"
+
+{{- else }}
+
 To connect:
 
   kubectl run --namespace {{ include "mongodb.namespace" . }} mongodb-client --rm -it --restart=Never \
     --image {{ include "mongodb.image" . }} -- \
     mongosh --host {{ include "mongodb.fullname" . }} -u {{ include "mongodb.rootUsername" . }} -p $MONGODB_ROOT_PASSWORD {{ include "mongodb.database" . | default "admin" }}
+
+{{- end }}

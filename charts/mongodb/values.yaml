@@ -64,8 +64,16 @@ extraDeploy: []
 ## @param enableServiceLinks Enable Kubernetes service links in pod env vars
 enableServiceLinks: false
 
-## @param architecture MongoDB architecture (`standalone`)
+## @param architecture MongoDB architecture (`standalone` or `replicaset`)
 architecture: standalone
+
+## @section Replica Set parameters
+
+## @param replicaset.name Replica set name
+## @param replicaset.existingKeyfileSecret Existing secret containing the keyfile (key: `keyfile`)
+replicaset:
+  name: rs0
+  existingKeyfileSecret: ""
 
 ## @section MongoDB auth parameters
 
@@ -222,6 +230,133 @@ primary:
   ## @param primary.extraEnvVars Extra environment variables
   ## @param primary.sidecars Extra sidecar containers
   ## @param primary.initContainers Extra init containers
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podLabels: {}
+  podAnnotations: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  extraEnvVars: []
+  sidecars: []
+  initContainers: []
+
+## @section MongoDB secondary parameters
+
+## @param secondary.replicaCount Number of secondary replicas
+## @param secondary.name Name for the secondary statefulset
+## @param secondary.containerPorts.mongodb MongoDB secondary container port
+secondary:
+  replicaCount: 2
+  name: secondary
+  containerPorts:
+    mongodb: 27017
+
+  ## @param secondary.resourcesPreset Resource preset (nano, micro, small)
+  ## @param secondary.resources Custom resource requests/limits (overrides preset)
+  resourcesPreset: "nano"
+  resources: {}
+
+  ## @param secondary.podSecurityContext.enabled Enable pod security context
+  ## @param secondary.podSecurityContext.fsGroup Group ID for the pod volumes
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+
+  ## @param secondary.containerSecurityContext.enabled Enable container security context
+  ## @param secondary.containerSecurityContext.runAsUser User ID for the container
+  ## @param secondary.containerSecurityContext.runAsGroup Group ID for the container
+  ## @param secondary.containerSecurityContext.runAsNonRoot Require non-root user
+  ## @param secondary.containerSecurityContext.allowPrivilegeEscalation Disallow privilege escalation
+  ## @param secondary.containerSecurityContext.readOnlyRootFilesystem Read-only root filesystem
+  ## @param secondary.containerSecurityContext.capabilities.drop Capabilities to drop
+  ## @param secondary.containerSecurityContext.seccompProfile.type Seccomp profile type
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## @param secondary.startupProbe.enabled Enable startup probe
+  ## @param secondary.startupProbe.initialDelaySeconds Startup probe initial delay
+  ## @param secondary.startupProbe.periodSeconds Startup probe period
+  ## @param secondary.startupProbe.timeoutSeconds Startup probe timeout
+  ## @param secondary.startupProbe.failureThreshold Startup probe failure threshold
+  ## @param secondary.startupProbe.successThreshold Startup probe success threshold
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## @param secondary.livenessProbe.enabled Enable liveness probe
+  ## @param secondary.livenessProbe.initialDelaySeconds Liveness probe initial delay
+  ## @param secondary.livenessProbe.periodSeconds Liveness probe period
+  ## @param secondary.livenessProbe.timeoutSeconds Liveness probe timeout
+  ## @param secondary.livenessProbe.failureThreshold Liveness probe failure threshold
+  ## @param secondary.livenessProbe.successThreshold Liveness probe success threshold
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param secondary.readinessProbe.enabled Enable readiness probe
+  ## @param secondary.readinessProbe.initialDelaySeconds Readiness probe initial delay
+  ## @param secondary.readinessProbe.periodSeconds Readiness probe period
+  ## @param secondary.readinessProbe.timeoutSeconds Readiness probe timeout
+  ## @param secondary.readinessProbe.failureThreshold Readiness probe failure threshold
+  ## @param secondary.readinessProbe.successThreshold Readiness probe success threshold
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## @param secondary.persistence.enabled Enable persistence using PVC
+  ## @param secondary.persistence.storageClass PVC Storage Class
+  ## @param secondary.persistence.accessModes PVC access modes
+  ## @param secondary.persistence.size PVC size
+  ## @param secondary.persistence.mountPath Mount path for the data volume
+  ## @param secondary.persistence.annotations PVC annotations
+  ## @param secondary.persistence.labels PVC labels
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    mountPath: /data/mongodb
+    annotations: {}
+    labels: {}
+
+  ## @param secondary.service.headless.annotations Headless service annotations
+  service:
+    headless:
+      annotations: {}
+
+  ## @param secondary.nodeSelector Node labels for pod assignment
+  ## @param secondary.tolerations Tolerations for pod assignment
+  ## @param secondary.affinity Affinity rules for pod assignment
+  ## @param secondary.podLabels Extra labels for pods
+  ## @param secondary.podAnnotations Extra annotations for pods
+  ## @param secondary.extraVolumes Extra volumes
+  ## @param secondary.extraVolumeMounts Extra volume mounts
+  ## @param secondary.extraEnvVars Extra environment variables
+  ## @param secondary.sidecars Extra sidecar containers
+  ## @param secondary.initContainers Extra init containers
   nodeSelector: {}
   tolerations: []
   affinity: {}
