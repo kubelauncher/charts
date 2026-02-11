@@ -12,7 +12,21 @@ helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
 
 This chart deploys Apache Kafka on Kubernetes using the [kubelauncher/kafka](https://github.com/kubelauncher/docker) Docker image. It runs in KRaft mode (no ZooKeeper dependency) with an embedded controller.
 
-Scale the cluster by increasing `replicaCount`. Each broker acts as both a broker and a controller.
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Single node (default)
+
+A single Kafka broker acting as both broker and controller. Suitable for development and testing.
+
+```bash
+helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
+```
+
+### Cluster
+
+Scale by increasing `replicaCount`. Each broker acts as both a broker and a controller. KRaft handles leader election and metadata management without ZooKeeper.
 
 ```bash
 helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka \

@@ -12,7 +12,21 @@ helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
 
 This chart deploys Apache ZooKeeper on Kubernetes using the [kubelauncher/zookeeper](https://github.com/kubelauncher/docker) Docker image.
 
-Scale the ensemble by increasing `replicaCount`. Use an odd number (3, 5, 7) for proper quorum.
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Single node (default)
+
+A single ZooKeeper node. Suitable for development and testing.
+
+```bash
+helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
+```
+
+### Ensemble
+
+Scale the ensemble by increasing `replicaCount`. Use an odd number (3, 5, 7) for proper quorum. ZooKeeper uses a leader election protocol — a majority of nodes must be available for the cluster to operate.
 
 ```bash
 helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper \
