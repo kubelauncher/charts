@@ -1,0 +1,26 @@
+{{- if not .Values.cluster.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}{{- if .Values.sentinel.enabled }}-primary{{- end }}
+  namespace: {{ include "redis.namespace" . }}
+  labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: primary
+  {{- with (merge (.Values.primary.service.annotations | default dict) (.Values.commonAnnotations | default dict)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.primary.service.type }}
+  {{- if and (eq .Values.primary.service.type "ClusterIP") .Values.primary.service.clusterIP }}
+  clusterIP: {{ .Values.primary.service.clusterIP }}
+  {{- end }}
+  ports:
+    - name: tcp-redis
+      port: {{ .Values.primary.service.ports.redis }}
+      targetPort: tcp-redis
+      {{- if and (eq .Values.primary.service.type "NodePort") .Values.primary.service.nodePorts.redis }}
+      nodePort: {{ .Values.primary.service.nodePorts.redis }}
+      {{- end }}
+  selector: {{- include "redis.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: primary
+{{- end }}

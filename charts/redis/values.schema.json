@@ -99,6 +99,9 @@
                         "digest": {
                             "type": "string"
                         },
+                        "pullPolicy": {
+                            "type": "string"
+                        },
                         "registry": {
                             "type": "string"
                         },
@@ -362,7 +365,27 @@
                 }
             }
         },
-        "master": {
+        "nameOverride": {
+            "type": "string"
+        },
+        "namespaceOverride": {
+            "type": "string"
+        },
+        "networkPolicy": {
+            "type": "object",
+            "properties": {
+                "additionalRules": {
+                    "type": "array"
+                },
+                "allowExternal": {
+                    "type": "boolean"
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "primary": {
             "type": "object",
             "properties": {
                 "affinity": {
@@ -598,26 +621,6 @@
                 },
                 "tolerations": {
                     "type": "array"
-                }
-            }
-        },
-        "nameOverride": {
-            "type": "string"
-        },
-        "namespaceOverride": {
-            "type": "string"
-        },
-        "networkPolicy": {
-            "type": "object",
-            "properties": {
-                "additionalRules": {
-                    "type": "array"
-                },
-                "allowExternal": {
-                    "type": "boolean"
-                },
-                "enabled": {
-                    "type": "boolean"
                 }
             }
         },
@@ -938,6 +941,9 @@
                     "type": "object",
                     "properties": {
                         "digest": {
+                            "type": "string"
+                        },
+                        "pullPolicy": {
                             "type": "string"
                         },
                         "registry": {
