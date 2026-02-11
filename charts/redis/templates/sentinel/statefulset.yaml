@@ -41,7 +41,7 @@ spec:
       containers:
         - name: sentinel
           image: {{ include "redis.sentinel.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.sentinel.image.pullPolicy }}
           {{- if .Values.sentinel.containerSecurityContext.enabled }}
           securityContext:
             runAsUser: {{ .Values.sentinel.containerSecurityContext.runAsUser }}
