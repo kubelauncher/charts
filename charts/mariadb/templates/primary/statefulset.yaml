@@ -95,11 +95,8 @@ spec:
               containerPort: {{ .Values.primary.containerPorts.mariadb }}
           {{- if .Values.primary.startupProbe.enabled }}
           startupProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
+            tcpSocket:
+              port: tcp-mariadb
             initialDelaySeconds: {{ .Values.primary.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.startupProbe.timeoutSeconds }}
@@ -108,11 +105,8 @@ spec:
           {{- end }}
           {{- if .Values.primary.livenessProbe.enabled }}
           livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
+            tcpSocket:
+              port: tcp-mariadb
             initialDelaySeconds: {{ .Values.primary.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.livenessProbe.timeoutSeconds }}
@@ -121,11 +115,8 @@ spec:
           {{- end }}
           {{- if .Values.primary.readinessProbe.enabled }}
           readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - mariadb-admin ping -u root -p"$MARIADB_ROOT_PASSWORD"
+            tcpSocket:
+              port: tcp-mariadb
             initialDelaySeconds: {{ .Values.primary.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.primary.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.primary.readinessProbe.timeoutSeconds }}
