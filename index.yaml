@@ -8,9 +8,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-02-11T08:21:37.329790398Z"
+    created: "2026-02-11T09:11:16.001347546Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: 264ad65b2c1bc6baaf0a08ff928d541ccce1fd4a791ddd9d69579bebdbb9c05f
+    digest: 919beddc92fb32399c8059a797b1cae7edb041e445e9017f788977afd0765a22
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachecassandra
     keywords:
@@ -99,9 +99,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-02-11T08:21:37.330517464Z"
+    created: "2026-02-11T09:11:16.00278553Z"
     description: Apache Kafka distributed streaming platform
-    digest: 1aa4efed2ba05e1f56385805be80f2f6d1466bf6c2a7de34f6afefee9a873383
+    digest: 0862fd42915107d2f91748f11e08a9ef9a74708e7961f83b9017f6a036609ff6
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachekafka
     keywords:
@@ -183,6 +183,36 @@ entries:
     - https://kubelauncher.github.io/charts/kafka-0.1.0.tgz
     version: 0.1.0
   keycloak:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 26.5.3
+    created: "2026-02-11T09:11:16.00361264Z"
+    description: Keycloak identity and access management
+    digest: b33cbc277bb02024b57044dab8ac18a14e2883c1ee49dcedd7c176cbbd189fa8
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/keycloak
+    keywords:
+    - keycloak
+    - identity
+    - authentication
+    - oauth
+    - oidc
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: keycloak
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/keycloak-0.1.4.tgz
+    version: 0.1.4
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -317,9 +347,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.35.0
-    created: "2026-02-11T08:21:37.331827878Z"
+    created: "2026-02-11T09:11:16.004145319Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: a06bb4df55e8a978b8a8f358eb9f7876f6fc480a273a41d7e4eb2b7a0f262089
+    digest: 9fc5ce8530bfb45aad349ff3820897b2e2756e785bf63106111f0f221a201753
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/kubernetes
     keywords:
@@ -398,6 +428,35 @@ entries:
     - https://kubelauncher.github.io/charts/kubectl-0.1.0.tgz
     version: 0.1.0
   mariadb:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 12.1.2
+    created: "2026-02-11T09:11:16.004898711Z"
+    description: MariaDB relational database
+    digest: fc00c67745391b19c3d59d8d9e33ac23a50ecafcb983bf3901dc43a46e41b582
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mariadb
+    keywords:
+    - mariadb
+    - database
+    - sql
+    - mysql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mariadb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mariadb-0.1.3.tgz
+    version: 0.1.3
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -496,9 +555,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-11T08:21:37.333066549Z"
+    created: "2026-02-11T09:11:16.005553388Z"
     description: Memcached in-memory caching system
-    digest: 52fec7feee2a47b3c0580e6c89c425ce58a72c1b452978f72aeca1a36c42455f
+    digest: c96194f342ebf8fd6492a24ddffeca860a4adfad898e48148dac269e573e2144
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
     keywords:
@@ -577,6 +636,35 @@ entries:
     - https://kubelauncher.github.io/charts/memcached-0.1.0.tgz
     version: 0.1.0
   mongodb:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 8.2.0
+    created: "2026-02-11T09:11:16.006240656Z"
+    description: MongoDB document database
+    digest: c25338ac372addbfc32bd4c44fe49361db2fd04cd7190f991f4a3f9df52e4262
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mongodb
+    keywords:
+    - mongodb
+    - nosql
+    - database
+    - document
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mongodb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mongodb-0.1.4.tgz
+    version: 0.1.4
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -675,6 +763,34 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.0.0
+    created: "2026-02-11T09:11:16.006987626Z"
+    description: MySQL relational database
+    digest: 7737622d06beee904adc65baa6ea552d3f8b65c3d2d27fe22ac5073c11fd7d8a
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mysql
+    keywords:
+    - mysql
+    - database
+    - sql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mysql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mysql-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 8.0.0
     created: "2026-02-11T08:21:37.335320268Z"
     description: MySQL relational database
     digest: 2fa8f342ca5613a145e38a0253c1e2b9023530af7675c2703413748b874cec80
@@ -763,9 +879,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 2.6.12
-    created: "2026-02-11T08:21:37.336000818Z"
+    created: "2026-02-11T09:11:16.007680444Z"
     description: OpenLDAP directory service
-    digest: b0f4a87883d21b8758f5fe9e921f91d86ed2f20d77f0eac9c0577742c52c46f0
+    digest: 573c57a0abfcc20f864f3ef02aa7e50d668c7f08865228f9fb239e75a8305a37
     home: https://github.com/kubelauncher/charts
     icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
     keywords:
@@ -853,9 +969,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2026-02-11T08:21:37.336911346Z"
+    created: "2026-02-11T09:11:16.009347407Z"
     description: PostgreSQL relational database
-    digest: 8bacf0b84aa487acb8137ed73bcb0941d8a9398cdcfc5971fccbdcb8db1325b9
+    digest: 32a6cab69e81551382715c735c3e369e2fce553f115bbdd4bb77c2232b5deb1f
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/postgresql
     keywords:
@@ -949,6 +1065,35 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 4.2.3
+    created: "2026-02-11T09:11:16.010197941Z"
+    description: RabbitMQ message broker
+    digest: 5132ea7c0ed54f193fb799ce5e63ca7c193f853d11e9d53dabb8e37ba8ef9ee8
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/rabbitmq
+    keywords:
+    - rabbitmq
+    - message queue
+    - AMQP
+    - broker
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: rabbitmq
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/rabbitmq-0.1.3.tgz
+    version: 0.1.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 4.2.3
     created: "2026-02-11T08:21:37.337711739Z"
     description: RabbitMQ message broker
     digest: a2653ac1619d8b052cef04b36917fbffb6f1d6d7ac4e5c8d48f6de41f6dea026
@@ -1033,6 +1178,35 @@ entries:
     - https://kubelauncher.github.io/charts/rabbitmq-0.1.0.tgz
     version: 0.1.0
   redis:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 8.6.0
+    created: "2026-02-11T09:11:16.011922834Z"
+    description: Redis in-memory data store
+    digest: 212713f3f9fc60bb0437f7d301bd62aed792b57cd6d20ddee75251c8d3e472da
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/redis
+    keywords:
+    - redis
+    - cache
+    - database
+    - keyvalue
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: redis
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/redis-0.2.4.tgz
+    version: 0.2.4
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -1163,6 +1337,34 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 3.9.3
+    created: "2026-02-11T09:11:16.012572992Z"
+    description: Apache ZooKeeper distributed coordination service
+    digest: dcf2af34f9a787714964877714e1a1a3893cc68d5a9d3e472fbb77d2d1157d01
+    home: https://github.com/kubelauncher/charts
+    icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
+    keywords:
+    - zookeeper
+    - coordination
+    - distributed
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: zookeeper
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/zookeeper-0.1.3.tgz
+    version: 0.1.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 3.9.3
     created: "2026-02-11T08:21:37.340646717Z"
     description: Apache ZooKeeper distributed coordination service
     digest: 182269ea2cb04ba86cb402928be7e354061ec357c3ae3df388c8da080895d08e
@@ -1243,4 +1445,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-11T08:21:37.328910366Z"
+generated: "2026-02-11T09:11:16.000340619Z"
