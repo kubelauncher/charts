@@ -287,6 +287,32 @@
         "nodeSelector": {
             "type": "object"
         },
+        "persistence": {
+            "type": "object",
+            "properties": {
+                "accessModes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "annotations": {
+                    "type": "object"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "mountPath": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "storageClass": {
+                    "type": "string"
+                }
+            }
+        },
         "podAnnotations": {
             "type": "object"
         },
