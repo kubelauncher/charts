@@ -1,6 +1,6 @@
 # keycloak
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 26.5.3](https://img.shields.io/badge/AppVersion-26.5.3-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 26.5.3](https://img.shields.io/badge/AppVersion-26.5.3-informational?style=flat-square)
 
 Keycloak identity and access management
 
@@ -88,6 +88,12 @@ Keycloak identity and access management
 | networkPolicy.allowExternal | bool | `true` |  |
 | networkPolicy.enabled | bool | `false` |  |
 | nodeSelector | object | `{}` |  |
+| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| persistence.annotations | object | `{}` |  |
+| persistence.enabled | bool | `true` |  |
+| persistence.mountPath | string | `"/opt/keycloak/data"` |  |
+| persistence.size | string | `"1Gi"` |  |
+| persistence.storageClass | string | `""` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext.enabled | bool | `true` |  |
