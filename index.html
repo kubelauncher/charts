@@ -148,21 +148,7 @@
     </div>
 
     <p class="section-title">Available Charts</p>
-    <div class="charts">
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/redis"><span class="name">Redis</span><br><span class="ver">8.4.0</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/postgresql"><span class="name">PostgreSQL</span><br><span class="ver">17.0.0</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/mongodb"><span class="name">MongoDB</span><br><span class="ver">8.2.0</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/mysql"><span class="name">MySQL</span><br><span class="ver">8.0.0</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/mariadb"><span class="name">MariaDB</span><br><span class="ver">12.1.2</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/kafka"><span class="name">Kafka</span><br><span class="ver">3.9.0</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/rabbitmq"><span class="name">RabbitMQ</span><br><span class="ver">4.2.3</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/cassandra"><span class="name">Cassandra</span><br><span class="ver">5.0.6</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/memcached"><span class="name">Memcached</span><br><span class="ver">1.6.40</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/zookeeper"><span class="name">ZooKeeper</span><br><span class="ver">3.9.3</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/keycloak"><span class="name">Keycloak</span><br><span class="ver">26.5.2</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/openldap"><span class="name">OpenLDAP</span><br><span class="ver">2.6.12</span></a>
-      <a href="https://artifacthub.io/packages/helm/kubelauncher/kubectl"><span class="name">kubectl</span><br><span class="ver">1.35.0</span></a>
-    </div>
+    <div class="charts" id="charts"></div>
 
     <div class="links">
       <a href="https://artifacthub.io/packages/search?repo=kubelauncher">ArtifactHub</a>
@@ -177,5 +163,39 @@
       Production Kubernetes in days, not months.
     </p>
   </div>
+  <script>
+    fetch('index.yaml')
+      .then(r => r.text())
+      .then(txt => {
+        const entries = {};
+        let current = null;
+        for (const line of txt.split('\n')) {
+          const nameMatch = line.match(/^  (\S+):$/);
+          if (nameMatch && !['apiVersion','entries','generated'].includes(nameMatch[1])) {
+            current = nameMatch[1];
+          }
+          if (current && !entries[current]) {
+            const av = line.match(/^\s+appVersion:\s*"?([^"\s]+)"?/);
+            if (av) entries[current] = av[1];
+          }
+        }
+        const display = {
+          redis: 'Redis', postgresql: 'PostgreSQL', mongodb: 'MongoDB',
+          mysql: 'MySQL', mariadb: 'MariaDB', kafka: 'Kafka',
+          rabbitmq: 'RabbitMQ', cassandra: 'Cassandra', memcached: 'Memcached',
+          zookeeper: 'ZooKeeper', keycloak: 'Keycloak', openldap: 'OpenLDAP',
+          kubectl: 'kubectl'
+        };
+        const order = Object.keys(display);
+        const el = document.getElementById('charts');
+        for (const name of order) {
+          if (!entries[name]) continue;
+          const a = document.createElement('a');
+          a.href = 'https://artifacthub.io/packages/helm/kubelauncher/' + name;
+          a.innerHTML = '<span class="name">' + display[name] + '</span><br><span class="ver">' + entries[name] + '</span>';
+          el.appendChild(a);
+        }
+      });
+  </script>
 </body>
 </html>
