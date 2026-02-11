@@ -10,9 +10,23 @@ helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
 
 ## Introduction
 
-This chart deploys Apache Cassandra on Kubernetes using the [kubelauncher/cassandra](https://github.com/kubelauncher/docker) Docker image.
+This chart deploys Apache Cassandra on Kubernetes using the [kubelauncher/cassandra](https://github.com/kubelauncher/docker) Docker image. Cassandra uses a peer-to-peer gossip protocol — every node is equal and there is no single point of failure.
 
-Scale the cluster by increasing `replicaCount`. Cassandra uses a peer-to-peer gossip protocol for node discovery.
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Single node (default)
+
+A single Cassandra node. Suitable for development and testing.
+
+```bash
+helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
+```
+
+### Cluster
+
+Scale the cluster by increasing `replicaCount`. All nodes join the same cluster via gossip and share data according to the configured replication factor.
 
 ```bash
 helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra \
