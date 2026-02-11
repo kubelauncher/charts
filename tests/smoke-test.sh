@@ -326,12 +326,10 @@ case "${CHART}" in
         REPLICA_COUNT=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('replicaCount',1))" 2>/dev/null || echo "1")
         if [ "${REPLICA_COUNT}" -gt 1 ]; then
             echo "Checking cluster membership (expected ${REPLICA_COUNT} nodes)..."
-            RESULT=""
+            RUNNING="0"
             for attempt in $(seq 1 10); do
-                RESULT=$(kubectl run "rmq-cluster-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=curlimages/curl -- \
-                    curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/nodes" 2>/dev/null) || true
-                RUNNING=$(echo "${RESULT}" | python3 -c "import sys,json; nodes=json.load(sys.stdin); print(sum(1 for n in nodes if n.get('running',False)))" 2>/dev/null || echo "0")
+                RUNNING=$(kubectl exec -n "${NAMESPACE}" "${RELEASE}-0" -- rabbitmqctl cluster_status --formatter json 2>/dev/null \
+                    | python3 -c "import sys,json; print(len(json.load(sys.stdin).get('running_nodes',[])))" 2>/dev/null || echo "0")
                 echo "Cluster attempt ${attempt}: ${RUNNING}/${REPLICA_COUNT} nodes running"
                 if [ "${RUNNING}" = "${REPLICA_COUNT}" ]; then
                     break
