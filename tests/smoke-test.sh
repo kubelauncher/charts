@@ -381,6 +381,29 @@ case "${CHART}" in
         done
         echo "${RESULT}" | grep -q "1" || fail "MySQL SELECT 1 failed after 3 attempts"
         log "MySQL SELECT 1 works"
+
+        # Replication check
+        ARCHITECTURE=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('architecture','standalone'))" 2>/dev/null || echo "standalone")
+        if [ "${ARCHITECTURE}" = "replication" ]; then
+            EXPECTED_SECONDARIES=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('secondary',{}).get('replicaCount',2))" 2>/dev/null || echo "2")
+            echo "Checking MySQL replication (expected ${EXPECTED_SECONDARIES} secondaries)..."
+
+            RESULT=""
+            for attempt in $(seq 1 10); do
+                RESULT=$(kubectl run "mysql-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=mysql:8 \
+                    --env="MYSQL_PWD=${MYSQL_PASS}" -- \
+                    mysql -h "${SVC}" -P "${PORT}" -u root -e "SHOW SLAVE HOSTS;" 2>&1) || true
+                CONNECTED=$(echo "${RESULT}" | grep -c "^[0-9]" || echo "0")
+                echo "Replication attempt ${attempt}: ${CONNECTED}/${EXPECTED_SECONDARIES} secondaries connected"
+                if [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ]; then
+                    break
+                fi
+                sleep 10
+            done
+            [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ] || fail "Expected ${EXPECTED_SECONDARIES} secondaries, got ${CONNECTED}"
+            log "MySQL replication: ${EXPECTED_SECONDARIES} secondaries connected"
+        fi
         ;;
 
     mariadb)
