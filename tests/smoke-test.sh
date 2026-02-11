@@ -102,8 +102,20 @@ esac
 case "${CHART}" in
     redis)
         FULLNAME="${RELEASE}"
-        SVC="${FULLNAME}-master"
-        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+
+        # Determine service name based on mode
+        CLUSTER_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('cluster',{}).get('enabled',False))" 2>/dev/null || echo "False")
+        SENTINEL_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('sentinel',{}).get('enabled',False))" 2>/dev/null || echo "False")
+
+        if [ "${CLUSTER_ENABLED}" = "True" ]; then
+            SVC="${FULLNAME}-cluster"
+        elif [ "${SENTINEL_ENABLED}" = "True" ]; then
+            SVC="${FULLNAME}-primary"
+        else
+            SVC="${FULLNAME}"
+        fi
+
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="tcp-redis")].port}')
 
         # Check if auth is enabled by looking at the secret
         if kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" &>/dev/null; then
@@ -115,7 +127,7 @@ case "${CHART}" in
             echo "Auth disabled, no password"
         fi
 
-        echo "Testing Redis at ${SVC}:${PORT}..."
+        echo "Testing Redis (${SVC}:${PORT}, cluster=${CLUSTER_ENABLED}, sentinel=${SENTINEL_ENABLED})..."
 
         # PING test with retry
         RESULT=""

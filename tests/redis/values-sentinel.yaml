@@ -10,7 +10,7 @@ sentinel:
   replicaCount: 3
   quorum: 2
 
-master:
+primary:
   resourcesPreset: "nano"
 
 replica:
