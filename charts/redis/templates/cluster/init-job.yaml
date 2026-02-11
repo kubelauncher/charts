@@ -7,9 +7,11 @@ metadata:
   labels: {{- include "redis.labels" . | nindent 4 }}
     app.kubernetes.io/component: cluster-init
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "argocd.argoproj.io/hook": PostSync
+    "argocd.argoproj.io/hook-delete-policy": BeforeHookCreation
 spec:
   template:
     metadata:

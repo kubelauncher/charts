@@ -6,9 +6,11 @@ metadata:
   namespace: {{ include "mongodb.namespace" . }}
   labels: {{- include "mongodb.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "argocd.argoproj.io/hook": PostSync
+    "argocd.argoproj.io/hook-delete-policy": BeforeHookCreation
 spec:
   backoffLimit: 10
   template:
