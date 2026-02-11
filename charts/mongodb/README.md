@@ -1,6 +1,6 @@
 # mongodb
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
 
 MongoDB document database
 
@@ -78,7 +78,7 @@ MongoDB document database
 | primary.livenessProbe.initialDelaySeconds | int | `30` |  |
 | primary.livenessProbe.periodSeconds | int | `10` |  |
 | primary.livenessProbe.successThreshold | int | `1` |  |
-| primary.livenessProbe.timeoutSeconds | int | `5` |  |
+| primary.livenessProbe.timeoutSeconds | int | `10` |  |
 | primary.name | string | `"primary"` |  |
 | primary.nodeSelector | object | `{}` |  |
 | primary.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
@@ -98,7 +98,7 @@ MongoDB document database
 | primary.readinessProbe.initialDelaySeconds | int | `5` |  |
 | primary.readinessProbe.periodSeconds | int | `10` |  |
 | primary.readinessProbe.successThreshold | int | `1` |  |
-| primary.readinessProbe.timeoutSeconds | int | `5` |  |
+| primary.readinessProbe.timeoutSeconds | int | `10` |  |
 | primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
 | primary.resourcesPreset | string | `"nano"` |  |
@@ -115,7 +115,7 @@ MongoDB document database
 | primary.startupProbe.initialDelaySeconds | int | `10` |  |
 | primary.startupProbe.periodSeconds | int | `10` |  |
 | primary.startupProbe.successThreshold | int | `1` |  |
-| primary.startupProbe.timeoutSeconds | int | `5` |  |
+| primary.startupProbe.timeoutSeconds | int | `10` |  |
 | primary.tolerations | list | `[]` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automountServiceAccountToken | bool | `false` |  |
