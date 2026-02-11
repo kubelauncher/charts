@@ -1,0 +1,44 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
+```
+
+## Introduction
+
+This chart deploys Apache Cassandra on Kubernetes using the [kubelauncher/cassandra](https://github.com/kubelauncher/docker) Docker image.
+
+Scale the cluster by increasing `replicaCount`. Cassandra uses a peer-to-peer gossip protocol for node discovery.
+
+```bash
+helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra \
+  --set replicaCount=3 \
+  --set cluster.name=cassandra \
+  --set cluster.datacenter=dc1 \
+  --set cluster.rack=rack1
+```
+
+The CQL port is `9042`, the intra-node port is `7000`. Persistence is enabled by default with 16Gi volumes. The default snitch is `SimpleSnitch`.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra \
+  --set replicaCount=3
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-cassandra
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

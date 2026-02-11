@@ -1,0 +1,67 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+  --set auth.rootPassword=secret
+```
+
+## Introduction
+
+This chart deploys MySQL on Kubernetes using the [kubelauncher/mysql](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replication architectures.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Standalone (default)
+
+A single MySQL instance. Suitable for development and small production workloads.
+
+```bash
+helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+### Replication
+
+One primary with multiple secondaries using GTID-based replication. Secondaries serve read-only queries and provide data redundancy.
+
+```bash
+helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+  --set architecture=replication \
+  --set auth.rootPassword=secret \
+  --set auth.replicationUser=replicator \
+  --set auth.replicationPassword=replsecret \
+  --set secondary.replicaCount=2
+```
+
+The primary enables GTID mode (`gtid-mode=ON`, `enforce-gtid-consistency=ON`) and binary logging. Secondaries use `MASTER_AUTO_POSITION=1` for automatic replication positioning.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-mysql
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

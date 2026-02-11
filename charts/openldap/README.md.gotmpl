@@ -1,0 +1,41 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-ldap oci://ghcr.io/kubelauncher/charts/openldap \
+  --set auth.adminPassword=secret
+```
+
+## Introduction
+
+This chart deploys OpenLDAP on Kubernetes using the [kubelauncher/openldap](https://github.com/kubelauncher/docker) Docker image. It provides a lightweight LDAP directory server.
+
+```bash
+helm install my-ldap oci://ghcr.io/kubelauncher/charts/openldap \
+  --set auth.adminPassword=secret \
+  --set env.LDAP_ROOT="dc=myorg,dc=com"
+```
+
+The LDAP port is `1389` and the LDAPS port is `1636` (non-root ports). Persistence is enabled by default with 8Gi volumes.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-ldap oci://ghcr.io/kubelauncher/charts/openldap \
+  --set auth.adminPassword=secret
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-ldap
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
