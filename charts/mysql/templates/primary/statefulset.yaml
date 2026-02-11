@@ -80,6 +80,17 @@ spec:
             {{- end }}
             - name: MYSQL_DATA_DIR
               value: {{ .Values.primary.persistence.mountPath }}/data
+            {{- if eq .Values.architecture "replication" }}
+            - name: MYSQL_REPLICATION_MODE
+              value: "primary"
+            - name: MYSQL_REPLICATION_USER
+              value: {{ .Values.replication.user | quote }}
+            - name: MYSQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.secretName" . }}
+                  key: mysql-replication-password
+            {{- end }}
             {{- with .Values.primary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

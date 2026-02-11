@@ -1,0 +1,93 @@
+architecture: replication
+
+auth:
+  rootPassword: "testpassword123"
+  database: "testdb"
+  username: "testuser"
+  password: "testuser123"
+
+replication:
+  user: "replicator"
+  password: "replpass123"
+
+primary:
+  extraEnvVars:
+    - name: MYSQL_LOG_DIR
+      value: "/tmp/mysql-logs"
+  resourcesPreset: "small"
+  persistence:
+    enabled: false
+    mountPath: /tmp/mysql
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 60
+  initContainers:
+    - name: init-permissions
+      image: busybox:latest
+      command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /tmp/mysql/data /tmp/mysql-logs
+          chown -R 1001:1001 /tmp/mysql /tmp/mysql-logs
+          chmod 755 /tmp/mysql /tmp/mysql-logs
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: data
+          mountPath: /tmp/mysql
+        - name: logs
+          mountPath: /tmp/mysql-logs
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+  extraVolumes:
+    - name: logs
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: logs
+      mountPath: /tmp/mysql-logs
+
+secondary:
+  replicaCount: 2
+  resourcesPreset: "small"
+  persistence:
+    enabled: false
+    mountPath: /tmp/mysql
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 60
+  initContainers:
+    - name: init-logs
+      image: busybox:latest
+      command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /tmp/mysql-logs
+          chown -R 1001:1001 /tmp/mysql-logs
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: logs
+          mountPath: /tmp/mysql-logs
+  extraVolumes:
+    - name: logs
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: logs
+      mountPath: /tmp/mysql-logs
+  extraEnvVars:
+    - name: MYSQL_LOG_DIR
+      value: "/tmp/mysql-logs"
