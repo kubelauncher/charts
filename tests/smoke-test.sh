@@ -331,7 +331,7 @@ case "${CHART}" in
                 RESULT=$(kubectl run "rmq-cluster-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
                     --image=curlimages/curl -- \
                     curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/nodes" 2>&1) || true
-                RUNNING=$(echo "${RESULT}" | python3 -c "import sys,json; nodes=json.load(sys.stdin); print(sum(1 for n in nodes if n.get('running',False)))" 2>/dev/null || echo "0")
+                RUNNING=$(echo "${RESULT}" | grep -v '^pod ' | python3 -c "import sys,json; nodes=json.load(sys.stdin); print(sum(1 for n in nodes if n.get('running',False)))" 2>/dev/null || echo "0")
                 echo "Cluster attempt ${attempt}: ${RUNNING}/${REPLICA_COUNT} nodes running"
                 if [ "${RUNNING}" = "${REPLICA_COUNT}" ]; then
                     break
