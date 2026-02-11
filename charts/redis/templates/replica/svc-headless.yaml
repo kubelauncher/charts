@@ -1,10 +1,11 @@
-{{- if not .Values.cluster.enabled }}
+{{- if and (not .Values.cluster.enabled) (or .Values.sentinel.enabled (eq .Values.architecture "replication")) }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "redis.fullname" . }}-headless
+  name: {{ include "redis.fullname" . }}-replica-headless
   namespace: {{ include "redis.namespace" . }}
   labels: {{- include "redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: replica
   {{- with .Values.commonAnnotations }}
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -13,8 +14,8 @@ spec:
   clusterIP: None
   ports:
     - name: tcp-redis
-      port: {{ .Values.primary.service.ports.redis }}
+      port: {{ .Values.replica.service.ports.redis }}
       targetPort: tcp-redis
   selector: {{- include "redis.selectorLabels" . | nindent 4 }}
-    app.kubernetes.io/component: primary
+    app.kubernetes.io/component: replica
 {{- end }}
