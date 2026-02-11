@@ -129,17 +129,22 @@ case "${CHART}" in
 
         # Use -c flag for cluster mode (follows MOVED redirects)
         CLUSTER_FLAG=""
+        EXEC_POD=""
         if [ "${CLUSTER_ENABLED}" = "True" ]; then
             CLUSTER_FLAG="-c"
+            EXEC_POD="${FULLNAME}-cluster-0"
+        elif [ "${SENTINEL_ENABLED}" = "True" ]; then
+            EXEC_POD=$(kubectl get pods -n "${NAMESPACE}" -l "app.kubernetes.io/component=primary" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "${FULLNAME}-0")
+        else
+            EXEC_POD="${FULLNAME}-0"
         fi
 
-        echo "Testing Redis (${SVC}:${PORT}, cluster=${CLUSTER_ENABLED}, sentinel=${SENTINEL_ENABLED})..."
+        echo "Testing Redis (${SVC}:${PORT}, cluster=${CLUSTER_ENABLED}, sentinel=${SENTINEL_ENABLED}, pod=${EXEC_POD})..."
 
         # PING test with retry
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run "redis-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=redis:alpine -- \
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                 sh -c "redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} PING" 2>&1) || true
             echo "PING attempt ${attempt}: ${RESULT}"
             if echo "${RESULT}" | grep -q "PONG"; then
@@ -151,8 +156,7 @@ case "${CHART}" in
         log "Redis PING -> PONG"
 
         # SET/GET test
-        RESULT=$(kubectl run redis-write --rm -i --restart=Never -n "${NAMESPACE}" \
-            --image=redis:alpine -- \
+        RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
             sh -c "redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
         echo "SET/GET result: ${RESULT}"
         echo "${RESULT}" | grep -q "ok" || fail "Redis SET/GET failed"
@@ -166,8 +170,7 @@ case "${CHART}" in
 
             RESULT=""
             for attempt in $(seq 1 10); do
-                RESULT=$(kubectl run "redis-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=redis:alpine -- \
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                     sh -c "redis-cli -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} INFO replication" 2>&1) || true
                 CONNECTED=$(echo "${RESULT}" | grep -o 'connected_slaves:[0-9]*' | cut -d: -f2 || echo "0")
                 echo "Replication attempt ${attempt}: connected_slaves=${CONNECTED}"
@@ -188,8 +191,7 @@ case "${CHART}" in
 
             RESULT=""
             for attempt in $(seq 1 5); do
-                RESULT=$(kubectl run "redis-sent-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=redis:alpine -- \
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                     sh -c "redis-cli -h '${SENTINEL_SVC}' -p '${SENTINEL_PORT}' SENTINEL master mymaster" 2>&1) || true
                 echo "Sentinel attempt ${attempt}: ${RESULT}"
                 if echo "${RESULT}" | grep -q "flags"; then
@@ -220,14 +222,13 @@ case "${CHART}" in
             sleep 2
         done
 
-        # check connectivity with retry
-        echo "Testing PostgreSQL connectivity..."
+        # check connectivity with retry (exec into primary pod)
+        EXEC_POD="${FULLNAME}-0"
+        echo "Testing PostgreSQL connectivity via ${EXEC_POD}..."
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run pg-smoke-${attempt} --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=postgres:alpine \
-                --env="PGPASSWORD=${PG_PASS}" -- \
-                psql -h "${SVC}" -p "${PORT}" -U postgres -c "SELECT 1 AS smoke_test;" 2>&1) || true
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                sh -c "PGPASSWORD='${PG_PASS}' psql -h '${SVC}' -p '${PORT}' -U postgres -c 'SELECT 1 AS smoke_test;'" 2>&1) || true
             echo "Attempt ${attempt} result: ${RESULT}"
             if echo "${RESULT}" | grep -q "1"; then
                 break
@@ -247,10 +248,8 @@ case "${CHART}" in
 
             RESULT=""
             for attempt in 1 2 3; do
-                RESULT=$(kubectl run "pg-user-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=postgres:alpine \
-                    --env="PGPASSWORD=${USER_PASS}" -- \
-                    psql -h "${SVC}" -p "${PORT}" -U "${USER}" -d "${DB}" -c "SELECT current_database(), current_user;" 2>&1) || true
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "PGPASSWORD='${USER_PASS}' psql -h '${SVC}' -p '${PORT}' -U '${USER}' -d '${DB}' -c 'SELECT current_database(), current_user;'" 2>&1) || true
                 echo "Custom user attempt ${attempt}: ${RESULT}"
                 if echo "${RESULT}" | grep -q "${DB}"; then
                     break
@@ -363,14 +362,13 @@ case "${CHART}" in
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
         MYSQL_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mysql-root-password}' | base64 -d)
 
-        echo "Testing MySQL at ${SVC}:${PORT}..."
+        EXEC_POD="${FULLNAME}-0"
+        echo "Testing MySQL at ${SVC}:${PORT} via ${EXEC_POD}..."
 
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run "mysql-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=mysql:8 \
-                --env="MYSQL_PWD=${MYSQL_PASS}" -- \
-                mysql -h "${SVC}" -P "${PORT}" -u root -e "SELECT 1 AS smoke_test;" 2>&1) || true
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                sh -c "MYSQL_PWD='${MYSQL_PASS}' mysql -h '${SVC}' -P '${PORT}' -u root -e 'SELECT 1 AS smoke_test;'" 2>&1) || true
             echo "Attempt ${attempt}: ${RESULT}"
             if echo "${RESULT}" | grep -q "1"; then
                 break
@@ -388,10 +386,8 @@ case "${CHART}" in
 
             RESULT=""
             for attempt in $(seq 1 10); do
-                RESULT=$(kubectl run "mysql-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=mysql:8 \
-                    --env="MYSQL_PWD=${MYSQL_PASS}" -- \
-                    mysql -h "${SVC}" -P "${PORT}" -u root -e "SHOW SLAVE HOSTS;" 2>&1) || true
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "MYSQL_PWD='${MYSQL_PASS}' mysql -h '${SVC}' -P '${PORT}' -u root -e 'SHOW SLAVE HOSTS;'" 2>&1) || true
                 CONNECTED=$(echo "${RESULT}" | grep -c "^[0-9]" || echo "0")
                 echo "Replication attempt ${attempt}: ${CONNECTED}/${EXPECTED_SECONDARIES} secondaries connected"
                 if [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ]; then
@@ -410,14 +406,13 @@ case "${CHART}" in
         PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
         MARIADB_PASS=$(kubectl get secret -n "${NAMESPACE}" "${FULLNAME}" -o jsonpath='{.data.mariadb-root-password}' | base64 -d)
 
-        echo "Testing MariaDB at ${SVC}:${PORT}..."
+        EXEC_POD="${FULLNAME}-0"
+        echo "Testing MariaDB at ${SVC}:${PORT} via ${EXEC_POD}..."
 
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run "mariadb-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=mariadb:11 \
-                --env="MYSQL_PWD=${MARIADB_PASS}" -- \
-                mariadb -h "${SVC}" -P "${PORT}" -u root -e "SELECT 1 AS smoke_test;" 2>&1) || true
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                sh -c "MYSQL_PWD='${MARIADB_PASS}' mariadb -h '${SVC}' -P '${PORT}' -u root -e 'SELECT 1 AS smoke_test;'" 2>&1) || true
             echo "Attempt ${attempt}: ${RESULT}"
             if echo "${RESULT}" | grep -q "1"; then
                 break
@@ -436,10 +431,8 @@ case "${CHART}" in
             # Check SHOW SLAVE HOSTS on primary
             RESULT=""
             for attempt in $(seq 1 10); do
-                RESULT=$(kubectl run "mariadb-repl-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=mariadb:11 \
-                    --env="MYSQL_PWD=${MARIADB_PASS}" -- \
-                    mariadb -h "${SVC}" -P "${PORT}" -u root -e "SHOW SLAVE HOSTS;" 2>&1) || true
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "MYSQL_PWD='${MARIADB_PASS}' mariadb -h '${SVC}' -P '${PORT}' -u root -e 'SHOW SLAVE HOSTS;'" 2>&1) || true
                 CONNECTED=$(echo "${RESULT}" | grep -c "^[0-9]" || echo "0")
                 echo "Replication attempt ${attempt}: ${CONNECTED}/${EXPECTED_SECONDARIES} secondaries connected"
                 if [ "${CONNECTED}" = "${EXPECTED_SECONDARIES}" ]; then
@@ -470,13 +463,13 @@ case "${CHART}" in
             AUTH_ENABLED="false"
         fi
 
-        echo "Testing MongoDB at ${SVC}:${PORT} (auth=${AUTH_ENABLED}, architecture=${ARCHITECTURE})..."
+        EXEC_POD="${FULLNAME}-0"
+        echo "Testing MongoDB at ${SVC}:${PORT} via ${EXEC_POD} (auth=${AUTH_ENABLED}, architecture=${ARCHITECTURE})..."
 
         # Ping test
         RESULT=""
         for attempt in 1 2 3; do
-            RESULT=$(kubectl run "mongo-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=mongo:7 -- \
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                 mongosh "mongodb://${SVC}:${PORT}" ${AUTH_ARGS} --quiet --eval "db.adminCommand('ping')" 2>&1) || true
             echo "Attempt ${attempt}: ${RESULT}"
             if echo "${RESULT}" | grep -q "ok"; then
@@ -494,8 +487,7 @@ case "${CHART}" in
 
             RESULT=""
             for attempt in $(seq 1 5); do
-                RESULT=$(kubectl run "mongo-rs-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                    --image=mongo:7 -- \
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                     mongosh "mongodb://${SVC}:${PORT}" ${AUTH_ARGS} --quiet --eval "
                         var s = rs.status();
                         print('members=' + s.members.length);
@@ -544,10 +536,10 @@ case "${CHART}" in
 
         echo "Testing Kafka at ${SVC}:${PORT}..."
 
+        EXEC_POD="${FULLNAME}-0"
         RESULT=""
         for attempt in 1 2 3 4 5; do
-            RESULT=$(kubectl run "kafka-smoke-${attempt}" --rm -i --restart=Never -n "${NAMESPACE}" \
-                --image=confluentinc/cp-kafka:7.5.0 -- \
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
                 kafka-topics --bootstrap-server "${SVC}:${PORT}" --list 2>&1) || true
             echo "Attempt ${attempt}: ${RESULT}"
             # Empty list is valid, error messages contain "ERROR" or "Exception"
