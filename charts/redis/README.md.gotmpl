@@ -10,9 +10,60 @@ helm install my-redis oci://ghcr.io/kubelauncher/charts/redis
 
 ## Introduction
 
-This chart deploys Redis on Kubernetes using the [kubelauncher/redis](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replication architectures.
+This chart deploys Redis on Kubernetes using the [kubelauncher/redis](https://github.com/kubelauncher/docker) Docker image. It supports four deployment architectures: standalone, replication, sentinel, and cluster.
 
 The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Standalone (default)
+
+A single Redis primary instance. Suitable for development and caching workloads.
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis \
+  --set auth.password=mysecret
+```
+
+### Replication
+
+One primary with multiple read replicas. Replicas serve read traffic and provide data redundancy.
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis \
+  --set architecture=replication \
+  --set auth.password=mysecret \
+  --set replica.replicaCount=3
+```
+
+### Sentinel
+
+High-availability setup with automatic failover. Sentinel monitors the primary and promotes a replica if the primary fails.
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis \
+  --set architecture=replication \
+  --set auth.password=mysecret \
+  --set sentinel.enabled=true \
+  --set sentinel.replicaCount=3 \
+  --set sentinel.quorum=2
+```
+
+Sentinels listen on port `26379`. The sentinel set name defaults to `mymaster`.
+
+### Cluster
+
+Horizontally sharded Redis with automatic data partitioning across multiple nodes. Uses a dedicated `redis-cluster` image.
+
+```bash
+helm install my-redis oci://ghcr.io/kubelauncher/charts/redis \
+  --set auth.password=mysecret \
+  --set cluster.enabled=true \
+  --set cluster.nodes=6 \
+  --set cluster.replicas=1
+```
+
+Each node exposes the Redis port (`6379`) and the cluster bus port (`16379`).
 
 {{ template "chart.requirementsSection" . }}
 

@@ -15,6 +15,35 @@ This chart deploys PostgreSQL on Kubernetes using the [kubelauncher/postgresql](
 
 The values structure follows the same conventions as popular community charts, allowing easy migration.
 
+## Architecture
+
+### Standalone (default)
+
+A single PostgreSQL instance. Suitable for development and small production workloads.
+
+```bash
+helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+  --set auth.postgresPassword=admin \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+### Replication
+
+One primary with streaming read replicas. Read replicas handle read-only queries and provide data redundancy.
+
+```bash
+helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+  --set architecture=replication \
+  --set auth.postgresPassword=admin \
+  --set auth.replicationUsername=repl_user \
+  --set auth.replicationPassword=replsecret \
+  --set readReplicas.replicaCount=2
+```
+
+Read replicas connect to the primary via PostgreSQL streaming replication. Each replica has its own PVC for data persistence.
+
 {{ template "chart.requirementsSection" . }}
 
 ## Installing the Chart

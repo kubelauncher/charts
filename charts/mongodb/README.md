@@ -1,21 +1,63 @@
 # mongodb
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
-
 MongoDB document database
 
-**Homepage:** <https://github.com/kubelauncher/charts>
+## TL;DR
 
-## Maintainers
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret
+```
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |
+## Introduction
 
-## Source Code
+This chart deploys MongoDB on Kubernetes using the [kubelauncher/mongodb](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replica set architectures.
 
-* <https://github.com/kubelauncher/docker>
-* <https://github.com/kubelauncher/charts>
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Standalone (default)
+
+A single MongoDB instance. Suitable for development and small workloads.
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+### ReplicaSet
+
+A primary with multiple secondaries forming a MongoDB replica set. Provides automatic failover and read scaling.
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set architecture=replicaset \
+  --set auth.rootPassword=secret \
+  --set replicaset.name=rs0 \
+  --set secondary.replicaCount=2
+```
+
+The replica set is initialized via `rs.initiate()` with keyfile authentication between members. An init job handles the initial replica set configuration.
+
+## Installing the Chart
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-mongo
+```
 
 ## Values
 
@@ -117,10 +159,66 @@ MongoDB document database
 | primary.startupProbe.successThreshold | int | `1` |  |
 | primary.startupProbe.timeoutSeconds | int | `10` |  |
 | primary.tolerations | list | `[]` |  |
+| replicaset.existingKeyfileSecret | string | `""` |  |
+| replicaset.name | string | `"rs0"` |  |
+| secondary.affinity | object | `{}` |  |
+| secondary.containerPorts.mongodb | int | `27017` |  |
+| secondary.containerSecurityContext.allowPrivilegeEscalation | bool | `false` |  |
+| secondary.containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| secondary.containerSecurityContext.enabled | bool | `true` |  |
+| secondary.containerSecurityContext.readOnlyRootFilesystem | bool | `false` |  |
+| secondary.containerSecurityContext.runAsGroup | int | `1001` |  |
+| secondary.containerSecurityContext.runAsNonRoot | bool | `true` |  |
+| secondary.containerSecurityContext.runAsUser | int | `1001` |  |
+| secondary.containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| secondary.extraEnvVars | list | `[]` |  |
+| secondary.extraVolumeMounts | list | `[]` |  |
+| secondary.extraVolumes | list | `[]` |  |
+| secondary.initContainers | list | `[]` |  |
+| secondary.livenessProbe.enabled | bool | `true` |  |
+| secondary.livenessProbe.failureThreshold | int | `6` |  |
+| secondary.livenessProbe.initialDelaySeconds | int | `30` |  |
+| secondary.livenessProbe.periodSeconds | int | `10` |  |
+| secondary.livenessProbe.successThreshold | int | `1` |  |
+| secondary.livenessProbe.timeoutSeconds | int | `10` |  |
+| secondary.name | string | `"secondary"` |  |
+| secondary.nodeSelector | object | `{}` |  |
+| secondary.persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| secondary.persistence.annotations | object | `{}` |  |
+| secondary.persistence.enabled | bool | `true` |  |
+| secondary.persistence.labels | object | `{}` |  |
+| secondary.persistence.mountPath | string | `"/data/mongodb"` |  |
+| secondary.persistence.size | string | `"8Gi"` |  |
+| secondary.persistence.storageClass | string | `""` |  |
+| secondary.podAnnotations | object | `{}` |  |
+| secondary.podLabels | object | `{}` |  |
+| secondary.podSecurityContext.enabled | bool | `true` |  |
+| secondary.podSecurityContext.fsGroup | int | `1001` |  |
+| secondary.readinessProbe.enabled | bool | `true` |  |
+| secondary.readinessProbe.failureThreshold | int | `6` |  |
+| secondary.readinessProbe.initialDelaySeconds | int | `5` |  |
+| secondary.readinessProbe.periodSeconds | int | `10` |  |
+| secondary.readinessProbe.successThreshold | int | `1` |  |
+| secondary.readinessProbe.timeoutSeconds | int | `10` |  |
+| secondary.replicaCount | int | `2` |  |
+| secondary.resources | object | `{}` |  |
+| secondary.resourcesPreset | string | `"nano"` |  |
+| secondary.service.headless.annotations | object | `{}` |  |
+| secondary.sidecars | list | `[]` |  |
+| secondary.startupProbe.enabled | bool | `true` |  |
+| secondary.startupProbe.failureThreshold | int | `30` |  |
+| secondary.startupProbe.initialDelaySeconds | int | `10` |  |
+| secondary.startupProbe.periodSeconds | int | `10` |  |
+| secondary.startupProbe.successThreshold | int | `1` |  |
+| secondary.startupProbe.timeoutSeconds | int | `10` |  |
+| secondary.tolerations | list | `[]` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automountServiceAccountToken | bool | `false` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
 
-----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| kubelauncher | <platform@kubelauncher.com> | <https://www.kubelauncher.com> |

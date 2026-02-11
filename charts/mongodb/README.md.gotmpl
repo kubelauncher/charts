@@ -1,0 +1,66 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret
+```
+
+## Introduction
+
+This chart deploys MongoDB on Kubernetes using the [kubelauncher/mongodb](https://github.com/kubelauncher/docker) Docker image. It supports standalone and replica set architectures.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Standalone (default)
+
+A single MongoDB instance. Suitable for development and small workloads.
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+### ReplicaSet
+
+A primary with multiple secondaries forming a MongoDB replica set. Provides automatic failover and read scaling.
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set architecture=replicaset \
+  --set auth.rootPassword=secret \
+  --set replicaset.name=rs0 \
+  --set secondary.replicaCount=2
+```
+
+The replica set is initialized via `rs.initiate()` with keyfile authentication between members. An init job handles the initial replica set configuration.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-mongo
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

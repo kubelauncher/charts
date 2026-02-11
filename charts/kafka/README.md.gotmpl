@@ -1,0 +1,41 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
+```
+
+## Introduction
+
+This chart deploys Apache Kafka on Kubernetes using the [kubelauncher/kafka](https://github.com/kubelauncher/docker) Docker image. It runs in KRaft mode (no ZooKeeper dependency) with an embedded controller.
+
+Scale the cluster by increasing `replicaCount`. Each broker acts as both a broker and a controller.
+
+```bash
+helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka \
+  --set replicaCount=3
+```
+
+The client port is `9092` and the controller port is `9093`. Persistence is enabled by default with 8Gi volumes.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka \
+  --set replicaCount=3
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-kafka
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

@@ -15,6 +15,32 @@ This chart deploys RabbitMQ on Kubernetes using the [kubelauncher/rabbitmq](http
 
 The values structure follows the same conventions as popular community charts, allowing easy migration.
 
+## Architecture
+
+### Single node (default)
+
+A single RabbitMQ node with the management plugin enabled on port `15672`.
+
+```bash
+helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+  --set auth.username=admin \
+  --set auth.password=secret
+```
+
+### Cluster
+
+Multiple RabbitMQ nodes forming an Erlang cluster with automatic peer discovery via Kubernetes. Increase `replicaCount` to deploy a cluster.
+
+```bash
+helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+  --set auth.username=admin \
+  --set auth.password=secret \
+  --set replicaCount=3 \
+  --set clustering.enabled=true
+```
+
+Clustering uses hostname-based addressing with `autoheal` partition handling by default. All nodes share the same Erlang cookie for authentication.
+
 ## Installing the Chart
 
 ```bash

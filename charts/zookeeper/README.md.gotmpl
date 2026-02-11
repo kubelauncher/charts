@@ -1,0 +1,41 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
+```
+
+## Introduction
+
+This chart deploys Apache ZooKeeper on Kubernetes using the [kubelauncher/zookeeper](https://github.com/kubelauncher/docker) Docker image.
+
+Scale the ensemble by increasing `replicaCount`. Use an odd number (3, 5, 7) for proper quorum.
+
+```bash
+helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper \
+  --set replicaCount=3
+```
+
+The client port is `2181`, the follower port is `2888`, and the election port is `3888`. Persistence is enabled by default with 8Gi volumes.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper \
+  --set replicaCount=3
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-zk
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}

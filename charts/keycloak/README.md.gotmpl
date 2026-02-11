@@ -1,0 +1,46 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
+  --set auth.adminPassword=secret
+```
+
+## Introduction
+
+This chart deploys Keycloak on Kubernetes using the [kubelauncher/keycloak](https://github.com/kubelauncher/docker) Docker image. Keycloak provides identity and access management with support for OpenID Connect, SAML, and OAuth 2.0.
+
+An external database (PostgreSQL by default) is required. Configure the database connection via the `database` values.
+
+```bash
+helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
+  --set auth.adminPassword=secret \
+  --set database.vendor=postgres \
+  --set database.url=jdbc:postgresql://mydb:5432/keycloak \
+  --set database.username=keycloak \
+  --set database.password=dbpass
+```
+
+The HTTP port is `8080` and the management port is `9000`. Both Ingress and Gateway API (HTTPRoute) are supported for external access.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
+  --set auth.adminPassword=secret
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-keycloak
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
