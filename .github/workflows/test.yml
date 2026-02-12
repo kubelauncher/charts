@@ -198,7 +198,7 @@ jobs:
           echo "Pulling ${IMAGE}..."
           # Force re-pull by removing any cached version
           docker rmi "${IMAGE}" 2>/dev/null || true
-          docker pull "${IMAGE}" || {
+          docker pull --platform linux/amd64 "${IMAGE}" || {
             echo "Image not found on GHCR, skipping"
             exit 0
           }
