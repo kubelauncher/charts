@@ -202,7 +202,9 @@ jobs:
             echo "Image not found on GHCR, skipping"
             exit 0
           }
-          kind load docker-image "${IMAGE}" --name chart-test
+          docker save "${IMAGE}" -o /tmp/image.tar
+          kind load image-archive /tmp/image.tar --name chart-test
+          rm -f /tmp/image.tar
 
       - name: Run smoke tests
         run: |
