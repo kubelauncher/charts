@@ -55,6 +55,12 @@ spec:
               type: {{ .Values.cluster.containerSecurityContext.seccompProfile.type }}
           {{- end }}
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_CLUSTER_ANNOUNCE_HOSTNAME
+              value: "$(POD_NAME).{{ include "redis.fullname" . }}-cluster-headless.{{ include "redis.namespace" . }}.svc.cluster.local"
             - name: REDIS_CLUSTER_ENABLED
               value: "yes"
             - name: REDIS_CLUSTER_REPLICAS
