@@ -202,9 +202,10 @@ jobs:
             echo "Image not found on GHCR, skipping"
             exit 0
           }
-          docker save "${IMAGE}" -o /tmp/image.tar
-          kind load image-archive /tmp/image.tar --name chart-test
-          rm -f /tmp/image.tar
+          # kind load uses ctr --all-platforms which fails with containerd
+          # multi-arch manifests — pipe directly into ctr without that flag
+          docker save "${IMAGE}" | docker exec --privileged -i chart-test-control-plane \
+            ctr --namespace=k8s.io images import --digests --snapshotter=overlayfs -
 
       - name: Run smoke tests
         run: |
