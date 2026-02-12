@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Kubescape
         run: |
-          KUBESCAPE_VERSION="4.0.0"
+          KUBESCAPE_VERSION="4.0.1"
           curl -fsSL "https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape_${KUBESCAPE_VERSION}_linux_amd64" -o kubescape
           chmod +x kubescape
           sudo mv kubescape /usr/local/bin/
