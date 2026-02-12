@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/zookeeper
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section ZooKeeper common parameters

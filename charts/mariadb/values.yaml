@@ -39,7 +39,7 @@ image:
   repository: kubelauncher/mariadb
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section MariaDB common parameters

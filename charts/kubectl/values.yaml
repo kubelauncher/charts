@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/kubectl
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section kubectl common parameters

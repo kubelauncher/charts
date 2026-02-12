@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/keycloak
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section Keycloak common parameters

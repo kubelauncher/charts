@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/rabbitmq
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section RabbitMQ common parameters

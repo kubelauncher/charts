@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/kafka
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section Kafka common parameters

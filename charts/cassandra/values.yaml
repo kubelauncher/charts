@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/cassandra
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section Cassandra common parameters

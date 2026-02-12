@@ -39,7 +39,7 @@ image:
   repository: kubelauncher/postgresql
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section PostgreSQL common parameters
