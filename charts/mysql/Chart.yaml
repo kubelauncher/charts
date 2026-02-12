@@ -2,8 +2,8 @@ apiVersion: v2
 name: mysql
 description: MySQL relational database
 type: application
-version: "0.2.1"
-appVersion: "8.0.0"
+version: "0.2.2"
+appVersion: "8.0.45"
 icon: https://cdn.simpleicons.org/mysql
 home: https://github.com/kubelauncher/charts
 sources:
@@ -20,5 +20,8 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Add replication architecture support (primary/secondary)
+    - kind: changed
+      description: Update mysql to 8.0.45
+      links:
+        - name: Release Notes
+          url: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/
