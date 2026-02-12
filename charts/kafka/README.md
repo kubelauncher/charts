@@ -5,6 +5,13 @@ Apache Kafka distributed streaming platform
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-kafka kubelauncher/kafka
+```
+
+Or via OCI:
+
+```bash
 helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
 ```
 
@@ -21,7 +28,7 @@ The values structure follows the same conventions as popular community charts, a
 A single Kafka broker acting as both broker and controller. Suitable for development and testing.
 
 ```bash
-helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
+helm install my-kafka kubelauncher/kafka
 ```
 
 ### Cluster
@@ -29,13 +36,21 @@ helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka
 Scale by increasing `replicaCount`. Each broker acts as both a broker and a controller. KRaft handles leader election and metadata management without ZooKeeper.
 
 ```bash
-helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka \
+helm install my-kafka kubelauncher/kafka \
   --set replicaCount=3
 ```
 
 The client port is `9092` and the controller port is `9093`. Persistence is enabled by default with 8Gi volumes.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-kafka kubelauncher/kafka \
+  --set replicaCount=3
+```
+
+Or via OCI:
 
 ```bash
 helm install my-kafka oci://ghcr.io/kubelauncher/charts/kafka \

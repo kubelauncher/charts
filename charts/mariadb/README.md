@@ -5,6 +5,14 @@ MariaDB relational database
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mariadb kubelauncher/mariadb \
+  --set auth.rootPassword=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \
   --set auth.rootPassword=secret
 ```
@@ -22,7 +30,7 @@ The values structure follows the same conventions as popular community charts, a
 A single MariaDB instance. Suitable for development and small production workloads.
 
 ```bash
-helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \
+helm install my-mariadb kubelauncher/mariadb \
   --set auth.rootPassword=secret \
   --set auth.username=myuser \
   --set auth.password=mypass \
@@ -34,7 +42,7 @@ helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \
 One primary with multiple secondaries using GTID-based replication. Secondaries serve read-only queries and provide data redundancy.
 
 ```bash
-helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \
+helm install my-mariadb kubelauncher/mariadb \
   --set architecture=replication \
   --set auth.rootPassword=secret \
   --set auth.replicationUser=replicator \
@@ -45,6 +53,17 @@ helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \
 The primary enables binary logging and creates a dedicated replication user. Secondaries connect via `MASTER_USE_GTID=slave_pos` for position-based replication.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mariadb kubelauncher/mariadb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+Or via OCI:
 
 ```bash
 helm install my-mariadb oci://ghcr.io/kubelauncher/charts/mariadb \

@@ -5,6 +5,13 @@
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-cassandra kubelauncher/cassandra
+```
+
+Or via OCI:
+
+```bash
 helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
 ```
 
@@ -21,7 +28,7 @@ The values structure follows the same conventions as popular community charts, a
 A single Cassandra node. Suitable for development and testing.
 
 ```bash
-helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
+helm install my-cassandra kubelauncher/cassandra
 ```
 
 ### Cluster
@@ -29,7 +36,7 @@ helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra
 Scale the cluster by increasing `replicaCount`. All nodes join the same cluster via gossip and share data according to the configured replication factor.
 
 ```bash
-helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra \
+helm install my-cassandra kubelauncher/cassandra \
   --set replicaCount=3 \
   --set cluster.name=cassandra \
   --set cluster.datacenter=dc1 \
@@ -41,6 +48,14 @@ The CQL port is `9042`, the intra-node port is `7000`. Persistence is enabled by
 {{ template "chart.requirementsSection" . }}
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-cassandra kubelauncher/cassandra \
+  --set replicaCount=3
+```
+
+Or via OCI:
 
 ```bash
 helm install my-cassandra oci://ghcr.io/kubelauncher/charts/cassandra \

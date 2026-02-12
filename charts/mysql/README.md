@@ -5,6 +5,14 @@ MySQL relational database
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mysql kubelauncher/mysql \
+  --set auth.rootPassword=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
   --set auth.rootPassword=secret
 ```
@@ -22,7 +30,7 @@ The values structure follows the same conventions as popular community charts, a
 A single MySQL instance. Suitable for development and small production workloads.
 
 ```bash
-helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+helm install my-mysql kubelauncher/mysql \
   --set auth.rootPassword=secret \
   --set auth.username=myuser \
   --set auth.password=mypass \
@@ -34,7 +42,7 @@ helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
 One primary with multiple secondaries using GTID-based replication. Secondaries serve read-only queries and provide data redundancy.
 
 ```bash
-helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
+helm install my-mysql kubelauncher/mysql \
   --set architecture=replication \
   --set auth.rootPassword=secret \
   --set auth.replicationUser=replicator \
@@ -45,6 +53,17 @@ helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \
 The primary enables GTID mode (`gtid-mode=ON`, `enforce-gtid-consistency=ON`) and binary logging. Secondaries use `MASTER_AUTO_POSITION=1` for automatic replication positioning.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mysql kubelauncher/mysql \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+Or via OCI:
 
 ```bash
 helm install my-mysql oci://ghcr.io/kubelauncher/charts/mysql \

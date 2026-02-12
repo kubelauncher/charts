@@ -5,6 +5,14 @@ MongoDB document database
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mongo kubelauncher/mongodb \
+  --set auth.rootPassword=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
   --set auth.rootPassword=secret
 ```
@@ -22,7 +30,7 @@ The values structure follows the same conventions as popular community charts, a
 A single MongoDB instance. Suitable for development and small workloads.
 
 ```bash
-helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+helm install my-mongo kubelauncher/mongodb \
   --set auth.rootPassword=secret \
   --set auth.username=myuser \
   --set auth.password=mypass \
@@ -34,7 +42,7 @@ helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
 A primary with multiple secondaries forming a MongoDB replica set. Provides automatic failover and read scaling.
 
 ```bash
-helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
+helm install my-mongo kubelauncher/mongodb \
   --set architecture=replicaset \
   --set auth.rootPassword=secret \
   --set replicaset.name=rs0 \
@@ -44,6 +52,17 @@ helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
 The replica set is initialized via `rs.initiate()` with keyfile authentication between members. An init job handles the initial replica set configuration.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-mongo kubelauncher/mongodb \
+  --set auth.rootPassword=secret \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+Or via OCI:
 
 ```bash
 helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \

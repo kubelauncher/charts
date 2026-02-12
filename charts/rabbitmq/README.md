@@ -5,6 +5,14 @@ RabbitMQ message broker
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-rmq kubelauncher/rabbitmq \
+  --set auth.password=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
   --set auth.password=secret
 ```
@@ -22,7 +30,7 @@ The values structure follows the same conventions as popular community charts, a
 A single RabbitMQ node with the management plugin enabled on port `15672`.
 
 ```bash
-helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+helm install my-rmq kubelauncher/rabbitmq \
   --set auth.username=admin \
   --set auth.password=secret
 ```
@@ -32,7 +40,7 @@ helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
 Multiple RabbitMQ nodes forming an Erlang cluster with automatic peer discovery via Kubernetes. Increase `replicaCount` to deploy a cluster.
 
 ```bash
-helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
+helm install my-rmq kubelauncher/rabbitmq \
   --set auth.username=admin \
   --set auth.password=secret \
   --set replicaCount=3 \
@@ -44,6 +52,16 @@ Clustering uses hostname-based addressing with `autoheal` partition handling by 
 > **Warning:** RabbitMQ clusters do not survive simultaneous full restarts. When all nodes restart at the same time, each node waits for the others' Mnesia tables, causing a deadlock. Always use **rolling restarts** (`kubectl rollout restart`) rather than deleting all pods at once. If a full restart occurs accidentally, delete one pod at a time and wait for it to rejoin the cluster before deleting the next.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-rmq kubelauncher/rabbitmq \
+  --set auth.username=admin \
+  --set auth.password=secret \
+  --set replicaCount=3
+```
+
+Or via OCI:
 
 ```bash
 helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \

@@ -5,6 +5,15 @@ Kubectl CLI utility container for Kubernetes jobs and CronJobs
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-job kubelauncher/kubectl \
+  --set command='{kubectl}' \
+  --set args='{get,pods,-A}'
+```
+
+Or via OCI:
+
+```bash
 helm install my-job oci://ghcr.io/kubelauncher/charts/kubectl \
   --set command='{kubectl}' \
   --set args='{get,pods,-A}'
@@ -19,16 +28,26 @@ Set `schedule` to create a CronJob instead of a one-shot Job.
 ## Installing the Chart
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+
 # One-shot job
-helm install my-job oci://ghcr.io/kubelauncher/charts/kubectl \
+helm install my-job kubelauncher/kubectl \
   --set command='{kubectl}' \
   --set args='{get,namespaces}'
 
 # CronJob
-helm install my-cron oci://ghcr.io/kubelauncher/charts/kubectl \
+helm install my-cron kubelauncher/kubectl \
   --set schedule="0 */6 * * *" \
   --set command='{kubectl}' \
   --set args='{get,pods,-A}'
+```
+
+Or via OCI:
+
+```bash
+helm install my-job oci://ghcr.io/kubelauncher/charts/kubectl \
+  --set command='{kubectl}' \
+  --set args='{get,namespaces}'
 ```
 
 ## Uninstalling the Chart

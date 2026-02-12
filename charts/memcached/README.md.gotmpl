@@ -5,6 +5,13 @@
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-memcached kubelauncher/memcached
+```
+
+Or via OCI:
+
+```bash
 helm install my-memcached oci://ghcr.io/kubelauncher/charts/memcached
 ```
 
@@ -15,7 +22,7 @@ This chart deploys Memcached on Kubernetes using the [kubelauncher/memcached](ht
 Memcached is a single-node in-memory cache. The default configuration allocates 64MB of memory with 4 threads and 1024 max connections. Verbose logging is enabled by default via the `-v` flag.
 
 ```bash
-helm install my-memcached oci://ghcr.io/kubelauncher/charts/memcached \
+helm install my-memcached kubelauncher/memcached \
   --set memcachedMaxMemory=128 \
   --set memcachedThreads=8
 ```
@@ -25,6 +32,13 @@ The service listens on port `11211`.
 {{ template "chart.requirementsSection" . }}
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-memcached kubelauncher/memcached
+```
+
+Or via OCI:
 
 ```bash
 helm install my-memcached oci://ghcr.io/kubelauncher/charts/memcached
