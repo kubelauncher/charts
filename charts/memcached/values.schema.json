@@ -142,6 +142,9 @@
                 }
             }
         },
+        "memcachedExtraFlags": {
+            "type": "string"
+        },
         "memcachedMaxConnections": {
             "type": "integer"
         },
