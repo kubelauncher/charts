@@ -5,6 +5,14 @@ PostgreSQL relational database
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-pg kubelauncher/postgresql \
+  --set auth.postgresPassword=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
   --set auth.postgresPassword=secret
 ```
@@ -22,7 +30,7 @@ The values structure follows the same conventions as popular community charts, a
 A single PostgreSQL instance. Suitable for development and small production workloads.
 
 ```bash
-helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+helm install my-pg kubelauncher/postgresql \
   --set auth.postgresPassword=admin \
   --set auth.username=myuser \
   --set auth.password=mypass \
@@ -34,7 +42,7 @@ helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
 One primary with streaming read replicas. Read replicas handle read-only queries and provide data redundancy.
 
 ```bash
-helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
+helm install my-pg kubelauncher/postgresql \
   --set architecture=replication \
   --set auth.postgresPassword=admin \
   --set auth.replicationUsername=repl_user \
@@ -45,6 +53,17 @@ helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \
 Read replicas connect to the primary via PostgreSQL streaming replication. Each replica has its own PVC for data persistence.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-pg kubelauncher/postgresql \
+  --set auth.postgresPassword=admin \
+  --set auth.username=myuser \
+  --set auth.password=mypass \
+  --set auth.database=mydb
+```
+
+Or via OCI:
 
 ```bash
 helm install my-pg oci://ghcr.io/kubelauncher/charts/postgresql \

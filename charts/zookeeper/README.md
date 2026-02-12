@@ -5,6 +5,13 @@ Apache ZooKeeper distributed coordination service
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-zk kubelauncher/zookeeper
+```
+
+Or via OCI:
+
+```bash
 helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
 ```
 
@@ -21,7 +28,7 @@ The values structure follows the same conventions as popular community charts, a
 A single ZooKeeper node. Suitable for development and testing.
 
 ```bash
-helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
+helm install my-zk kubelauncher/zookeeper
 ```
 
 ### Ensemble
@@ -29,13 +36,21 @@ helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper
 Scale the ensemble by increasing `replicaCount`. Use an odd number (3, 5, 7) for proper quorum. ZooKeeper uses a leader election protocol — a majority of nodes must be available for the cluster to operate.
 
 ```bash
-helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper \
+helm install my-zk kubelauncher/zookeeper \
   --set replicaCount=3
 ```
 
 The client port is `2181`, the follower port is `2888`, and the election port is `3888`. Persistence is enabled by default with 8Gi volumes.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-zk kubelauncher/zookeeper \
+  --set replicaCount=3
+```
+
+Or via OCI:
 
 ```bash
 helm install my-zk oci://ghcr.io/kubelauncher/charts/zookeeper \

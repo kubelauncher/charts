@@ -5,6 +5,14 @@ Keycloak identity and access management
 ## TL;DR
 
 ```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-keycloak kubelauncher/keycloak \
+  --set auth.adminPassword=secret
+```
+
+Or via OCI:
+
+```bash
 helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
   --set auth.adminPassword=secret
 ```
@@ -16,7 +24,7 @@ This chart deploys Keycloak on Kubernetes using the [kubelauncher/keycloak](http
 An external database (PostgreSQL by default) is required. Configure the database connection via the `database` values.
 
 ```bash
-helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
+helm install my-keycloak kubelauncher/keycloak \
   --set auth.adminPassword=secret \
   --set database.vendor=postgres \
   --set database.url=jdbc:postgresql://mydb:5432/keycloak \
@@ -27,6 +35,14 @@ helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
 The HTTP port is `8080` and the management port is `9000`. Both Ingress and Gateway API (HTTPRoute) are supported for external access.
 
 ## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-keycloak kubelauncher/keycloak \
+  --set auth.adminPassword=secret
+```
+
+Or via OCI:
 
 ```bash
 helm install my-keycloak oci://ghcr.io/kubelauncher/charts/keycloak \
