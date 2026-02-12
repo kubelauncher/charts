@@ -41,7 +41,7 @@ image:
   repository: kubelauncher/mongodb
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section MongoDB common parameters

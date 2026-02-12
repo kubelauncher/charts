@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/memcached
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section Memcached common parameters

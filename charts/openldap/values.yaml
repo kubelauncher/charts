@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/openldap
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section OpenLDAP common parameters

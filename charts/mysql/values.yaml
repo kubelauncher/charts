@@ -39,7 +39,7 @@ image:
   repository: kubelauncher/mysql
   tag: ""
   digest: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   pullSecrets: []
 
 ## @section MySQL common parameters
