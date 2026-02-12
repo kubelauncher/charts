@@ -3,7 +3,7 @@ name: mysql
 description: MySQL relational database
 type: application
 version: "0.2.1"
-appVersion: "8.0.0"
+appVersion: "8.0.45"
 icon: https://cdn.simpleicons.org/mysql
 home: https://github.com/kubelauncher/charts
 sources:
