@@ -118,7 +118,7 @@ helm uninstall my-redis
 | cluster.extraVolumeMounts | list | `[]` |  |
 | cluster.extraVolumes | list | `[]` |  |
 | cluster.image.digest | string | `""` |  |
-| cluster.image.pullPolicy | string | `"IfNotPresent"` |  |
+| cluster.image.pullPolicy | string | `"Always"` |  |
 | cluster.image.registry | string | `"ghcr.io"` |  |
 | cluster.image.repository | string | `"kubelauncher/redis-cluster"` |  |
 | cluster.image.tag | string | `""` |  |
@@ -181,7 +181,7 @@ helm uninstall my-redis
 | global.redis.password | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | image.digest | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/redis"` |  |
@@ -320,7 +320,7 @@ helm uninstall my-redis
 | sentinel.extraVolumes | list | `[]` |  |
 | sentinel.failoverTimeout | int | `60000` |  |
 | sentinel.image.digest | string | `""` |  |
-| sentinel.image.pullPolicy | string | `"IfNotPresent"` |  |
+| sentinel.image.pullPolicy | string | `"Always"` |  |
 | sentinel.image.registry | string | `"ghcr.io"` |  |
 | sentinel.image.repository | string | `"kubelauncher/redis-sentinel"` |  |
 | sentinel.image.tag | string | `""` |  |

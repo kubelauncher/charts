@@ -112,7 +112,7 @@ helm uninstall my-pg
 | global.postgresql.service.ports.postgresql | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | image.digest | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/postgresql"` |  |
