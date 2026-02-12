@@ -183,12 +183,8 @@ jobs:
         with:
           cluster_name: chart-test
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install crane
+        uses: imjasonh/setup-crane@v0.4
 
       - name: Pull and load images into kind
         run: |
@@ -196,16 +192,14 @@ jobs:
           IMAGE="ghcr.io/${{ github.repository_owner }}/${{ matrix.chart }}:${TAG}"
 
           echo "Pulling ${IMAGE}..."
-          # Force re-pull by removing any cached version
-          docker rmi "${IMAGE}" 2>/dev/null || true
-          docker pull --platform linux/amd64 "${IMAGE}" || {
+          # crane pulls a clean single-platform tar (no manifest index)
+          # avoiding containerd multi-arch issues with kind/ctr
+          crane pull --platform linux/amd64 "${IMAGE}" /tmp/image.tar || {
             echo "Image not found on GHCR, skipping"
             exit 0
           }
-          # kind load uses ctr --all-platforms which fails with containerd
-          # multi-arch manifests — pipe directly into ctr without that flag
-          docker save "${IMAGE}" | docker exec --privileged -i chart-test-control-plane \
-            ctr --namespace=k8s.io images import --digests --snapshotter=overlayfs -
+          kind load image-archive /tmp/image.tar --name chart-test
+          rm -f /tmp/image.tar
 
       - name: Run smoke tests
         run: |
