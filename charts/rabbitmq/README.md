@@ -41,6 +41,8 @@ helm install my-rmq oci://ghcr.io/kubelauncher/charts/rabbitmq \
 
 Clustering uses hostname-based addressing with `autoheal` partition handling by default. All nodes share the same Erlang cookie for authentication.
 
+> **Warning:** RabbitMQ clusters do not survive simultaneous full restarts. When all nodes restart at the same time, each node waits for the others' Mnesia tables, causing a deadlock. Always use **rolling restarts** (`kubectl rollout restart`) rather than deleting all pods at once. If a full restart occurs accidentally, delete one pod at a time and wait for it to rejoin the cluster before deleting the next.
+
 ## Installing the Chart
 
 ```bash
