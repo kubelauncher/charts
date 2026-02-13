@@ -2,7 +2,7 @@ apiVersion: v2
 name: openldap
 description: OpenLDAP directory service
 type: application
-version: "0.1.6"
+version: "0.1.7"
 appVersion: "2.6.12"
 icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
 home: https://github.com/kubelauncher/charts
@@ -24,4 +24,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo

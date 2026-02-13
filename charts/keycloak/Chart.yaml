@@ -2,7 +2,7 @@ apiVersion: v2
 name: keycloak
 description: Keycloak identity and access management
 type: application
-version: "0.1.7"
+version: "0.1.8"
 appVersion: "26.5.3"
 icon: https://cdn.simpleicons.org/keycloak
 home: https://github.com/kubelauncher/charts
@@ -26,4 +26,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo
