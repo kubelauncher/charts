@@ -170,7 +170,7 @@ helm uninstall my-redis
 | cluster.tolerations | list | `[]` |  |
 | clusterDomain | string | `"cluster.local"` |  |
 | commonAnnotations | object | `{}` |  |
-| commonConfiguration | string | `"appendonly yes\nsave \"\""` |  |
+| commonConfiguration | string | `"appendonly yes\nsave \"\"\nmaxmemory 256mb\nmaxmemory-policy allkeys-lru"` |  |
 | commonLabels | object | `{}` |  |
 | enableServiceLinks | bool | `false` |  |
 | extraDeploy | list | `[]` |  |

@@ -68,6 +68,8 @@ auth:
 commonConfiguration: |-
   appendonly yes
   save ""
+  maxmemory 256mb
+  maxmemory-policy allkeys-lru
 
 ## @section Redis primary parameters
 
