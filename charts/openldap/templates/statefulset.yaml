@@ -160,7 +160,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "openldap.labels" . | nindent 10 }}
+        labels: {{- include "openldap.selectorLabels" . | nindent 10 }}
         {{- with .Values.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}
         {{- end }}

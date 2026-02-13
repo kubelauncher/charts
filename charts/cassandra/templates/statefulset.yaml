@@ -154,7 +154,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "cassandra.labels" . | nindent 10 }}
+        labels: {{- include "cassandra.selectorLabels" . | nindent 10 }}
         {{- with .Values.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}
         {{- end }}

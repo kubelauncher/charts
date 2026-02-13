@@ -145,7 +145,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "postgresql.labels" . | nindent 10 }}
+        labels: {{- include "postgresql.selectorLabels" . | nindent 10 }}
           app.kubernetes.io/component: read
         {{- with .Values.readReplicas.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}

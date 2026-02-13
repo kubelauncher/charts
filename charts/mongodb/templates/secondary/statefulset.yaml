@@ -162,7 +162,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "mongodb.labels" . | nindent 10 }}
+        labels: {{- include "mongodb.selectorLabels" . | nindent 10 }}
           app.kubernetes.io/component: secondary
         {{- with .Values.secondary.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}

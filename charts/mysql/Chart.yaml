@@ -20,8 +20,5 @@ keywords:
 annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update mysql to 8.0.45
-      links:
-        - name: Release Notes
-          url: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/
+    - kind: fixed
+      description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures

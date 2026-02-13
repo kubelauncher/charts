@@ -2,7 +2,7 @@ apiVersion: v2
 name: redis
 description: Redis in-memory data store
 type: application
-version: "0.2.8"
+version: "0.2.9"
 appVersion: "8.6.0"
 icon: https://cdn.simpleicons.org/redis
 home: https://github.com/kubelauncher/charts
@@ -22,4 +22,4 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: fixed
-      description: Announce cluster nodes by hostname instead of IP for resilient restarts
+      description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures

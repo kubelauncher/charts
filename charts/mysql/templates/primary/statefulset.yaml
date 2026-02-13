@@ -164,7 +164,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "mysql.labels" . | nindent 10 }}
+        labels: {{- include "mysql.selectorLabels" . | nindent 10 }}
           app.kubernetes.io/component: primary
         {{- with .Values.primary.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}
