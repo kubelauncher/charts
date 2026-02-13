@@ -136,6 +136,29 @@ spec:
         {{- with .Values.secondary.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - name: mysqld-exporter
+          image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          args:
+            - "--mysqld.address=127.0.0.1:{{ .Values.secondary.containerPorts.mariadb }}"
+            - "--mysqld.username=root"
+          env:
+            - name: MYSQLD_EXPORTER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mariadb.secretName" . }}
+                  key: {{ include "mariadb.rootPasswordKey" . }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.containerPorts.metrics }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+        {{- end }}
       {{- if or (not .Values.secondary.persistence.enabled) .Values.secondary.extraVolumes }}
       volumes:
         {{- if not .Values.secondary.persistence.enabled }}

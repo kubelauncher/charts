@@ -31,4 +31,9 @@ spec:
       {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePorts.election }}
       nodePort: {{ .Values.service.nodePorts.election }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: 7000
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "zookeeper.selectorLabels" . | nindent 4 }}

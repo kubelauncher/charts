@@ -21,6 +21,11 @@ spec:
       {{- if and (eq .Values.primary.service.type "NodePort") .Values.primary.service.nodePorts.redis }}
       nodePort: {{ .Values.primary.service.nodePorts.redis }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "redis.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: primary
 {{- end }}

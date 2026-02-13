@@ -186,6 +186,16 @@ helm uninstall my-redis
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/redis"` |  |
 | image.tag | string | `""` |  |
+| metrics.containerPorts.metrics | int | `9121` |  |
+| metrics.enabled | bool | `false` |  |
+| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
+| metrics.image.registry | string | `"docker.io"` |  |
+| metrics.image.repository | string | `"oliver006/redis_exporter"` |  |
+| metrics.image.tag | string | `"v1.67.0"` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
+| metrics.serviceMonitor.interval | string | `""` |  |
+| metrics.serviceMonitor.labels | object | `{}` |  |
+| metrics.serviceMonitor.scrapeTimeout | string | `""` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
 | networkPolicy.additionalRules | list | `[]` |  |

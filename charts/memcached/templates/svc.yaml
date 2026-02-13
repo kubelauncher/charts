@@ -19,4 +19,9 @@ spec:
       {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePorts.memcached }}
       nodePort: {{ .Values.service.nodePorts.memcached }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "memcached.selectorLabels" . | nindent 4 }}

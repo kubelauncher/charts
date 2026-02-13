@@ -27,6 +27,11 @@ spec:
       {{- if and (eq .Values.cluster.service.type "NodePort") .Values.cluster.service.nodePorts.bus }}
       nodePort: {{ .Values.cluster.service.nodePorts.bus }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "redis.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: cluster
 {{- end }}

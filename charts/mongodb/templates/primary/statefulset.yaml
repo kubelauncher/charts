@@ -160,6 +160,28 @@ spec:
         {{- with .Values.primary.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - name: mongodb-exporter
+          image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          env:
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mongodb.secretName" . }}
+                  key: {{ include "mongodb.rootPasswordKey" . }}
+            - name: MONGODB_URI
+              value: "mongodb://{{ include "mongodb.rootUsername" . }}:$(MONGODB_ROOT_PASSWORD)@127.0.0.1:{{ .Values.primary.containerPorts.mongodb }}/admin?authMechanism=SCRAM-SHA-256"
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.containerPorts.metrics }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+        {{- end }}
       {{- if or (not .Values.primary.persistence.enabled) (include "mongodb.replicaSetEnabled" .) .Values.primary.extraVolumes }}
       volumes:
         {{- if not .Values.primary.persistence.enabled }}

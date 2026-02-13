@@ -98,6 +98,10 @@ spec:
               containerPort: {{ .Values.containerPorts.manager }}
             - name: epmd
               containerPort: {{ .Values.containerPorts.epmd }}
+            {{- if .Values.metrics.enabled }}
+            - name: metrics
+              containerPort: 15692
+            {{- end }}
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             tcpSocket:

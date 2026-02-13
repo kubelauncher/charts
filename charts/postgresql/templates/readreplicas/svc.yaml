@@ -21,6 +21,11 @@ spec:
       {{- if and (eq .Values.readReplicas.service.type "NodePort") .Values.readReplicas.service.nodePorts.postgresql }}
       nodePort: {{ .Values.readReplicas.service.nodePorts.postgresql }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "postgresql.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: read
 {{- end }}

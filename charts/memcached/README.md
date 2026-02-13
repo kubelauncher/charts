@@ -90,6 +90,16 @@ helm uninstall my-memcached
 | memcachedMaxConnections | int | `1024` |  |
 | memcachedMaxMemory | int | `64` |  |
 | memcachedThreads | int | `4` |  |
+| metrics.containerPorts.metrics | int | `9150` |  |
+| metrics.enabled | bool | `false` |  |
+| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
+| metrics.image.registry | string | `"docker.io"` |  |
+| metrics.image.repository | string | `"prom/memcached-exporter"` |  |
+| metrics.image.tag | string | `"v0.15.0"` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
+| metrics.serviceMonitor.interval | string | `""` |  |
+| metrics.serviceMonitor.labels | object | `{}` |  |
+| metrics.serviceMonitor.scrapeTimeout | string | `""` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
 | networkPolicy.additionalRules | list | `[]` |  |

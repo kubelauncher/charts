@@ -16,6 +16,11 @@ spec:
     - name: tcp-postgresql
       port: {{ .Values.readReplicas.service.ports.postgresql }}
       targetPort: tcp-postgresql
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "postgresql.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: read
 {{- end }}
