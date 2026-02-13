@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.6.0
+description: Redis in-memory data store
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/redis
+keywords:
+- - redis
+- - cache
+- - database
+- - keyvalue
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: redis
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.12
+
+...
+files:
+  redis-0.2.12.tgz: sha256:8c66ac58864d5222f8e16f91c7e1c8da11d3e8027408114d57cbdf1b7e36340b
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DWCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnSGhopCxmvk769x4AMTbpfjCg1SfZ5mOZZl53k6M4DQIW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAkFAP/11LGrAaX5KAOtiiSXTkyWpeyx3k
+5fw1n9bnGhQBztWV7ma7z0Py5zTfTo//mJ4HMcEytbTOlhPPmWJHCawcNrp7urNk
+eyvkQ+6DDJ5z1IDfDy/w1DJyY/Xir8C1AOFBdbLK7UFySkZipzh0Spt4XGcub7Zr
+9+SnQNX328wdDbAOBMu0/9IPd6Ruh69ij7AJXrIR7q5wrfyfyyaw0SOO9znIayAt
+yXpv2FlPqq7r/fIo6/z3mlkB9HupfKGfOkpaFSFwAX3Zum00SEcvbfBZgQzjEdvm
+8bFHzoKbT0BAKj9KF9aaO5H/RsLlbv4P58j76EnXQneTZsDAaG2d6Mht3bxRQRVe
+ZVhvxqPAgSgnyL1G0BbiG/vdHTEZxOMR1Ynb3+6e0JtBPWqFp2v7cdzIhPDb5Xos
+dfiwu9CkTLdLFzl1JzEv93My3YtSMzRcgEO4/wf5mmKm9EMUd4bMAqTcnQiKm54c
+JEhb8QBikMMbvtQe1sbrMgRBmSLSPuyxmt69CLRH/m1M0FBM7BXxE9EoCdC5TGXE
+sURbDTOcHWTWlzIu/bstLIh8H/kf8BfWHXvAIdxnTLS9/AljOeh+ccQ5Nn7JLyQ9
+zaLI2dhX2YzRgqFpicXgehpnZ4QfFFa9OvbS+tAgWn7OhbZKYpSYPSFs8gnieG0K
+dxY9vWv2JiFsSd+Y
+-----END PGP SIGNATURE-----

@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.2.5
+description: MongoDB document database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mongodb
+keywords:
+- - mongodb
+- - nosql
+- - database
+- - document
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mongodb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.6
+
+...
+files:
+  mongodb-0.2.6.tgz: sha256:9144da6b1fc1f11be3a44c807d96349268a537e53f28ca9bb81e3bc8964952f7
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DWCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnbmvejGfggDeYV48JFXYxbUlVuon8wv9kRztSEd447JwW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAP8IQAJc5xWGchJ4h4mylKRqoBEIYR1jw
+Tls2rqyriG+a/Rzn8eoliOR3L2aSXFnaN3spZDux5zDYtPc2jKozxhcBcz8/2NHv
+z+weDT5/tAUIq22tUiBf/uPIM6/oL39ASKyTu4TIUgXGE+D0oWHlHRLnYIAGfkjD
+w0ttqczKka/eDptb1XPm6t6bvc05EE4wpkddp0srgbVAlAMMd+FwmVJ1EpK9duIr
+HVyKVh2qIqaNuAe8udkqQ0Ge9bJ8N7qf/CaRG68ZG4Hyx5IgGHvgjSJb+vQooGAt
+xphDkLWU6x3kknDYPqOZhNu8dFkC8axpdPk0VOLpMwHzyvPLDuDe1d2d5L9cBwkZ
+R83CXvCTYfUjz0qsEHGYiS8OrEovUavDfOxEAu3ZSza/m94/WkcWZ761470QtWLM
+T33cEhhTNp+ys7AX82p6pGRbVbZIdtFyVPnDxO8lNaIvS6acQl86hz72Unh/q3EY
+enyi4ny9NH7vpEZDlafCLU7VeaYd7wPxCwygmZ0XOFp0bFHP2PZLcVzjivxRoDoS
+y+8W+9iqqCivij/W52f4+t1JnB/HOl4jZaTFTWe+qqKFNxBIiQemsoDrOvnHf/gf
+9Mbakzbac1r9+oRxVkSgExG7UKjgdvKgVRl7glc2KanlablubTivQ+2oNhHHBFO8
+iEA5Qreac1otc1CN
+-----END PGP SIGNATURE-----

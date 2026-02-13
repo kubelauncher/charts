@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 12.2.2
+description: MariaDB relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mariadb
+keywords:
+- - mariadb
+- - database
+- - sql
+- - mysql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mariadb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.0
+
+...
+files:
+  mariadb-0.3.0.tgz: sha256:278f3a4babd1680d904e257a5f2f8f13415eabb6a56510448641153b2f61f438
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DVCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnOoX0vxWY23lEhU6WxBbqWYAfdIHAJl1VxQX5/GOBngUW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAHwQP/AwEh7r5JUeKKpCyEPT/7n4PU4b7
+gNfUSK+501YyxRu9bmSe9GKZZ9owlCBskzkYR/I8hWeS3yZbtxKtmQrECZt3XFOC
+y83gysLFadfALVBKAOirbKr6wamZZ7IpWI93DPYl60emLX8c/gTxvw9rquCfjtYs
+UuqmEQ85otMAmAahWetbZ3AMai0GZd6MS1SBXrdqixEiUn5KikiCiFDiVR3RtN6b
+/Yk4wdC1ecQWkSJZCk6KFkcDV9fSYlPeE299y7lVoQlx7rSB+sGqhVNA0EEmmF8f
+v834PwwfDleoXAoJY8pPiRTIMjdSWz/b6JgNOW8csp3VPS1TNA721Fq6XmdvbIRg
+kuFBA6RX/Y4rrirf/4juklgoiysoqBwH2BOp8a1hRu9Q71rRolCowbMj7DKoogVL
+HiN/oq0aEoMNlWzkuatZZX78sIX/uYefdgSuJNUynfX4W7BUIv4eSbK6FKCuvkXm
+2NDRmqTuse/VQCqm8mQOcDiJvPWtYbeX4ya6dZn4aFX3iHFz7FWQSVayplwU5kYQ
+9PNt4P25BeeCAtMQs4CkA25IVLm/RE5kTrrZacX+HTzy22tkNkAA+Gw593QkejQ7
+Vm0cxRPrXWOHUSjY0kjwjv2+noLERQyU74pGkIubOQDkdkiBvoBpElKJonFWU4CW
+9gVOBnJ2pCKRc6qI
+-----END PGP SIGNATURE-----

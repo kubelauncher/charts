@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 17.0.0
+description: PostgreSQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/postgresql
+keywords:
+- - postgresql
+- - postgres
+- - database
+- - sql
+- - replication
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: postgresql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.5
+
+...
+files:
+  postgresql-0.2.5.tgz: sha256:a0d9216ea4a485b6e9b6e32b68548cbabb1d41a82fc4d0e981016dd643e3f4a0
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DWCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnQokdaQdr2xRJLNXn90QUKnZ9Ldi7TWCP0a8by2EOnw8W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAQKQQAK/SbJNb4Hhfn4BL/1AlsljWKvl9
+Aguo0ckxmQJ2zmpugPBEDjXLGA0qAETZrqt8CJ1BQWCE6qsPzRFE4vmt81rDFERu
+0v4h0w2C+5+a07M6frfXGx1UBi2VxxF/eg3NNeGhOuUzHHV5BKK91izA8D0LlYxN
+HQOIgQyKEuF+aPuP+c3k9N6BCfRLw8x/MyB0kOZAdaZuEsOBxsoy/uz6K12crvLB
+TUvjiZH895tl1hpVrIdzrwws+P+x7EnDzvnbQiVrIGLcpQRphkBoIysex3k3TrFQ
+n1rT/Qnt5XYzxnLX0K+P8bTFdvB9jvo+JHCM18utVT35D+L/HDRolc/BmUjyUYrr
+xXU4cLpN2kTJdiJ30a8+71ShLH2GdrH/D0pEpWuvhpJaRjfN85ClMIsEAZzW67kH
+Kpt+1j9ft02y3Vh126UXaaCbVptEXAGZmtqoE/qJK/W0zjEzClAg+WUm6LeV8Kls
+Yx1zEKIodk9RVrzH3tXKWpxOQO/lFJdCb9WtShZFLhGiWaGH3wWZBIQP4C+Yi31e
+WE2IRvbeQEkqYZPCRtB+HWUbjN1Ni2WS0saAmXHAXaDrmYPkElM1hqGmp/vMhlhK
+cfe27dzZkrPC/YosimNuQxf4jJRWvkdlrt/TrSSWlWs7PgKtU5GEosNAzczQweZq
+fBRX7G7i+tRUBH08
+-----END PGP SIGNATURE-----
