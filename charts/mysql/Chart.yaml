@@ -2,7 +2,7 @@ apiVersion: v2
 name: mysql
 description: MySQL relational database
 type: application
-version: "0.2.3"
+version: "0.2.4"
 appVersion: "8.0.45"
 icon: https://cdn.simpleicons.org/mysql
 home: https://github.com/kubelauncher/charts
@@ -24,4 +24,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo

@@ -69,12 +69,22 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Package charts
+      - name: Import GPG key
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          gpg --export-secret-keys > ~/.gnupg/secring.gpg
+
+      - name: Package and sign charts
         if: steps.check.outputs.skip != 'true'
         run: |
           mkdir -p .cr-release-packages
+          GPG_KEY_NAME=$(gpg --list-secret-keys --keyid-format long | grep -oE '[A-F0-9]{16}' | head -1)
           for chart in ${{ steps.check.outputs.charts }}; do
-            helm package "$chart" -d .cr-release-packages
+            helm package --sign \
+              --key "${GPG_KEY_NAME}" \
+              --keyring ~/.gnupg/secring.gpg \
+              "$chart" -d .cr-release-packages
           done
 
       - name: Login to GHCR (Docker/Cosign)
@@ -113,6 +123,7 @@ jobs:
         run: |
           mkdir -p .cr-index
           cp .cr-release-packages/*.tgz .cr-index/
+          cp .cr-release-packages/*.tgz.prov .cr-index/
 
           # Fetch existing index to merge with
           curl -fsSL "https://${{ github.repository_owner }}.github.io/charts/index.yaml" -o .cr-index/old-index.yaml || true
@@ -126,6 +137,7 @@ jobs:
 
           cp artifacthub-repo.yml .cr-index/
           cp cosign.pub .cr-index/
+          cp pubkey.asc .cr-index/
           cp pages/index.html .cr-index/
 
       - name: Deploy to GitHub Pages

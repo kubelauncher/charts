@@ -2,7 +2,7 @@ apiVersion: v2
 name: kafka
 description: Apache Kafka distributed streaming platform
 type: application
-version: "0.1.5"
+version: "0.1.6"
 appVersion: "3.9.0"
 icon: https://cdn.simpleicons.org/apachekafka
 home: https://github.com/kubelauncher/charts
@@ -25,4 +25,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo

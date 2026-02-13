@@ -2,7 +2,7 @@ apiVersion: v2
 name: rabbitmq
 description: RabbitMQ message broker
 type: application
-version: "0.1.6"
+version: "0.1.7"
 appVersion: "4.2.3"
 icon: https://cdn.simpleicons.org/rabbitmq
 home: https://github.com/kubelauncher/charts
@@ -25,4 +25,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo

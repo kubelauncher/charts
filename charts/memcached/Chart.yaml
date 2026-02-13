@@ -2,7 +2,7 @@ apiVersion: v2
 name: memcached
 description: Memcached in-memory caching system
 type: application
-version: "0.1.5"
+version: "0.1.6"
 appVersion: "1.6.40"
 icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
 home: https://github.com/kubelauncher/charts
@@ -24,4 +24,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add cosign signature verification for OCI artifacts
+      description: Add GPG provenance signing for Helm repo
