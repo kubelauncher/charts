@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics with postgres-exporter sidecar and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 17.0.0
+description: PostgreSQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/postgresql
+keywords:
+- - postgresql
+- - postgres
+- - database
+- - sql
+- - replication
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: postgresql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.6
+
+...
+files:
+  postgresql-0.2.6.tgz: sha256:6813daf1dff4f9440a230aa09799b13813824d27b932b2413db833b7e66ab413
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj6WBCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnwiR753m07bYZ+VBdssUTxrH2tHK/TmYS27lQCW9cwTIW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAApioQANmqGue/LfJWkq2JDfl7UZiCEEvZ
+tiBM4EVSapdj1vSSsZ5Kikxm0jkvjCp9pDoR87u9T1un/a7m6DKeFm9KtdQT2iI7
+LN/AkaFNhBaQt6TdQ2LCrUxv8FxdSahjLWIe3JruUrHdmbUyPuofaxKBx1qg9ANm
+EZMkke2fqtd+5EfIWnjOeOSme8+Rv1YOhZZTPZHhBRoDvAvF7M2I98awbQ+a7mEJ
+AaDY2mQ1R/BfAb8LhP+sWbVTT+PCyYY2VCaokItO5FFjA5Fm1JKW6XaGjFPYEW+d
+jXZ22I4xjLUNWoHJrJ5LVwma4B1zPefbgiWDeh47LWSeD2xc7TwhwLw1KaJRgcR/
+PtJ5vUBFy1WvRKsrTuuj8Q4G33bduiMYphDcJm26K6D8FcE734i716daaH2wwuG+
+vkh4X4TftJ9o1DCnC7UbNiLqnDDxZRbQYwxDGLZcVlS5bCgoyVq68Wz6ZHuLb5q7
+G8fiG6Zn5iUvHYghbPa2h/S/QuP98rW19FDn0OI8lPwoArthLwxdynSivzmqOn3L
+FZGXvi4EsHuDH4bpkD6lvNgUJNLm/v0tFGgdq2J6lZfOoPwloxKMTr3mUwSuHTSq
+2G4fRyvEcEC8kwv0YxrOGSd0UUJqM2rQ/WVfQKSXTvlBifHJL7gnNfCGBp+XpFkK
+p9pH0mTldxR/oSEK
+-----END PGP SIGNATURE-----

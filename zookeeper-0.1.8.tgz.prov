@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics via PrometheusMetricsProvider and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 3.9.3
+description: Apache ZooKeeper distributed coordination service
+home: https://github.com/kubelauncher/charts
+icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
+keywords:
+- - zookeeper
+- - coordination
+- - distributed
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: zookeeper
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.8
+
+...
+files:
+  zookeeper-0.1.8.tgz: sha256:837af7bb1502c66c07ffae6a8efab06ea2b39dc4aa8e2834dd03a577f8c38284
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj6WCCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jns0gt+nrnLi6wwJZdWBTrwf4Rk9s85L5Fi+Vv1a9MVgEW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAEWwP/1gQxpPq+7jKsUtBY8GYlbSFsD9d
+06M+jB/nX2CQZwqSkXmxR9JPK253Iy17CxpQsN8COf1KI/QLaK/03pDxRglhOO6q
++IK5CJJLC2Ic8aatWxVDeGMxT3dGBqyP6ocK/VEBFvDqgAuGJyvMhnpy11J/9VJl
+TZu4ASQYN7ycf5IZbsJNQnwPJbAHY71gjnBTmldN/gy6ztwty+g9L7fiiA1OFFPk
+xA1MvzKgrH/dBkeglYNrQffH0sg4EVAySD2msBcoScZumE/3NlkI2aOdn2bHT8u9
+ATYwYe8HiLAbG8bp9csuP891gePc3cic7wRtYEC9R0QYOfYp0gboPskiMsMnFj0m
+qITDRtDGcYLRK+yCXyFDosvC63+fgo2xVD9+t2P05dPZpRw7ym1r/tH5yUDLdQVC
+2k2iugnn8+Ob6Dp2gbI2TGIrSertVx49vgp9XUPvgIbb3IIuM9WedDG1pv74hoR1
+fBOtIIQLFsO93ZaYWlr+PLrY0gjU6/aX0Ti//HHI61flfypiLlEPqK/2vUT2tfpk
+ORADr7xfbhAnTJfPCWIN/BJaWmBYia+fsEgZGtcl0Egl/su76eUchUiftdQKXIsf
+uPWr+SLcQymvcQdRHHapswMoGnG8V6NmCYU+dxP5Pif+M6ohe7zn6C5ACO2YOouX
+ez+drbJN2ntBp4Vi
+-----END PGP SIGNATURE-----
