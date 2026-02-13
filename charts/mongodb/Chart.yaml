@@ -2,7 +2,7 @@ apiVersion: v2
 name: mongodb
 description: MongoDB document database
 type: application
-version: "0.2.4"
+version: "0.2.5"
 appVersion: "8.2.5"
 icon: https://cdn.simpleicons.org/mongodb
 home: https://github.com/kubelauncher/charts
@@ -20,6 +20,9 @@ keywords:
   - document
 annotations:
   artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+    - kind: added
+      description: Add cosign signature verification for OCI artifacts

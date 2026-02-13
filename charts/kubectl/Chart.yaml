@@ -2,7 +2,7 @@ apiVersion: v2
 name: kubectl
 description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
 type: application
-version: "0.1.4"
+version: "0.1.5"
 appVersion: "1.35.1"
 icon: https://cdn.simpleicons.org/kubernetes
 home: https://github.com/kubelauncher/charts
@@ -19,6 +19,9 @@ keywords:
   - cli
 annotations:
   artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+    - kind: added
+      description: Add cosign signature verification for OCI artifacts

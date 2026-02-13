@@ -2,7 +2,7 @@ apiVersion: v2
 name: memcached
 description: Memcached in-memory caching system
 type: application
-version: "0.1.4"
+version: "0.1.5"
 appVersion: "1.6.40"
 icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
 home: https://github.com/kubelauncher/charts
@@ -19,6 +19,9 @@ keywords:
   - memory
 annotations:
   artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Enable verbose logging by default via memcachedExtraFlags
+      description: Add cosign signature verification for OCI artifacts

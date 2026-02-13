@@ -2,7 +2,7 @@ apiVersion: v2
 name: redis
 description: Redis in-memory data store
 type: application
-version: "0.2.10"
+version: "0.2.11"
 appVersion: "8.6.0"
 icon: https://cdn.simpleicons.org/redis
 home: https://github.com/kubelauncher/charts
@@ -20,6 +20,9 @@ keywords:
   - keyvalue
 annotations:
   artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add default maxmemory (256mb) and allkeys-lru eviction policy
+      description: Add cosign signature verification for OCI artifacts
