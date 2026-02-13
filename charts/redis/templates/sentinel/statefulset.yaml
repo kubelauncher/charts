@@ -147,7 +147,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: sentinel-data
-        labels: {{- include "redis.labels" . | nindent 10 }}
+        labels: {{- include "redis.selectorLabels" . | nindent 10 }}
           app.kubernetes.io/component: sentinel
         {{- with .Values.sentinel.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}

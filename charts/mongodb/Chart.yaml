@@ -22,4 +22,4 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: fixed
-      description: Fix keyfile permissions for replica set mode (fsGroup OR issue)
+      description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures

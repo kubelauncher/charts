@@ -164,7 +164,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        labels: {{- include "keycloak.labels" . | nindent 10 }}
+        labels: {{- include "keycloak.selectorLabels" . | nindent 10 }}
         {{- with .Values.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}
         {{- end }}

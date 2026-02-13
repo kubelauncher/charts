@@ -145,7 +145,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: redis-data
-        labels: {{- include "redis.labels" . | nindent 10 }}
+        labels: {{- include "redis.selectorLabels" . | nindent 10 }}
           app.kubernetes.io/component: primary
         {{- with .Values.primary.persistence.annotations }}
         annotations: {{- toYaml . | nindent 10 }}

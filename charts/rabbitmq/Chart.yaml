@@ -2,7 +2,7 @@ apiVersion: v2
 name: rabbitmq
 description: RabbitMQ message broker
 type: application
-version: "0.1.4"
+version: "0.1.5"
 appVersion: "4.2.3"
 icon: https://cdn.simpleicons.org/rabbitmq
 home: https://github.com/kubelauncher/charts
@@ -22,4 +22,4 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
     - kind: fixed
-      description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
+      description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
