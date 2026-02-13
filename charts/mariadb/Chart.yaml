@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: "0.3.0"
+version: "0.3.1"
 appVersion: "12.2.2"
 icon: https://cdn.simpleicons.org/mariadb
 home: https://github.com/kubelauncher/charts
@@ -24,5 +24,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: added
-      description: Add GPG provenance signing for Helm repo
+    - kind: fixed
+      description: Add wait loop to mysqld-exporter sidecar to prevent startup race condition

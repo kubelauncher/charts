@@ -115,10 +115,10 @@ helm uninstall my-mysql
 | image.tag | string | `""` |  |
 | metrics.containerPorts.metrics | int | `9104` |  |
 | metrics.enabled | bool | `false` |  |
-| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
-| metrics.image.registry | string | `"docker.io"` |  |
-| metrics.image.repository | string | `"prom/mysqld-exporter"` |  |
-| metrics.image.tag | string | `"v0.16.0"` |  |
+| metrics.image.pullPolicy | string | `"Always"` |  |
+| metrics.image.registry | string | `"ghcr.io"` |  |
+| metrics.image.repository | string | `"kubelauncher/mysqld-exporter"` |  |
+| metrics.image.tag | string | `"0.18.0"` |  |
 | metrics.serviceMonitor.enabled | bool | `false` |  |
 | metrics.serviceMonitor.interval | string | `""` |  |
 | metrics.serviceMonitor.labels | object | `{}` |  |

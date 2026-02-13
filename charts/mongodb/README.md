@@ -116,10 +116,10 @@ helm uninstall my-mongo
 | image.tag | string | `""` |  |
 | metrics.containerPorts.metrics | int | `9216` |  |
 | metrics.enabled | bool | `false` |  |
-| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
-| metrics.image.registry | string | `"docker.io"` |  |
-| metrics.image.repository | string | `"percona/mongodb_exporter"` |  |
-| metrics.image.tag | string | `"0.44.0"` |  |
+| metrics.image.pullPolicy | string | `"Always"` |  |
+| metrics.image.registry | string | `"ghcr.io"` |  |
+| metrics.image.repository | string | `"kubelauncher/mongodb-exporter"` |  |
+| metrics.image.tag | string | `"0.47.2"` |  |
 | metrics.serviceMonitor.enabled | bool | `false` |  |
 | metrics.serviceMonitor.interval | string | `""` |  |
 | metrics.serviceMonitor.labels | object | `{}` |  |
