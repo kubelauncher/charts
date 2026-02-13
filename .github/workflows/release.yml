@@ -73,16 +73,17 @@ jobs:
         if: steps.check.outputs.skip != 'true'
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          gpg --export-secret-keys > ~/.gnupg/secring.gpg
+          gpg --batch --pinentry-mode loopback --export-secret-keys > ~/.gnupg/secring.gpg
+          echo "Keyring size: $(wc -c < ~/.gnupg/secring.gpg) bytes"
+          gpg --list-secret-keys
 
       - name: Package and sign charts
         if: steps.check.outputs.skip != 'true'
         run: |
           mkdir -p .cr-release-packages
-          GPG_KEY_NAME=$(gpg --list-secret-keys --keyid-format long | grep -oE '[A-F0-9]{16}' | head -1)
           for chart in ${{ steps.check.outputs.charts }}; do
             helm package --sign \
-              --key "${GPG_KEY_NAME}" \
+              --key "KubeLauncher" \
               --keyring ~/.gnupg/secring.gpg \
               "$chart" -d .cr-release-packages
           done
