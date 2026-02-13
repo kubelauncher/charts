@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Add wait loop to mysqld-exporter sidecar to prevent startup race condition
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.0.45
+description: MySQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mysql
+keywords:
+- - mysql
+- - database
+- - sql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mysql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.5
+
+...
+files:
+  mysql-0.2.5.tgz: sha256:f131218163d0a2a09d316212c6b646b2087bf834e4303deca9d73eeb09d8a5b8
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj6OVCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnuJkwdehRkmm/66Bahij4c4gN+Sp6y+kzFpEilDUZyOsW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAW1kP/ApW8GuhMrj4LRV25NSnU2xjxg2O
+uZXVZLveo/qL90s4KCB9UdoAfl8L4AKRusQf+SUpy5+PinF35oz5Uhmue9XbhGwy
+ypFaljRwpk7i57ndDaUBL933SzhYkKIAvU2lMe9y0qodnlmsbySAVyesh+pQIrGT
+X/9NZJ9/VDofmJhSxpN2XTNuZJab1xdJGP+0ezl1g3UtCMIwppxv4Ivo3BYVrdBE
+u5I7ico2uLbYOC4mj40w648z49nInYKU9kfVVN4rkidxLSiaF1uCL+S1WBtnz8Oi
+6RTfhgKBLG13xhZ4MoivtU7RbTEelAwrXFbQXIrlsakIkgatqAE2dDC1D7N9Ijcm
+EnkKfTYt5vrFVMNobEqSEQTktPJ2pEmGtZTBPMs11a2OqtXxoHcvx8F5UGT/ysfj
+B0WP08dqw/fYxwJn5TXyyC+BwVs+sWikY/rXnHoeoJAtfMoVJY00C+cNLpV7zDFy
+DbPcpflTkTJCTEa0mJYeX5QqWtPiXb/vwe26eIaOjXTDQvVoYnhkzo2QXAcayVXY
+t8OJqZru0SYFzH2vQntJ1CPwAANlZJkN4BvAmoLFUB6rXT0kQoxpI7fy8v/uFIHY
+kzTVyBZdFp5CwmiQu2VtAkGcLHFVAnrtpeuOMVS6TF/DaVxPHPwfndw5qr3sthwb
+3wlgY6KU+Cge3Xvq
+-----END PGP SIGNATURE-----
