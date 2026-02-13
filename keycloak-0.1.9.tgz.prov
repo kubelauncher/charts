@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics via Quarkus health endpoint and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 26.5.3
+description: Keycloak identity and access management
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/keycloak
+keywords:
+- - keycloak
+- - identity
+- - authentication
+- - oauth
+- - oidc
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: keycloak
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.9
+
+...
+files:
+  keycloak-0.1.9.tgz: sha256:e47d49ac1c0d0eb2c980b2c3029d23d75f9230216c8a68979d972ab2586f5b0c
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj6WBCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnlYRTMsci7WR7GMBGWQKnq+D6G1+Ystwtdp7Sil5ao8QW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAmmIQAIFRDCJavbp/AJoN47DeSq7tE5fq
+64wLlojpIdo/z/ZuL46bOZvO7R4JO+gKxF2DB1Q15m4dbCLgd/R0sOV/6qHqh+RZ
+nhPjn0o6ZUO6X6+FoNYpMvWjJZ6tGgOZgRz348UxXnsYch0NL6zm8ND8beqvXd1d
+5OzlYoHB2yCNWP5CqI9hLGrLlfbGCWLIZOvVOXpv50gCh8XQClLiNGK1EDp55NWv
+GijpQ9HKKrXZhSmHC3AuFcf6Guz6WeUxidVb41zgpRVBUAmibOQcbT+72L7XfHR/
+sccGXSfcpSzjzdZ3noKCN7m5iNaYwNnCM2W0xL3qVS/kfM1lOgspEtZKiHoYbbgH
+53CLhsxPt89fzOaeSCgLMKCJgstOQGO0KNnWZzmLmapAAgZh/LzuIUkKf8z1iP1g
+z+719Z7w7J4xkS2KfImYIF5g68RIbwmpreZC84dldd8kWm8yCbnZ+8rwsvbfzXaR
+JHS3hS7OHYLsF0vxBBnZrYgClMfZW6cUei6qlE/5/URd4yAgNrNNwsXPsP+Z6FLL
+BoSQWe2x7ckqekq5lIy030BglOcwV89PcJwTXW6rmVTAHbNZQWT8nrwwn97Lt6qU
+ua92PYsjeN/qiz00lUbX3Ja6g8oRb6nqU1tRFsBa28rZ9Tbtl8YdWW9Xi8xXcpmL
+QHl2hQQb+nGPctRg
+-----END PGP SIGNATURE-----
