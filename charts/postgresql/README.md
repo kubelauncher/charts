@@ -117,6 +117,16 @@ helm uninstall my-pg
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/postgresql"` |  |
 | image.tag | string | `""` |  |
+| metrics.containerPorts.metrics | int | `9187` |  |
+| metrics.enabled | bool | `false` |  |
+| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
+| metrics.image.registry | string | `"docker.io"` |  |
+| metrics.image.repository | string | `"prometheuscommunity/postgres-exporter"` |  |
+| metrics.image.tag | string | `"v0.16.0"` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
+| metrics.serviceMonitor.interval | string | `""` |  |
+| metrics.serviceMonitor.labels | object | `{}` |  |
+| metrics.serviceMonitor.scrapeTimeout | string | `""` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
 | networkPolicy.additionalRules | list | `[]` |  |

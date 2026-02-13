@@ -104,6 +104,22 @@ spec:
         {{- with .Values.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - name: memcached-exporter
+          image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          args:
+            - "--memcached.address=localhost:{{ .Values.containerPorts.memcached }}"
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.containerPorts.metrics }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+        {{- end }}
       {{- with .Values.extraVolumes }}
       volumes: {{- toYaml . | nindent 8 }}
       {{- end }}

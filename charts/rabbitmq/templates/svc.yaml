@@ -37,4 +37,9 @@ spec:
       {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePorts.epmd }}
       nodePort: {{ .Values.service.nodePorts.epmd }}
       {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: 15692
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "rabbitmq.selectorLabels" . | nindent 4 }}

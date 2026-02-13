@@ -125,6 +125,30 @@ spec:
         {{- with .Values.replica.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - name: redis-exporter
+          image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          env:
+            - name: REDIS_ADDR
+              value: "redis://127.0.0.1:{{ .Values.replica.containerPorts.redis }}"
+            {{- if .Values.auth.enabled }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "redis.secretName" . }}
+                  key: {{ include "redis.secretPasswordKey" . }}
+            {{- end }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.containerPorts.metrics }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+        {{- end }}
       volumes:
         {{- if not .Values.replica.persistence.enabled }}
         - name: redis-data

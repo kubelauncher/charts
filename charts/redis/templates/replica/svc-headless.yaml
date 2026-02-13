@@ -16,6 +16,11 @@ spec:
     - name: tcp-redis
       port: {{ .Values.replica.service.ports.redis }}
       targetPort: tcp-redis
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "redis.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: replica
 {{- end }}

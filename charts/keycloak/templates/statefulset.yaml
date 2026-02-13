@@ -93,6 +93,10 @@ spec:
               value: "true"
             - name: KC_HTTP_ENABLED
               value: "true"
+            {{- if .Values.metrics.enabled }}
+            - name: KC_METRICS_ENABLED
+              value: "true"
+            {{- end }}
             {{- with .Values.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

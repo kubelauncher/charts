@@ -228,3 +228,18 @@ serviceAccount:
   name: ""
   automountServiceAccountToken: false
   annotations: {}
+
+## @section Metrics parameters
+
+## @param metrics.enabled Enable Prometheus metrics
+## @param metrics.serviceMonitor.enabled Create ServiceMonitor resource
+## @param metrics.serviceMonitor.interval Prometheus scrape interval
+## @param metrics.serviceMonitor.scrapeTimeout Prometheus scrape timeout
+## @param metrics.serviceMonitor.labels Additional labels for the ServiceMonitor
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+    labels: {}

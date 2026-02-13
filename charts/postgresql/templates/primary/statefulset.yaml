@@ -160,6 +160,30 @@ spec:
         {{- with .Values.primary.sidecars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - name: postgres-exporter
+          image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          env:
+            - name: DATA_SOURCE_URI
+              value: "127.0.0.1:{{ .Values.primary.containerPorts.postgresql }}/{{ include "postgresql.database" . }}?sslmode=disable"
+            - name: DATA_SOURCE_USER
+              value: {{ include "postgresql.username" . | default "postgres" | quote }}
+            - name: DATA_SOURCE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.secretName" . }}
+                  key: {{ include "postgresql.adminPasswordKey" . }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.containerPorts.metrics }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+        {{- end }}
       {{- with .Values.primary.extraVolumes }}
       volumes: {{- toYaml . | nindent 8 }}
       {{- end }}

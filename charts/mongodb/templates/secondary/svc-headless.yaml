@@ -16,6 +16,11 @@ spec:
     - name: tcp-mongodb
       port: {{ include "mongodb.servicePort" . }}
       targetPort: tcp-mongodb
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "mongodb.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: secondary
 {{- end }}

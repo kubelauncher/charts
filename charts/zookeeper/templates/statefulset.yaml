@@ -64,6 +64,10 @@ spec:
               value: {{ include "zookeeper.servers" . | quote }}
             - name: ZOO_TICK_TIME
               value: {{ .Values.tickTime | quote }}
+            {{- if .Values.metrics.enabled }}
+            - name: ZOO_CFG_EXTRA
+              value: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider\nmetricsProvider.httpPort=7000"
+            {{- end }}
             {{- with .Values.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -74,6 +78,10 @@ spec:
               containerPort: {{ .Values.containerPorts.follower }}
             - name: election
               containerPort: {{ .Values.containerPorts.election }}
+            {{- if .Values.metrics.enabled }}
+            - name: metrics
+              containerPort: 7000
+            {{- end }}
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
             exec:

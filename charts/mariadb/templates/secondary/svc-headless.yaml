@@ -16,6 +16,11 @@ spec:
     - name: tcp-mariadb
       port: {{ .Values.secondary.service.ports.mariadb }}
       targetPort: tcp-mariadb
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "mariadb.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: secondary
 {{- end }}

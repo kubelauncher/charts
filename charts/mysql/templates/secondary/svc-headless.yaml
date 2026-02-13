@@ -16,6 +16,11 @@ spec:
     - name: tcp-mysql
       port: {{ .Values.secondary.service.ports.mysql }}
       targetPort: tcp-mysql
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.containerPorts.metrics }}
+      targetPort: metrics
+    {{- end }}
   selector: {{- include "mysql.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: secondary
 {{- end }}
