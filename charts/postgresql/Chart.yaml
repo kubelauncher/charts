@@ -2,7 +2,7 @@ apiVersion: v2
 name: postgresql
 description: PostgreSQL relational database
 type: application
-version: "0.2.5"
+version: "0.2.6"
 appVersion: "17.0.0"
 icon: https://cdn.simpleicons.org/postgresql
 home: https://github.com/kubelauncher/charts
@@ -26,4 +26,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add GPG provenance signing for Helm repo
+      description: Add Prometheus metrics with postgres-exporter sidecar and ServiceMonitor

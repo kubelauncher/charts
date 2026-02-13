@@ -92,10 +92,10 @@ helm uninstall my-memcached
 | memcachedThreads | int | `4` |  |
 | metrics.containerPorts.metrics | int | `9150` |  |
 | metrics.enabled | bool | `false` |  |
-| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
-| metrics.image.registry | string | `"docker.io"` |  |
-| metrics.image.repository | string | `"prom/memcached-exporter"` |  |
-| metrics.image.tag | string | `"v0.15.0"` |  |
+| metrics.image.pullPolicy | string | `"Always"` |  |
+| metrics.image.registry | string | `"ghcr.io"` |  |
+| metrics.image.repository | string | `"kubelauncher/memcached-exporter"` |  |
+| metrics.image.tag | string | `"0.15.5"` |  |
 | metrics.serviceMonitor.enabled | bool | `false` |  |
 | metrics.serviceMonitor.interval | string | `""` |  |
 | metrics.serviceMonitor.labels | object | `{}` |  |
