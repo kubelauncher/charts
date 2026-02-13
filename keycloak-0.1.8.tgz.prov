@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 26.5.3
+description: Keycloak identity and access management
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/keycloak
+keywords:
+- - keycloak
+- - identity
+- - authentication
+- - oauth
+- - oidc
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: keycloak
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.8
+
+...
+files:
+  keycloak-0.1.8.tgz: sha256:fd546f81bb9a8727b1e6a76935477149e49e0de85ac340471bdb6a6a963d9f12
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DVCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnWMENko0Eq+Jo7U9JIUNtGEnVLhrEvpubrtxgLFGKRrgW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAx/UQAJIA2vGE7Q9g/63rgduQSDZFxnxs
+MkI2/11aHRBDfUY/9WfQ5+bgh/XVhfZhukgMYLfjucCiGOd5DcKR8Eco13LPPWQT
+SoTlsjk1Unosj5hxxv7vW/Bd0j9a9VcU6isg5vbMQRmt09/tCf/Kz1n4VSjVdgM4
+pX6LwXLbKsQ2mdZlxc6o4BM0zRPskDzgaDx/rDmnU7baylwwGX+w1BUpWBeJDSW8
+lSzabsLZMCIqzAEsNFNhI8WPO1Qo3rKj274I5nLgHOGKcSSML+UkTystPREma4M0
+k7YDPIzOH++9zmxPk/4WivcqYCH4DgBAzCVWn90Lf05lFxIpgdP/8TxrdRtHUdkr
+/ljx5fjjtdpuyJEvMdwEIV6NZWJiarp/WQBS75QE7PVU3nhQMxQ0D8Qv2b1FyGKg
+/F6S54B76d+AGlFBdm2bkADkqH9A2dR/j5DAg2Fp9QqtvGVyCWEoFMUsfZys7Tgn
+wf8dzygyYQlk/xqdVBDjWVJaeeqCCJG+HaM3sqxZP8POlB17ZVgOjqTmE3Xw3PgF
+0ZfZd/dnlzD2fWZhqDJz7MfUPawjhoBYDLp0MF6by0jHsh/tI9UQF3abkvXzFU8x
+q4KQ3O5slv7TLzQSrx9BCXuUroGfH/0mOilInXY/Yk1EdhHYxjGFR74bj+tMQMim
+0Fu1zAiHi8YCSUl/
+-----END PGP SIGNATURE-----

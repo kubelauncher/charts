@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 4.2.3
+description: RabbitMQ message broker
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/rabbitmq
+keywords:
+- - rabbitmq
+- - message queue
+- - AMQP
+- - broker
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: rabbitmq
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.7
+
+...
+files:
+  rabbitmq-0.1.7.tgz: sha256:7bbb62f27666b8568201de1a4d01835abc09549fd7582b6ecf216e85dd5a801f
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DWCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnZWudpGtRCw6koWvKHfemMoeIUnNogzWtu5cbcg/ZWvcW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAYekP/RmwxeG+G9ZXaaDSOqiddAzvx0f4
+Kuc53Kd71uDNl21pMp9/A9s/EQRYvOhLGdNyFB4mC76njXOtvotiuJNeua5t+blU
+HHcGwIhhQfMhf09T28NQ+YaNHudnXaAPZP/v+wrm3NO7TAT+3jpqbwSGEj/PzSoj
+PMzMevFoyC2EeQvy5xG4HWSRVWK4RU2TQWKkZ93qg5qIKVyMKQ8YiQGF5vCthcRC
+VhWTs5DkJgSWfxeJz4esLdFCcflaBdDhsYDyjvDZ2VSctKQrChpdcj6x7D/y4bLf
++XADiFZenl35hqMxxAcgCvtA0gALoAeklT1qcrUhHOFGDSSzHP2qkmEg41jdqW0+
+hu/hdd8Aan+D1j2ZtIl92bSxDRFozA04m0YOEJaLFC81q7wrFZLqnaYItd5QpgzU
+T9lCzwobsEL29HfwsEAK4D7CNGiEA+LP0vDYRHaFnIGr4N27Qw0JRIft3VwQ+SVP
+t5VwTLFnQOM1XhCftuyRY289zr1bWeIW2TsLxUAK0I0J2fLa3e+r+rkqdo5uNI0k
+kPN9dysr8I7OlibMQGX7dQQ1dFNeLZmKHqO3REoNgKQzMhImJqYgS+QZN8cxu9HP
+cg6NaAnKj+RGT0gJBAh9aQFnRvecQIlBianvTohqo5g3qB8jAvepGXthpUbQd6WJ
+mNiOj2+ofjXZ2gwp
+-----END PGP SIGNATURE-----

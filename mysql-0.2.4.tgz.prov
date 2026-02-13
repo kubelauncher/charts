@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.0.45
+description: MySQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mysql
+keywords:
+- - mysql
+- - database
+- - sql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mysql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.4
+
+...
+files:
+  mysql-0.2.4.tgz: sha256:d899492d975aae67b42b22279b4e6a5a936d016c9e7f49a50aa3e4ba95173688
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpj1DWCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnHX0koqxZOE1Q8sEMVAc9+NRgMgN9GyfIYJZ0XKP5hWgW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAKfAP+wbBhfOCx8lhlc32O59u0npPZoLO
+0t+VsRwA3arlyclS5qiKhuZA8b7LODtVvu9jxUR4Sk4X/yPnUt8lsi5Xp1xQKAvo
+ZEJl4a/p2hWUfwLwVRd7RMkl8FNWEnWBTuG/Ywnr4biuc+HIHcCS61/cj+gNcJAt
+7HAClpo2Yi89idq8bSX9HkrW1J1BT5RSZHxBILaoJ76X6qCet7GfRoD4IrasYvMS
+XllGnimYZr3LN+puEeYlyUEIPHewjcYUr2JNrviu9lsyne28gwGsISflqwN90syx
+OKxqcu9NdBh02aqsw9Ksrt4zXmcrZY6rFRHBGCs4HE+aAvd2gRff29stYfphSg1F
+Vovf1O8Zq+N0XjnQJJ9m9Vyss2t369W16xnuwJPNIHMLmlQ56ASqduC/njqLEjYf
+VFdST0yIJfc4uvlzoqWo9dx39MtpSwHhbV++onvo9RdF4ZdCTMU6U/DzblWUo3pb
+W2Y3JzWCpbMSmVSuO8kuURrSNRhdJ1x34yw6k5Z6qgi2/pU89wZR6+5IRlgA05CG
+bhb6qzZwX7PHTrqvaBEQ5gF2yhiicA4pWvH+4ZvnzXsEIWITnoX4fWv3CaPUtvGy
+80I3BvjEuSWBQx8X2hmiA+KIEVM+uJkEiBI2rBc1yKzJXycGqFElbI6GZZkvrEqA
+bgwjOl5vUKkc5UL8
+-----END PGP SIGNATURE-----

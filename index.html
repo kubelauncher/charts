@@ -150,6 +150,12 @@
     <p class="section-title">Available Charts</p>
     <div class="charts" id="charts"></div>
 
+    <div class="usage">
+      <h2>Verify signatures</h2>
+      <code style="font-size:0.8rem"><!-- OCI (cosign) --><br>cosign verify --key https://kubelauncher.github.io/charts/cosign.pub \<br>&nbsp;&nbsp;oci://ghcr.io/kubelauncher/charts/redis:0.2.11</code>
+      <code style="font-size:0.8rem"><!-- Helm repo (GPG provenance) --><br>helm pull kubelauncher/redis --verify \<br>&nbsp;&nbsp;--keyring pubkeys.gpg</code>
+    </div>
+
     <div class="links">
       <a href="https://artifacthub.io/packages/search?repo=kubelauncher">ArtifactHub</a>
       <a href="https://hub.docker.com/u/kubelauncher">Docker Hub</a>

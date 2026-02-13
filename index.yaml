@@ -4,6 +4,38 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 5.0.6
+    created: "2026-02-13T16:28:19.824408898Z"
+    description: Apache Cassandra distributed NoSQL database
+    digest: 02286f9ec8871f372209a7975ad422c401c2a1222bcf33821f8910e20de2eb44
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/apachecassandra
+    keywords:
+    - cassandra
+    - nosql
+    - database
+    - wide-column
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: cassandra
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/cassandra-0.1.6.tgz
+    version: 0.1.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -185,6 +217,38 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 3.9.0
+    created: "2026-02-13T16:28:19.82520063Z"
+    description: Apache Kafka distributed streaming platform
+    digest: 0be42590f2976b6bdfed02b73b26472632f01deb19de426dba3b8a04d8fcf58b
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/apachekafka
+    keywords:
+    - kafka
+    - streaming
+    - messaging
+    - event
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: kafka
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/kafka-0.1.6.tgz
+    version: 0.1.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -363,6 +427,39 @@ entries:
     - https://kubelauncher.github.io/charts/kafka-0.1.0.tgz
     version: 0.1.0
   keycloak:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 26.5.3
+    created: "2026-02-13T16:28:19.826052818Z"
+    description: Keycloak identity and access management
+    digest: fd546f81bb9a8727b1e6a76935477149e49e0de85ac340471bdb6a6a963d9f12
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/keycloak
+    keywords:
+    - keycloak
+    - identity
+    - authentication
+    - oauth
+    - oidc
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: keycloak
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/keycloak-0.1.8.tgz
+    version: 0.1.8
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -616,6 +713,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 1.35.1
+    created: "2026-02-13T16:28:19.826632319Z"
+    description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
+    digest: 6015a6db7d6be8ec5cdf51ae35eb36106cfc7e756c0831d1414faf53142bd292
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/kubernetes
+    keywords:
+    - kubectl
+    - kubernetes
+    - cli
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: kubectl
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/kubectl-0.1.6.tgz
+    version: 0.1.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -791,16 +919,16 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
-          description: Add cosign signature verification for OCI artifacts
+          description: Add GPG provenance signing for Helm repo
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
         fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 12.2.2
-    created: "2026-02-13T10:41:31.097039018Z"
+    created: "2026-02-13T16:28:19.827593215Z"
     description: MariaDB relational database
-    digest: 7cec2206526d1900612053e67cc5666eab8ad7046cdde2238b399711ec51cdd7
+    digest: 278f3a4babd1680d904e257a5f2f8f13415eabb6a56510448641153b2f61f438
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mariadb
     keywords:
@@ -1066,6 +1194,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 1.6.40
+    created: "2026-02-13T16:28:19.828944407Z"
+    description: Memcached in-memory caching system
+    digest: 20a300b564c2d61c710f61022acdab9e7652236fb2f26266f24983e3c858c774
+    home: https://github.com/kubelauncher/charts
+    icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
+    keywords:
+    - memcached
+    - cache
+    - memory
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: memcached
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/memcached-0.1.6.tgz
+    version: 0.1.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -1238,6 +1397,38 @@ entries:
     - https://kubelauncher.github.io/charts/memcached-0.1.0.tgz
     version: 0.1.0
   mongodb:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 8.2.5
+    created: "2026-02-13T16:28:19.830342258Z"
+    description: MongoDB document database
+    digest: 9144da6b1fc1f11be3a44c807d96349268a537e53f28ca9bb81e3bc8964952f7
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mongodb
+    keywords:
+    - mongodb
+    - nosql
+    - database
+    - document
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mongodb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mongodb-0.2.6.tgz
+    version: 0.2.6
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -1538,6 +1729,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 8.0.45
+    created: "2026-02-13T16:28:19.831343673Z"
+    description: MySQL relational database
+    digest: d899492d975aae67b42b22279b4e6a5a936d016c9e7f49a50aa3e4ba95173688
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mysql
+    keywords:
+    - mysql
+    - database
+    - sql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mysql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mysql-0.2.4.tgz
+    version: 0.2.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -1741,6 +1963,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 2.6.12
+    created: "2026-02-13T16:28:19.832072214Z"
+    description: OpenLDAP directory service
+    digest: 45e91c51b939a664d24e8b3b0197d39b394e6bc3354033e00c75d18bcb5fae4b
+    home: https://github.com/kubelauncher/charts
+    icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
+    keywords:
+    - openldap
+    - ldap
+    - directory
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: openldap
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/openldap-0.1.7.tgz
+    version: 0.1.7
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -1913,6 +2166,39 @@ entries:
     - https://kubelauncher.github.io/charts/openldap-0.1.1.tgz
     version: 0.1.1
   postgresql:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 17.0.0
+    created: "2026-02-13T16:28:19.833075242Z"
+    description: PostgreSQL relational database
+    digest: a0d9216ea4a485b6e9b6e32b68548cbabb1d41a82fc4d0e981016dd643e3f4a0
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/postgresql
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: postgresql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/postgresql-0.2.5.tgz
+    version: 0.2.5
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -2106,6 +2392,38 @@ entries:
     - https://kubelauncher.github.io/charts/postgresql-0.1.0.tgz
     version: 0.1.0
   rabbitmq:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 4.2.3
+    created: "2026-02-13T16:28:19.833951365Z"
+    description: RabbitMQ message broker
+    digest: 7bbb62f27666b8568201de1a4d01835abc09549fd7582b6ecf216e85dd5a801f
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/rabbitmq
+    keywords:
+    - rabbitmq
+    - message queue
+    - AMQP
+    - broker
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: rabbitmq
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/rabbitmq-0.1.7.tgz
+    version: 0.1.7
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -2316,6 +2634,38 @@ entries:
     - https://kubelauncher.github.io/charts/rabbitmq-0.1.0.tgz
     version: 0.1.0
   redis:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 8.6.0
+    created: "2026-02-13T16:28:19.836668341Z"
+    description: Redis in-memory data store
+    digest: 8c66ac58864d5222f8e16f91c7e1c8da11d3e8027408114d57cbdf1b7e36340b
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/redis
+    keywords:
+    - redis
+    - cache
+    - database
+    - keyvalue
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: redis
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/redis-0.2.12.tgz
+    version: 0.2.12
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -2681,6 +3031,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add GPG provenance signing for Helm repo
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 3.9.3
+    created: "2026-02-13T16:28:19.83739263Z"
+    description: Apache ZooKeeper distributed coordination service
+    digest: a14a34be2208add7c5c49bce7104df8c012ac4b20e9f40b9c7d0c9cac7272b71
+    home: https://github.com/kubelauncher/charts
+    icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
+    keywords:
+    - zookeeper
+    - coordination
+    - distributed
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: zookeeper
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/zookeeper-0.1.7.tgz
+    version: 0.1.7
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add cosign signature verification for OCI artifacts
       artifacthub.io/license: Apache-2.0
       artifacthub.io/signKey: |
@@ -2880,4 +3261,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-13T10:41:31.093041261Z"
+generated: "2026-02-13T16:28:19.823413147Z"
