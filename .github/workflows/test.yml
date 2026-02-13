@@ -184,7 +184,7 @@ jobs:
           cluster_name: chart-test
 
       - name: Install crane
-        uses: imjasonh/setup-crane@v0.4
+        uses: imjasonh/setup-crane@v0.5
 
       - name: Pull and load images into kind
         run: |
