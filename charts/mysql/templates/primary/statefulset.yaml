@@ -145,9 +145,13 @@ spec:
         - name: mysqld-exporter
           image: {{ .Values.metrics.image.registry }}/{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
-          args:
-            - "--mysqld.address=127.0.0.1:{{ .Values.primary.containerPorts.mysql }}"
-            - "--mysqld.username=root"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              until (echo > /dev/tcp/127.0.0.1/{{ .Values.primary.containerPorts.mysql }}) 2>/dev/null; do sleep 2; done
+              sleep 5
+              exec /usr/local/bin/mysqld_exporter --mysqld.address=127.0.0.1:{{ .Values.primary.containerPorts.mysql }} --mysqld.username=root
           env:
             - name: MYSQLD_EXPORTER_PASSWORD
               valueFrom:
