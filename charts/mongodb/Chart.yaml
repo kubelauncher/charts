@@ -2,7 +2,7 @@ apiVersion: v2
 name: mongodb
 description: MongoDB document database
 type: application
-version: "0.2.3"
+version: "0.2.4"
 appVersion: "8.2.5"
 icon: https://cdn.simpleicons.org/mongodb
 home: https://github.com/kubelauncher/charts
