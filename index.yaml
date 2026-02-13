@@ -4,6 +4,35 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 5.0.6
+    created: "2026-02-13T07:18:59.757643147Z"
+    description: Apache Cassandra distributed NoSQL database
+    digest: 9d3ae25c0daaa4f341b5e6dcfb7b2180344a0eb62b26f31602e8132afa2fe4b0
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/apachecassandra
+    keywords:
+    - cassandra
+    - nosql
+    - database
+    - wide-column
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: cassandra
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/cassandra-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -124,6 +153,35 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 3.9.0
+    created: "2026-02-13T07:18:59.758386682Z"
+    description: Apache Kafka distributed streaming platform
+    digest: 2fb0e41802919d98536dace04ef932ff7379407f649661a348bb6871625b3057
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/apachekafka
+    keywords:
+    - kafka
+    - streaming
+    - messaging
+    - event
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: kafka
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/kafka-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -241,6 +299,36 @@ entries:
     - https://kubelauncher.github.io/charts/kafka-0.1.0.tgz
     version: 0.1.0
   keycloak:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 26.5.3
+    created: "2026-02-13T07:18:59.759212641Z"
+    description: Keycloak identity and access management
+    digest: 864d1507930dd9e6681e02096fd50cc8d8e7171533c4ca0028ecc9ddef9ccfa7
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/keycloak
+    keywords:
+    - keycloak
+    - identity
+    - authentication
+    - oauth
+    - oidc
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: keycloak
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/keycloak-0.1.6.tgz
+    version: 0.1.6
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -435,9 +523,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.35.1
-    created: "2026-02-13T06:22:17.022522016Z"
+    created: "2026-02-13T07:18:59.759751141Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: e49a095dc89480dfa2af44365cb574e0dd2ff015c4a16e885d11387b2fa2ac63
+    digest: 492e77a757442920e9a0e12d45fb028dcd224aa1542f9835cf0e895a33d02972
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/kubernetes
     keywords:
@@ -572,6 +660,35 @@ entries:
     - https://kubelauncher.github.io/charts/kubectl-0.1.0.tgz
     version: 0.1.0
   mariadb:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 12.1.2
+    created: "2026-02-13T07:18:59.760662962Z"
+    description: MariaDB relational database
+    digest: 4722894921473a17d315fa4a1f9ceb5644d974cd48036574c680b5c46c7af900
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/mariadb
+    keywords:
+    - mariadb
+    - database
+    - sql
+    - mysql
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: mariadb
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/mariadb-0.2.2.tgz
+    version: 0.2.2
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -761,9 +878,9 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-02-13T06:22:17.024186655Z"
+    created: "2026-02-13T07:18:59.762136954Z"
     description: Memcached in-memory caching system
-    digest: 3827a8c54c204e8d2335da6a6c5cf4543bb62beb8cf5790647a6b2956b1c01bc
+    digest: fd566c063eb10cbd0a9654cf5640ac9c24a8dac9926924d830c95507e2492422
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
     keywords:
@@ -901,13 +1018,13 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
-          description: Fix keyfile permissions for replica set mode (fsGroup OR issue)
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.2.5
-    created: "2026-02-13T06:22:17.025217128Z"
+    created: "2026-02-13T07:18:59.763410423Z"
     description: MongoDB document database
-    digest: fdedc2da650e2d231e8097766f973d07071b434737f1cf1fdd1fe67c185462a4
+    digest: 43db605d4b0b0a0dc0461c2864371e6a6adf32da2a3dbc0124a4643f0c0faabc
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mongodb
     keywords:
@@ -1165,17 +1282,14 @@ entries:
   mysql:
   - annotations:
       artifacthub.io/changes: |
-        - kind: changed
-          description: Update mysql to 8.0.45
-          links:
-            - name: Release Notes
-              url: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 8.0.45
-    created: "2026-02-13T06:22:17.026358917Z"
+    created: "2026-02-13T07:18:59.764294131Z"
     description: MySQL relational database
-    digest: 791c17c933351ae64145dcd4fddf16b26f7975cfd0eabbf8b12b96fbc995eff5
+    digest: ba0d30aa1fd0dc8b06898f1a0e48bc4b3dfee12e5e3246c9c5d54627258ce28d
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mysql
     keywords:
@@ -1341,6 +1455,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 2.6.12
+    created: "2026-02-13T07:18:59.764965019Z"
+    description: OpenLDAP directory service
+    digest: 47b709397f8ee154a040ee70dd56cfbc1b8e08b6264bb5261b2d9ffcc363cfbb
+    home: https://github.com/kubelauncher/charts
+    icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
+    keywords:
+    - openldap
+    - ldap
+    - directory
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: openldap
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/openldap-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -1454,6 +1596,36 @@ entries:
     - https://kubelauncher.github.io/charts/openldap-0.1.1.tgz
     version: 0.1.1
   postgresql:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 17.0.0
+    created: "2026-02-13T07:18:59.765897429Z"
+    description: PostgreSQL relational database
+    digest: 8665d277b94c756321ed2d822d3ead5bdde28ee450915a0c441b34e83028fce1
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/postgresql
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: postgresql
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/postgresql-0.2.3.tgz
+    version: 0.2.3
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -1584,6 +1756,35 @@ entries:
     - https://kubelauncher.github.io/charts/postgresql-0.1.0.tgz
     version: 0.1.0
   rabbitmq:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 4.2.3
+    created: "2026-02-13T07:18:59.766761309Z"
+    description: RabbitMQ message broker
+    digest: f966f73dc7ae9b6cd1f2c209a280b655552f6a26938ad4f7fe371811fb3c0eaf
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/rabbitmq
+    keywords:
+    - rabbitmq
+    - message queue
+    - AMQP
+    - broker
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: rabbitmq
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/rabbitmq-0.1.5.tgz
+    version: 0.1.5
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -1733,6 +1934,35 @@ entries:
     - https://kubelauncher.github.io/charts/rabbitmq-0.1.0.tgz
     version: 0.1.0
   redis:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 8.6.0
+    created: "2026-02-13T07:18:59.769057309Z"
+    description: Redis in-memory data store
+    digest: f9ae69217cc8cacd8efe7678920f917771512f4aed850f14f47bc3f0743df16b
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/redis
+    keywords:
+    - redis
+    - cache
+    - database
+    - keyvalue
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: redis
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/redis-0.2.9.tgz
+    version: 0.2.9
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -2008,6 +2238,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Use stable labels in volumeClaimTemplates to prevent StatefulSet update failures
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 3.9.3
+    created: "2026-02-13T07:18:59.769782911Z"
+    description: Apache ZooKeeper distributed coordination service
+    digest: f5e54166e8a73b7e8c495a2917ca351f1b492c86b78e2869ba4b951abc7092d6
+    home: https://github.com/kubelauncher/charts
+    icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
+    keywords:
+    - zookeeper
+    - coordination
+    - distributed
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: zookeeper
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/zookeeper-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Add enableServiceLinks false to prevent Kubernetes service env var conflicts
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -2148,4 +2406,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-13T06:22:17.018400073Z"
+generated: "2026-02-13T07:18:59.75665349Z"
