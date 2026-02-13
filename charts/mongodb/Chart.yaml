@@ -2,7 +2,7 @@ apiVersion: v2
 name: mongodb
 description: MongoDB document database
 type: application
-version: "0.2.6"
+version: "0.2.7"
 appVersion: "8.2.5"
 icon: https://cdn.simpleicons.org/mongodb
 home: https://github.com/kubelauncher/charts
@@ -24,5 +24,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: added
-      description: Add GPG provenance signing for Helm repo
+    - kind: fixed
+      description: Add retry loop to mongodb-exporter sidecar for replicaset mode auth readiness
