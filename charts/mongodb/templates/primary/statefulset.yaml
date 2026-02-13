@@ -168,7 +168,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              until echo > /dev/tcp/127.0.0.1/{{ .Values.primary.containerPorts.mongodb }} 2>/dev/null; do sleep 2; done
+              until (echo > /dev/tcp/127.0.0.1/{{ .Values.primary.containerPorts.mongodb }}) 2>/dev/null; do sleep 2; done
               sleep 5
               exec /usr/local/bin/mongodb_exporter
           env:
