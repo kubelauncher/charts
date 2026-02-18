@@ -108,12 +108,12 @@ helm uninstall my-mongo
 | global.mongodb.auth.username | string | `""` |  |
 | global.mongodb.service.ports.mongodb | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `""` |  |
+| image.digest | string | `"sha256:e67ae90eafa0bc8a29ad393d16e3490d8c794881e15433a7946625723f3a1f86"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/mongodb"` |  |
-| image.tag | string | `""` |  |
+| image.tag | string | `"8.2.5"` |  |
 | metrics.containerPorts.metrics | int | `9216` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.image.pullPolicy | string | `"Always"` |  |

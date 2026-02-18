@@ -107,12 +107,12 @@ helm uninstall my-mariadb
 | global.mariadb.auth.username | string | `""` |  |
 | global.mariadb.service.ports.mariadb | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `""` |  |
+| image.digest | string | `"sha256:c852491d9690b4104e94d9b186c8d4d989603997e1b86715c80d32b8b110c8b0"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/mariadb"` |  |
-| image.tag | string | `""` |  |
+| image.tag | string | `"12.2.2"` |  |
 | metrics.containerPorts.metrics | int | `9104` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.image.pullPolicy | string | `"Always"` |  |
