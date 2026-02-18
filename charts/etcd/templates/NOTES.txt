@@ -1,0 +1,13 @@
+etcd has been deployed.
+
+To connect from within the cluster:
+
+  {{ include "etcd.fullname" . }}-headless.{{ include "etcd.namespace" . }}.svc.{{ .Values.clusterDomain }}:{{ .Values.service.ports.client }}
+
+To connect from outside the cluster:
+
+  kubectl port-forward --namespace {{ include "etcd.namespace" . }} svc/{{ include "etcd.fullname" . }} 2379:{{ .Values.service.ports.client }}
+
+Then connect using etcdctl:
+
+  etcdctl --endpoints=http://127.0.0.1:2379 endpoint health

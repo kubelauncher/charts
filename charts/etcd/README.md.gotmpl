@@ -1,0 +1,72 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.description" . }}
+
+## TL;DR
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-etcd kubelauncher/etcd
+```
+
+Or via OCI:
+
+```bash
+helm install my-etcd oci://ghcr.io/kubelauncher/charts/etcd
+```
+
+## Introduction
+
+This chart deploys etcd on Kubernetes using the [kubelauncher/etcd](https://github.com/kubelauncher/docker) Docker image.
+
+etcd is a distributed, reliable key-value store for the most critical data of a distributed system. It uses the Raft consensus algorithm to guarantee strong consistency.
+
+The values structure follows the same conventions as popular community charts, allowing easy migration.
+
+## Architecture
+
+### Single node (default)
+
+A single etcd node. Suitable for development and testing.
+
+```bash
+helm install my-etcd kubelauncher/etcd
+```
+
+### Cluster
+
+Scale the cluster by increasing `replicaCount`. Use an odd number (3, 5, 7) for proper Raft quorum. A majority of nodes must be available for the cluster to operate.
+
+```bash
+helm install my-etcd kubelauncher/etcd \
+  --set replicaCount=3
+```
+
+The client port is `2379`, the peer port is `2380`, and the metrics port is `2381`. Persistence is enabled by default with 8Gi volumes.
+
+{{ template "chart.requirementsSection" . }}
+
+## Installing the Chart
+
+```bash
+helm repo add kubelauncher https://kubelauncher.github.io/charts
+helm install my-etcd kubelauncher/etcd \
+  --set replicaCount=3
+```
+
+Or via OCI:
+
+```bash
+helm install my-etcd oci://ghcr.io/kubelauncher/charts/etcd \
+  --set replicaCount=3
+```
+
+## Uninstalling the Chart
+
+```bash
+helm uninstall my-etcd
+```
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
