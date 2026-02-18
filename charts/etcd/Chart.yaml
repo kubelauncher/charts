@@ -1,0 +1,28 @@
+apiVersion: v2
+name: etcd
+description: etcd distributed key-value store
+type: application
+version: "0.1.0"
+appVersion: "3.5.21"
+icon: https://cdn.simpleicons.org/etcd
+home: https://github.com/kubelauncher/charts
+sources:
+  - https://github.com/kubelauncher/docker
+  - https://github.com/kubelauncher/charts
+maintainers:
+  - name: kubelauncher
+    email: platform@kubelauncher.com
+    url: https://www.kubelauncher.com
+keywords:
+  - etcd
+  - key-value
+  - distributed
+  - consensus
+annotations:
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release

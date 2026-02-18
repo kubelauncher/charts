@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "etcd.fullname" . }}-headless
+  namespace: {{ include "etcd.namespace" . }}
+  labels: {{- include "etcd.labels" . | nindent 4 }}
+  {{- with .Values.service.headless.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: client
+      port: {{ .Values.service.ports.client }}
+      targetPort: client
+    - name: peer
+      port: {{ .Values.service.ports.peer }}
+      targetPort: peer
+  selector: {{- include "etcd.selectorLabels" . | nindent 4 }}
+  publishNotReadyAddresses: true

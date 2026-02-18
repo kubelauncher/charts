@@ -1,0 +1,7 @@
+# etcd cluster test configuration
+replicaCount: 3
+
+resourcesPreset: "nano"
+
+persistence:
+  enabled: false

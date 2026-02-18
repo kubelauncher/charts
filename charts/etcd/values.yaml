@@ -1,0 +1,243 @@
+## @section Global parameters
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.defaultStorageClass Global default StorageClass for Persistent Volume(s)
+## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  storageClass: ""
+
+## @section etcd image parameters
+
+## @param image.registry etcd image registry
+## @param image.repository etcd image repository
+## @param image.tag etcd image tag (defaults to Chart appVersion)
+## @param image.digest etcd image digest (overrides tag)
+## @param image.pullPolicy etcd image pull policy
+## @param image.pullSecrets etcd image pull secrets
+image:
+  registry: ghcr.io
+  repository: kubelauncher/etcd
+  tag: ""
+  digest: ""
+  pullPolicy: Always
+  pullSecrets: []
+
+## @section etcd common parameters
+
+## @param nameOverride Partially override etcd.fullname
+## @param fullnameOverride Fully override etcd.fullname
+## @param namespaceOverride Override the namespace
+## @param commonLabels Labels to add to all deployed objects
+## @param commonAnnotations Annotations to add to all deployed objects
+## @param clusterDomain Kubernetes cluster domain
+## @param extraDeploy Extra objects to deploy (evaluated as a template)
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+
+## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+enableServiceLinks: false
+
+## @param replicaCount Number of etcd replicas (use odd numbers: 1, 3, 5, 7)
+replicaCount: 1
+
+## @section etcd configuration parameters
+
+## @param initialClusterToken etcd initial cluster token
+## @param initialClusterState etcd initial cluster state (new or existing)
+initialClusterToken: "etcd-cluster"
+initialClusterState: "new"
+
+## @section etcd pod parameters
+
+## @param containerPorts.client etcd client container port
+## @param containerPorts.peer etcd peer container port
+## @param containerPorts.metrics etcd metrics container port
+containerPorts:
+  client: 2379
+  peer: 2380
+  metrics: 2381
+
+## @param resourcesPreset Set container resources according to one common preset
+## @param resources Set container resource requests and limits
+resourcesPreset: "nano"
+resources: {}
+
+## @param podSecurityContext.enabled Enable pod security context
+## @param podSecurityContext.fsGroup Set filesystem group ID for the pod
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+## @param containerSecurityContext.enabled Enable container security context
+## @param containerSecurityContext.runAsUser Set runAsUser for the container
+## @param containerSecurityContext.runAsGroup Set runAsGroup for the container
+## @param containerSecurityContext.runAsNonRoot Set runAsNonRoot for the container
+## @param containerSecurityContext.allowPrivilegeEscalation Set allowPrivilegeEscalation for the container
+## @param containerSecurityContext.readOnlyRootFilesystem Set readOnlyRootFilesystem for the container
+## @param containerSecurityContext.capabilities.drop List of capabilities to drop
+## @param containerSecurityContext.seccompProfile.type Set seccomp profile type for the container
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+
+## @param startupProbe.enabled Enable startup probe
+## @param startupProbe.initialDelaySeconds Initial delay seconds for startup probe
+## @param startupProbe.periodSeconds Period seconds for startup probe
+## @param startupProbe.timeoutSeconds Timeout seconds for startup probe
+## @param startupProbe.failureThreshold Failure threshold for startup probe
+## @param startupProbe.successThreshold Success threshold for startup probe
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+  failureThreshold: 30
+  successThreshold: 1
+
+## @param livenessProbe.enabled Enable liveness probe
+## @param livenessProbe.initialDelaySeconds Initial delay seconds for liveness probe
+## @param livenessProbe.periodSeconds Period seconds for liveness probe
+## @param livenessProbe.timeoutSeconds Timeout seconds for liveness probe
+## @param livenessProbe.failureThreshold Failure threshold for liveness probe
+## @param livenessProbe.successThreshold Success threshold for liveness probe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## @param readinessProbe.enabled Enable readiness probe
+## @param readinessProbe.initialDelaySeconds Initial delay seconds for readiness probe
+## @param readinessProbe.periodSeconds Period seconds for readiness probe
+## @param readinessProbe.timeoutSeconds Timeout seconds for readiness probe
+## @param readinessProbe.failureThreshold Failure threshold for readiness probe
+## @param readinessProbe.successThreshold Success threshold for readiness probe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## @section etcd persistence parameters
+
+## @param persistence.enabled Enable etcd data persistence using PVC
+## @param persistence.storageClass PVC Storage Class for etcd data volume
+## @param persistence.accessModes PVC Access Modes for etcd data volume
+## @param persistence.size PVC Storage Request for etcd data volume
+## @param persistence.existingClaim Name of an existing PVC to use
+## @param persistence.mountPath Path to mount the volume at
+## @param persistence.annotations Annotations for the PVC
+## @param persistence.labels Labels for the PVC
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  existingClaim: ""
+  mountPath: /data/etcd
+  annotations: {}
+  labels: {}
+
+## @section etcd service parameters
+
+## @param service.type etcd Kubernetes service type
+## @param service.ports.client etcd client service port
+## @param service.ports.peer etcd peer service port
+## @param service.nodePorts.client Node port for client
+## @param service.nodePorts.peer Node port for peer
+## @param service.clusterIP etcd service Cluster IP
+## @param service.annotations Additional annotations for the etcd service
+## @param service.labels Additional labels for the etcd service
+## @param service.headless.annotations Annotations for the headless service
+service:
+  type: ClusterIP
+  ports:
+    client: 2379
+    peer: 2380
+  nodePorts:
+    client: ""
+    peer: ""
+  clusterIP: ""
+  annotations: {}
+  labels: {}
+  headless:
+    annotations: {}
+
+## @param nodeSelector Node labels for pod assignment
+## @param tolerations Tolerations for pod assignment
+## @param affinity Affinity for pod assignment
+## @param podLabels Extra labels for etcd pods
+## @param podAnnotations Extra annotations for etcd pods
+## @param extraVolumes Extra volumes to add to the etcd statefulset
+## @param extraVolumeMounts Extra volume mounts to add to the etcd container
+## @param extraEnvVars Extra environment variables to add to the etcd container
+## @param sidecars Extra sidecar containers to add to the etcd pod
+## @param initContainers Extra init containers to add to the etcd pod
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podLabels: {}
+podAnnotations: {}
+extraVolumes: []
+extraVolumeMounts: []
+extraEnvVars: []
+sidecars: []
+initContainers: []
+
+## @section Network Policy
+## @param networkPolicy.enabled Enable network policy
+## @param networkPolicy.allowExternal Allow external connections
+## @param networkPolicy.additionalRules Additional network policy rules
+networkPolicy:
+  enabled: false
+  allowExternal: true
+  additionalRules: []
+
+## @section ServiceAccount parameters
+
+## @param serviceAccount.create Enable creation of a ServiceAccount for etcd pods
+## @param serviceAccount.name Name of the created ServiceAccount
+## @param serviceAccount.automountServiceAccountToken Automount service account token for the pod
+## @param serviceAccount.annotations Additional annotations for the ServiceAccount
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}
+
+## @section Metrics parameters
+
+## @param metrics.enabled Enable Prometheus metrics
+## @param metrics.serviceMonitor.enabled Create ServiceMonitor resource
+## @param metrics.serviceMonitor.interval Prometheus scrape interval
+## @param metrics.serviceMonitor.scrapeTimeout Prometheus scrape timeout
+## @param metrics.serviceMonitor.labels Additional labels for the ServiceMonitor
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: ""
+    scrapeTimeout: ""
+    labels: {}

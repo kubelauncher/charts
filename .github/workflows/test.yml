@@ -45,6 +45,7 @@ jobs:
           TESTS[kafka]='kraft cluster'
           TESTS[zookeeper]='standalone ensemble'
           TESTS[cassandra]='single cluster'
+          TESTS[etcd]='single cluster'
           TESTS[keycloak]='dev'
           TESTS[openldap]='default'
 

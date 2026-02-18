@@ -76,7 +76,7 @@ log "Helm install succeeded"
 
 # ── Wait for workloads ───────────────────────────────────────────────
 case "${CHART}" in
-    redis|postgresql|rabbitmq|mysql|mariadb|mongodb|kafka|zookeeper|cassandra|openldap)
+    redis|postgresql|rabbitmq|mysql|mariadb|mongodb|kafka|zookeeper|cassandra|openldap|etcd)
         kubectl rollout status statefulset -n "${NAMESPACE}" -l "app.kubernetes.io/instance=${RELEASE}" --timeout="${TIMEOUT}" \
             || fail "StatefulSet rollout failed"
         log "StatefulSet is ready"
@@ -647,6 +647,57 @@ case "${CHART}" in
         done
         echo "${RESULT}" | grep -q "dn:" || fail "OpenLDAP search failed after 3 attempts"
         log "OpenLDAP search works"
+        ;;
+
+    etcd)
+        FULLNAME="${RELEASE}"
+        SVC="${FULLNAME}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="client")].port}')
+        [ -z "${PORT}" ] && PORT=2379
+
+        EXEC_POD="${FULLNAME}-0"
+        ENDPOINT="http://${SVC}:${PORT}"
+        echo "Testing etcd at ${ENDPOINT} via ${EXEC_POD}..."
+
+        # Endpoint health check
+        RESULT=""
+        for attempt in 1 2 3 4 5; do
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                etcdctl --endpoints="${ENDPOINT}" endpoint health 2>&1) || true
+            echo "Health attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "is healthy"; then
+                break
+            fi
+            sleep 5
+        done
+        echo "${RESULT}" | grep -q "is healthy" || fail "etcd endpoint health failed after 5 attempts"
+        log "etcd endpoint is healthy"
+
+        # Put/Get test
+        RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+            sh -c "etcdctl --endpoints='${ENDPOINT}' put smoketest ok && etcdctl --endpoints='${ENDPOINT}' get smoketest" 2>&1) || true
+        echo "Put/Get result: ${RESULT}"
+        echo "${RESULT}" | grep -q "ok" || fail "etcd put/get failed"
+        log "etcd put/get works"
+
+        # Cluster membership check (if replicaCount > 1)
+        REPLICA_COUNT=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('replicaCount',1))" 2>/dev/null || echo "1")
+        if [ "${REPLICA_COUNT}" -gt 1 ]; then
+            echo "Checking cluster membership (expected ${REPLICA_COUNT} members)..."
+            RESULT=""
+            for attempt in $(seq 1 5); do
+                RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    etcdctl --endpoints="${ENDPOINT}" member list 2>&1) || true
+                MEMBER_COUNT=$(echo "${RESULT}" | grep -c "started" || echo "0")
+                echo "Member list attempt ${attempt}: ${MEMBER_COUNT}/${REPLICA_COUNT} started"
+                if [ "${MEMBER_COUNT}" = "${REPLICA_COUNT}" ]; then
+                    break
+                fi
+                sleep 5
+            done
+            [ "${MEMBER_COUNT}" = "${REPLICA_COUNT}" ] || fail "Expected ${REPLICA_COUNT} members, got ${MEMBER_COUNT}"
+            log "etcd cluster: ${REPLICA_COUNT} members started"
+        fi
         ;;
 esac
 
