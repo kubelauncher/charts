@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 2.6.12
+description: OpenLDAP directory service
+home: https://github.com/kubelauncher/charts
+icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
+keywords:
+- - openldap
+- - ldap
+- - directory
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: openldap
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.8
+
+...
+files:
+  openldap-0.1.8.tgz: sha256:b6cc29781e601b5a110cf85a9a0468a2ddb8457886957fb45d58e8d3f87c2996
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpldMlCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn4vC5dQuQoU9cilOrMPGg+hFG/AbHXbGokh8bKlepOagW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA4JAQAL+zSy1hBdH5V0zh7vXVFj5xA9aD
+yVS2vAsnkUZdNgK7cFM6FXISXYsag8NGxIX8m5Yu36TAjjS5FCMePpavznDSuXIB
+Lo1/GZUBs+G+E/BTOAnEgINszEMG8owxP+kX3J9yMM7xW9Xoh8vtVAHD2uACVDr0
+w1V9SfYlaicotPSlTejePveh/HRrhTK4txY3RgHhtfl3U855c9b7ke0RYvzNQBJ8
+qsZXIygVKD6ego0vaUaEh1UImipG5orqhgGOBbXorJsKMUs2p58NmcJAK5mz326D
+atJtag+v4ESNY0pjBGRMNx3s2rgwK2aGEzy4EAp8dEoGgdW/sskeTMRCHWGrRY2M
+WiSSp564PXugSsn73g4mN0f9n0KkZXxYZ66j39hSBD9+brYnFmw3D+E/GvWabHuY
+SrdyiJ5KwYRL6W4KrVY7HPxbqknNR8n5lS+oVOHvvWKZRcfK3mAjB/H+lZP2Yw6Z
+Rmly0dw5T6+o9mA//XsMiBFLCd9h8l58BIPuVgOMtMh3zRt7v3cj4C/25UKAKBij
+wf9OIW/nLrbMHwf/b664fx5rQw6Ejjvz06bvjlRjOaU7wgqMkSxJWYGTUivtZnDz
+pA7mtH6YN4saG2iIxC1MkGWLYiy1bWb7Li+z9Nm83nkjXBGTsB2939seEkl92/nO
+r1DZn/KA+GURVLAt
+-----END PGP SIGNATURE-----
