@@ -21,8 +21,9 @@ global:
 image:
   registry: ghcr.io
   repository: kubelauncher/kafka
-  tag: ""
-  digest: ""
+  # renovate: image=ghcr.io/kubelauncher/kafka
+  tag: "3.9.0"
+  digest: "sha256:07e72cf4929ba7c68b8994d8bac46a45a8843ed37af9121f40dbe0420e5292f2"
   pullPolicy: Always
   pullSecrets: []
 

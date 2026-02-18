@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "charts/**/Chart.yaml"
+      - "charts/**/values.yaml"
 
 permissions:
   contents: write
@@ -22,10 +23,10 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Get changed Chart.yaml files
+      - name: Get changed charts
         id: changed
         run: |
-          CHARTS=$(git diff --name-only origin/main...HEAD | grep 'Chart.yaml' | xargs -I{} dirname {} | sort -u)
+          CHARTS=$(git diff --name-only origin/main...HEAD | grep -E '(Chart|values)\.yaml' | xargs -I{} dirname {} | sort -u)
           echo "charts<<EOF" >> "$GITHUB_OUTPUT"
           echo "$CHARTS" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
@@ -36,29 +37,72 @@ jobs:
           BUMPED=""
           for chart_dir in ${{ steps.changed.outputs.charts }}; do
             CHART_FILE="${chart_dir}/Chart.yaml"
+            VALUES_FILE="${chart_dir}/values.yaml"
             [ -f "$CHART_FILE" ] || continue
+            [ -f "$VALUES_FILE" ] || continue
 
-            # Get current and previous appVersion
-            NEW_APP_VERSION=$(grep '^appVersion:' "$CHART_FILE" | awk '{print $2}' | tr -d '"')
+            CHART_NAME=$(basename "$chart_dir")
+
+            # Detect what changed in values.yaml
+            OLD_TAG=$(git show origin/main:"$VALUES_FILE" 2>/dev/null | grep '^\s*tag:' | head -1 | awk '{print $2}' | tr -d '"' || echo "")
+            NEW_TAG=$(grep '^\s*tag:' "$VALUES_FILE" | head -1 | awk '{print $2}' | tr -d '"')
+            OLD_DIGEST=$(git show origin/main:"$VALUES_FILE" 2>/dev/null | grep '^\s*digest:' | head -1 | awk '{print $2}' | tr -d '"' || echo "")
+            NEW_DIGEST=$(grep '^\s*digest:' "$VALUES_FILE" | head -1 | awk '{print $2}' | tr -d '"')
+
+            # Also check appVersion changes in Chart.yaml (backward compat)
             OLD_APP_VERSION=$(git show origin/main:"$CHART_FILE" 2>/dev/null | grep '^appVersion:' | awk '{print $2}' | tr -d '"' || echo "")
+            NEW_APP_VERSION=$(grep '^appVersion:' "$CHART_FILE" | awk '{print $2}' | tr -d '"')
 
-            # Skip if appVersion didn't change or is new chart
-            [ -z "$OLD_APP_VERSION" ] && continue
-            [ "$NEW_APP_VERSION" = "$OLD_APP_VERSION" ] && continue
+            TAG_CHANGED=false
+            DIGEST_CHANGED=false
 
-            # Parse versions (strip leading v if present)
-            OLD_MAJOR=$(echo "${OLD_APP_VERSION#v}" | cut -d. -f1)
-            OLD_MINOR=$(echo "${OLD_APP_VERSION#v}" | cut -d. -f2)
-            NEW_MAJOR=$(echo "${NEW_APP_VERSION#v}" | cut -d. -f1)
-            NEW_MINOR=$(echo "${NEW_APP_VERSION#v}" | cut -d. -f2)
+            if [ -n "$NEW_TAG" ] && [ "$NEW_TAG" != "$OLD_TAG" ]; then
+              TAG_CHANGED=true
+            fi
+            if [ -n "$NEW_DIGEST" ] && [ "$NEW_DIGEST" != "$OLD_DIGEST" ]; then
+              DIGEST_CHANGED=true
+            fi
 
-            # Determine bump type
-            if [ "$NEW_MAJOR" != "$OLD_MAJOR" ]; then
-              BUMP_TYPE="major"
-            elif [ "$NEW_MINOR" != "$OLD_MINOR" ]; then
-              BUMP_TYPE="minor"
-            else
+            # Skip if nothing changed
+            if [ "$TAG_CHANGED" = false ] && [ "$DIGEST_CHANGED" = false ] && [ "$NEW_APP_VERSION" = "$OLD_APP_VERSION" ]; then
+              continue
+            fi
+
+            # If tag changed in values.yaml, sync appVersion in Chart.yaml
+            if [ "$TAG_CHANGED" = true ]; then
+              sed -i "s/^appVersion: .*/appVersion: \"${NEW_TAG}\"/" "$CHART_FILE"
+              NEW_APP_VERSION="$NEW_TAG"
+
+              # Determine bump type from tag version comparison
+              OLD_MAJOR=$(echo "${OLD_TAG#v}" | cut -d. -f1)
+              OLD_MINOR=$(echo "${OLD_TAG#v}" | cut -d. -f2)
+              NEW_MAJOR=$(echo "${NEW_TAG#v}" | cut -d. -f1)
+              NEW_MINOR=$(echo "${NEW_TAG#v}" | cut -d. -f2)
+
+              if [ "$NEW_MAJOR" != "$OLD_MAJOR" ]; then
+                BUMP_TYPE="major"
+              elif [ "$NEW_MINOR" != "$OLD_MINOR" ]; then
+                BUMP_TYPE="minor"
+              else
+                BUMP_TYPE="patch"
+              fi
+            elif [ "$DIGEST_CHANGED" = true ]; then
+              # Digest-only change (OS rebuild, same tag)
               BUMP_TYPE="patch"
+            elif [ "$NEW_APP_VERSION" != "$OLD_APP_VERSION" ]; then
+              # Legacy: appVersion changed directly in Chart.yaml
+              OLD_MAJOR=$(echo "${OLD_APP_VERSION#v}" | cut -d. -f1)
+              OLD_MINOR=$(echo "${OLD_APP_VERSION#v}" | cut -d. -f2)
+              NEW_MAJOR=$(echo "${NEW_APP_VERSION#v}" | cut -d. -f1)
+              NEW_MINOR=$(echo "${NEW_APP_VERSION#v}" | cut -d. -f2)
+
+              if [ "$NEW_MAJOR" != "$OLD_MAJOR" ]; then
+                BUMP_TYPE="major"
+              elif [ "$NEW_MINOR" != "$OLD_MINOR" ]; then
+                BUMP_TYPE="minor"
+              else
+                BUMP_TYPE="patch"
+              fi
             fi
 
             # Get current chart version
@@ -80,12 +124,13 @@ jobs:
                 ;;
             esac
 
-            # Update Chart.yaml
+            # Update Chart.yaml version
             sed -i "s/^version: .*/version: \"${NEW_CHART_VERSION}\"/" "$CHART_FILE"
 
-            # Update changelog annotation with upstream release link
-            CHART_NAME=$(basename "$chart_dir")
-            python3 - "$CHART_FILE" "$CHART_NAME" "$NEW_APP_VERSION" << 'PYEOF'
+            # Update changelog annotation
+            if [ "$TAG_CHANGED" = true ] || [ "$NEW_APP_VERSION" != "$OLD_APP_VERSION" ]; then
+              # Tag changed: upstream release changelog
+              python3 - "$CHART_FILE" "$CHART_NAME" "$NEW_APP_VERSION" << 'PYEOF'
           import sys, re
 
           chart_file, chart_name, version = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -104,6 +149,7 @@ jobs:
               "keycloak": f"https://github.com/keycloak/keycloak/releases/tag/{version}",
               "openldap": f"https://git.openldap.org/openldap/openldap/-/tags/OPENLDAP_REL_ENG_{version.replace('.', '_')}",
               "kubectl": f"https://github.com/kubernetes/kubernetes/releases/tag/v{version}",
+              "etcd": f"https://github.com/etcd-io/etcd/releases/tag/v{version}",
           }
 
           url = urls.get(chart_name, "")
@@ -128,7 +174,34 @@ jobs:
           with open(chart_file, 'w') as f:
               f.write(content)
           PYEOF
-            echo "Bumped $CHART_NAME: $CHART_VERSION -> $NEW_CHART_VERSION ($BUMP_TYPE, appVersion: $OLD_APP_VERSION -> $NEW_APP_VERSION)"
+              echo "Bumped $CHART_NAME: $CHART_VERSION -> $NEW_CHART_VERSION ($BUMP_TYPE, appVersion: $OLD_APP_VERSION -> $NEW_APP_VERSION)"
+            else
+              # Digest-only change: rebuild changelog
+              python3 - "$CHART_FILE" "$CHART_NAME" << 'PYEOF'
+          import sys, re
+
+          chart_file, chart_name = sys.argv[1], sys.argv[2]
+
+          changelog = f"    artifacthub.io/changes: |\n"
+          changelog += f"      - kind: changed\n"
+          changelog += f"        description: Rebuild {chart_name} image (updated base OS)\n"
+
+          with open(chart_file) as f:
+              content = f.read()
+
+          content = re.sub(
+              r'    artifacthub\.io/changes: \|.*?(?=\n    [a-zA-Z]|\nannotations:|\n[a-z])',
+              changelog.rstrip(),
+              content,
+              flags=re.DOTALL
+          )
+
+          with open(chart_file, 'w') as f:
+              f.write(content)
+          PYEOF
+              echo "Bumped $CHART_NAME: $CHART_VERSION -> $NEW_CHART_VERSION (digest-only rebuild)"
+            fi
+
             BUMPED="${BUMPED}${CHART_NAME} "
           done
 
@@ -171,6 +244,6 @@ jobs:
         run: |
           git config user.name "KubeLauncher"
           git config user.email "platform@kubelauncher.com"
-          git add charts/*/Chart.yaml charts/*/README.md charts/*/values.schema.json
+          git add charts/*/Chart.yaml charts/*/values.yaml charts/*/README.md charts/*/values.schema.json
           git diff --staged --quiet || git commit -S -m "chore: bump chart versions and regenerate docs"
           git push

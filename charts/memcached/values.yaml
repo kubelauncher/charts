@@ -17,8 +17,9 @@ global:
 image:
   registry: ghcr.io
   repository: kubelauncher/memcached
-  tag: ""
-  digest: ""
+  # renovate: image=ghcr.io/kubelauncher/memcached
+  tag: "1.6.40"
+  digest: "sha256:90a534445bd7ace643cd9cb1ab720128df375954f52384fe875de5cadaba6027"
   pullPolicy: Always
   pullSecrets: []
 

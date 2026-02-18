@@ -21,8 +21,9 @@ global:
 image:
   registry: ghcr.io
   repository: kubelauncher/openldap
-  tag: ""
-  digest: ""
+  # renovate: image=ghcr.io/kubelauncher/openldap
+  tag: "2.6.12"
+  digest: "sha256:8978aa002bc027c835a32535c5b722013be99948c33e02eecb28d866e99fa32e"
   pullPolicy: Always
   pullSecrets: []
 
