@@ -81,12 +81,12 @@ helm uninstall my-ldap
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `""` |  |
+| image.digest | string | `"sha256:8978aa002bc027c835a32535c5b722013be99948c33e02eecb28d866e99fa32e"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/openldap"` |  |
-| image.tag | string | `""` |  |
+| image.tag | string | `"2.6.12"` |  |
 | initContainers | list | `[]` |  |
 | ldapAdminUsername | string | `"admin"` |  |
 | ldapRoot | string | `"dc=example,dc=org"` |  |

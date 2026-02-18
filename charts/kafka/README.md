@@ -92,12 +92,12 @@ helm uninstall my-kafka
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | heapOpts | string | `"-Xmx512m -Xms512m"` |  |
-| image.digest | string | `""` |  |
+| image.digest | string | `"sha256:07e72cf4929ba7c68b8994d8bac46a45a8843ed37af9121f40dbe0420e5292f2"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/kafka"` |  |
-| image.tag | string | `""` |  |
+| image.tag | string | `"3.9.0"` |  |
 | initContainers | list | `[]` |  |
 | kraft.clusterId | string | `""` |  |
 | kraft.controllerQuorumVoters | string | `""` |  |
