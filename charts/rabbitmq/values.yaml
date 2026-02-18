@@ -21,8 +21,9 @@ global:
 image:
   registry: ghcr.io
   repository: kubelauncher/rabbitmq
-  tag: ""
-  digest: ""
+  # renovate: image=ghcr.io/kubelauncher/rabbitmq
+  tag: "4.2.4"
+  digest: "sha256:c8043abc4223dc3bb1cc88cd0fefb208195af3d77274036e367d3cf404ab5eb3"
   pullPolicy: Always
   pullSecrets: []
 
