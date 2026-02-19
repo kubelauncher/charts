@@ -2,8 +2,8 @@ apiVersion: v2
 name: etcd
 description: etcd distributed key-value store
 type: application
-version: "0.1.1"
-appVersion: "3.5.21"
+version: "0.2.0"
+appVersion: "3.6.8"
 icon: https://cdn.simpleicons.org/etcd
 home: https://github.com/kubelauncher/charts
 sources:
