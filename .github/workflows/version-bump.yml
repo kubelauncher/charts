@@ -17,9 +17,16 @@ jobs:
     # Only run on Renovate PRs
     if: github.actor == 'renovate[bot]' || github.actor == 'renovate'
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
@@ -231,19 +238,11 @@ jobs:
             schema --values "${chart}values.yaml" --output "${chart}values.schema.json"
           done
 
-      - name: Import GPG key
-        if: steps.bump.outputs.bumped != ''
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
-
       - name: Commit version bump
         if: steps.bump.outputs.bumped != ''
         run: |
-          git config user.name "KubeLauncher"
-          git config user.email "platform@kubelauncher.com"
+          git config user.name "kubelauncher[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
           git add charts/*/Chart.yaml charts/*/values.yaml charts/*/README.md charts/*/values.schema.json
-          git diff --staged --quiet || git commit -S -m "chore: bump chart versions and regenerate docs"
+          git diff --staged --quiet || git commit -m "chore: bump chart versions and regenerate docs"
           git push
