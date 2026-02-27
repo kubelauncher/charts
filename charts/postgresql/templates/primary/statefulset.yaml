@@ -97,6 +97,10 @@ spec:
             - name: POSTGRESQL_PG_HBA
               value: {{ .Values.primary.pgHbaConfiguration | quote }}
             {{- end }}
+            {{- if .Values.primary.configuration }}
+            - name: POSTGRESQL_EXTRA_CONF
+              value: {{ .Values.primary.configuration | quote }}
+            {{- end }}
             {{- if .Values.primary.initdb.args }}
             - name: POSTGRESQL_INITDB_ARGS
               value: {{ .Values.primary.initdb.args | quote }}
