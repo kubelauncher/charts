@@ -7,17 +7,9 @@ auth:
 
 primary:
   configuration: |
-    [mysqld]
     max_connections=150
     innodb_buffer_pool_size=128M
-
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 100m
-  limits:
-    memory: 512Mi
-    cpu: 500m
+  resourcesPreset: "medium"
 
 persistence:
   enabled: false
