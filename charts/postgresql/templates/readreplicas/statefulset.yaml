@@ -76,6 +76,10 @@ spec:
               value: {{ .Values.readReplicas.persistence.mountPath }}/data
             - name: PGDATA
               value: {{ .Values.readReplicas.persistence.mountPath }}/data
+            {{- if .Values.primary.configuration }}
+            - name: POSTGRESQL_EXTRA_CONF
+              value: {{ .Values.primary.configuration | quote }}
+            {{- end }}
             {{- with .Values.readReplicas.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
