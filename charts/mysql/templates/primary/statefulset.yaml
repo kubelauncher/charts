@@ -91,6 +91,10 @@ spec:
                   name: {{ include "mysql.secretName" . }}
                   key: mysql-replication-password
             {{- end }}
+            {{- if .Values.primary.configuration }}
+            - name: MYSQL_EXTRA_CONF
+              value: {{ .Values.primary.configuration | quote }}
+            {{- end }}
             {{- with .Values.primary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

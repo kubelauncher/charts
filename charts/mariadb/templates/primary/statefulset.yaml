@@ -98,6 +98,10 @@ spec:
                   name: {{ include "mariadb.secretName" . }}
                   key: mariadb-replication-password
             {{- end }}
+            {{- if .Values.primary.configuration }}
+            - name: MARIADB_EXTRA_CONF
+              value: {{ .Values.primary.configuration | quote }}
+            {{- end }}
             {{- with .Values.primary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
