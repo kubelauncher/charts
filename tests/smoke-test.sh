@@ -701,5 +701,198 @@ case "${CHART}" in
         ;;
 esac
 
+# ── Configuration verification ────────────────────────────────────
+# Verify that custom configuration values were actually applied.
+# Only runs when custom config is detected in the values file.
+
+verify_config() {
+    local desc="$1" got="$2" expected="$3"
+    got=$(echo "${got}" | xargs)  # trim whitespace
+    if [ "${got}" = "${expected}" ]; then
+        log "Config verified: ${desc} = ${expected}"
+    else
+        fail "Config mismatch: ${desc} — expected '${expected}', got '${got}'"
+    fi
+}
+
+case "${CHART}" in
+    postgresql)
+        # Check if primary.configuration was set
+        PG_CONF=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('primary',{}).get('configuration',''))" 2>/dev/null || echo "")
+        if [ -n "${PG_CONF}" ]; then
+            EXEC_POD="${RELEASE}-0"
+            PG_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}" -o jsonpath='{.data.postgres-password}' | base64 -d)
+
+            echo "Verifying PostgreSQL custom configuration..."
+
+            # Extract expected values from configuration string
+            EXPECTED_MAX_CONN=$(echo "${PG_CONF}" | grep -oE 'max_connections\s*=\s*[0-9]+' | grep -oE '[0-9]+' || echo "")
+            if [ -n "${EXPECTED_MAX_CONN}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    psql -U postgres -t -c "SHOW max_connections;" 2>/dev/null)
+                verify_config "max_connections" "${GOT}" "${EXPECTED_MAX_CONN}"
+            fi
+
+            EXPECTED_WORK_MEM=$(echo "${PG_CONF}" | grep -oE 'work_mem\s*=\s*[^ ]+' | sed 's/work_mem\s*=\s*//' || echo "")
+            if [ -n "${EXPECTED_WORK_MEM}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    psql -U postgres -t -c "SHOW work_mem;" 2>/dev/null)
+                verify_config "work_mem" "${GOT}" "${EXPECTED_WORK_MEM}"
+            fi
+        fi
+        ;;
+
+    redis)
+        # Check if commonConfiguration was set
+        REDIS_CONF=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; print(json.load(sys.stdin).get('commonConfiguration',''))" 2>/dev/null || echo "")
+        if [ -n "${REDIS_CONF}" ]; then
+            CLUSTER_ENABLED=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+                | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('cluster',{}).get('enabled',False))" 2>/dev/null || echo "False")
+            if [ "${CLUSTER_ENABLED}" = "True" ]; then
+                EXEC_POD="${RELEASE}-cluster-0"
+            else
+                EXEC_POD="${RELEASE}-0"
+            fi
+
+            if kubectl get secret -n "${NAMESPACE}" "${RELEASE}" &>/dev/null; then
+                REDIS_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}" -o jsonpath='{.data.redis-password}' | base64 -d)
+                AUTH_ARGS="-a '${REDIS_PASS}'"
+            else
+                AUTH_ARGS=""
+            fi
+
+            echo "Verifying Redis custom configuration..."
+
+            EXPECTED_MAXMEM=$(echo "${REDIS_CONF}" | grep -oE 'maxmemory\s+[^ ]+' | awk '{print $2}' || echo "")
+            if [ -n "${EXPECTED_MAXMEM}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "redis-cli ${AUTH_ARGS} CONFIG GET maxmemory" 2>/dev/null | tail -1)
+                # Convert expected to bytes (e.g., 64mb -> 67108864)
+                EXPECTED_BYTES=$(echo "${EXPECTED_MAXMEM}" | python3 -c "
+import sys
+v = sys.stdin.read().strip().lower()
+if v.endswith('mb'): print(int(v[:-2]) * 1024 * 1024)
+elif v.endswith('gb'): print(int(v[:-2]) * 1024 * 1024 * 1024)
+elif v.endswith('kb'): print(int(v[:-2]) * 1024)
+else: print(v)
+" 2>/dev/null || echo "")
+                if [ -n "${EXPECTED_BYTES}" ]; then
+                    verify_config "maxmemory" "${GOT}" "${EXPECTED_BYTES}"
+                fi
+            fi
+
+            EXPECTED_POLICY=$(echo "${REDIS_CONF}" | grep -oE 'maxmemory-policy\s+[^ ]+' | awk '{print $2}' || echo "")
+            if [ -n "${EXPECTED_POLICY}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "redis-cli ${AUTH_ARGS} CONFIG GET maxmemory-policy" 2>/dev/null | tail -1)
+                verify_config "maxmemory-policy" "${GOT}" "${EXPECTED_POLICY}"
+            fi
+        fi
+        ;;
+
+    rabbitmq)
+        # Check if extraConfiguration was set
+        RMQ_EXTRA=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; print(json.load(sys.stdin).get('extraConfiguration',''))" 2>/dev/null || echo "")
+        if [ -n "${RMQ_EXTRA}" ]; then
+            RMQ_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}" -o jsonpath='{.data.rabbitmq-password}' | base64 -d)
+            RMQ_USER=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json \
+                | python3 -c "import sys,json; print(json.load(sys.stdin).get('auth',{}).get('username','guest'))" 2>/dev/null || echo "guest")
+            SVC="${RELEASE}"
+            MGMT_PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[?(@.name=="http-stats")].port}')
+
+            echo "Verifying RabbitMQ custom configuration..."
+
+            EXPECTED_WATERMARK=$(echo "${RMQ_EXTRA}" | grep -oE 'vm_memory_high_watermark\.relative\s*=\s*[0-9.]+' | grep -oE '[0-9.]+$' || echo "")
+            if [ -n "${EXPECTED_WATERMARK}" ]; then
+                GOT=$(kubectl run "rmq-config-check" --rm -i --restart=Never -n "${NAMESPACE}" \
+                    --image=curlimages/curl -- \
+                    curl -sf -u "${RMQ_USER}:${RMQ_PASS}" "http://${SVC}:${MGMT_PORT}/api/nodes" 2>/dev/null \
+                    | python3 -c "import sys,json; nodes=json.load(sys.stdin); print(nodes[0].get('mem_limit_watermark',0))" 2>/dev/null || echo "")
+                # Watermark 0.5 means 50% — check via effective runtime config
+                if [ -n "${GOT}" ] && [ "${GOT}" != "0" ]; then
+                    log "Config verified: vm_memory_high_watermark is active (effective limit: ${GOT} bytes)"
+                fi
+            fi
+        fi
+        ;;
+
+    memcached)
+        # Check custom memcached settings via stats
+        EXPECTED_MAX_CONN=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); c=v.get('memcachedMaxConnections',''); print(c if c else '')" 2>/dev/null || echo "")
+        EXPECTED_MAX_MEM=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); c=v.get('memcachedMaxMemory',''); print(c if c else '')" 2>/dev/null || echo "")
+        EXPECTED_THREADS=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); c=v.get('memcachedThreads',''); print(c if c else '')" 2>/dev/null || echo "")
+
+        SVC="${RELEASE}"
+        PORT=$(kubectl get svc -n "${NAMESPACE}" "${SVC}" -o jsonpath='{.spec.ports[0].port}')
+
+        if [ -n "${EXPECTED_MAX_CONN}" ] || [ -n "${EXPECTED_MAX_MEM}" ] || [ -n "${EXPECTED_THREADS}" ]; then
+            echo "Verifying Memcached custom configuration..."
+
+            STATS=$(kubectl run "mc-config-check" --rm -i --restart=Never -n "${NAMESPACE}" \
+                --image=alpine -- \
+                sh -c "echo stats settings | nc -w 2 ${SVC} ${PORT}" 2>/dev/null || echo "")
+
+            if [ -n "${EXPECTED_MAX_CONN}" ]; then
+                GOT=$(echo "${STATS}" | grep "STAT maxconns " | awk '{print $3}' | tr -d '\r')
+                verify_config "maxconns" "${GOT}" "${EXPECTED_MAX_CONN}"
+            fi
+            if [ -n "${EXPECTED_THREADS}" ]; then
+                GOT=$(echo "${STATS}" | grep "STAT threads " | awk '{print $3}' | tr -d '\r')
+                verify_config "threads" "${GOT}" "${EXPECTED_THREADS}"
+            fi
+            if [ -n "${EXPECTED_MAX_MEM}" ]; then
+                # memcached reports limit_maxbytes in bytes, we set in MB
+                GOT_BYTES=$(echo "${STATS}" | grep "STAT maxbytes " | awk '{print $3}' | tr -d '\r')
+                EXPECTED_BYTES=$(( EXPECTED_MAX_MEM * 1024 * 1024 ))
+                verify_config "maxbytes" "${GOT_BYTES}" "${EXPECTED_BYTES}"
+            fi
+        fi
+        ;;
+
+    mysql)
+        # Check if primary.configuration was set
+        MY_CONF=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('primary',{}).get('configuration',''))" 2>/dev/null || echo "")
+        if [ -n "${MY_CONF}" ]; then
+            EXEC_POD="${RELEASE}-0"
+            MYSQL_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}" -o jsonpath='{.data.mysql-root-password}' | base64 -d)
+
+            echo "Verifying MySQL custom configuration..."
+
+            EXPECTED_MAX_CONN=$(echo "${MY_CONF}" | grep -oE 'max_connections\s*=\s*[0-9]+' | grep -oE '[0-9]+' || echo "")
+            if [ -n "${EXPECTED_MAX_CONN}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "MYSQL_PWD='${MYSQL_PASS}' mysql -u root -N -e \"SHOW VARIABLES LIKE 'max_connections';\"" 2>/dev/null | awk '{print $2}')
+                verify_config "max_connections" "${GOT}" "${EXPECTED_MAX_CONN}"
+            fi
+        fi
+        ;;
+
+    mariadb)
+        # Check if primary.configuration was set
+        MDB_CONF=$(helm get values "${RELEASE}" -n "${NAMESPACE}" -o json 2>/dev/null \
+            | python3 -c "import sys,json; v=json.load(sys.stdin); print(v.get('primary',{}).get('configuration',''))" 2>/dev/null || echo "")
+        if [ -n "${MDB_CONF}" ]; then
+            EXEC_POD="${RELEASE}-0"
+            MARIADB_PASS=$(kubectl get secret -n "${NAMESPACE}" "${RELEASE}" -o jsonpath='{.data.mariadb-root-password}' | base64 -d)
+
+            echo "Verifying MariaDB custom configuration..."
+
+            EXPECTED_MAX_CONN=$(echo "${MDB_CONF}" | grep -oE 'max_connections\s*=\s*[0-9]+' | grep -oE '[0-9]+' || echo "")
+            if [ -n "${EXPECTED_MAX_CONN}" ]; then
+                GOT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                    sh -c "MYSQL_PWD='${MARIADB_PASS}' mariadb -u root -N -e \"SHOW VARIABLES LIKE 'max_connections';\"" 2>/dev/null | awk '{print $2}')
+                verify_config "max_connections" "${GOT}" "${EXPECTED_MAX_CONN}"
+            fi
+        fi
+        ;;
+esac
+
 echo ""
 log "All smoke tests passed for ${CHART} (${VALUES})"

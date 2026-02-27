@@ -1,0 +1,28 @@
+# PostgreSQL with custom configuration
+auth:
+  postgresPassword: "pgadminpass"
+  username: "testuser"
+  password: "testuserpass"
+  database: "testdb"
+primary:
+  configuration: |-
+    max_connections = 500
+    shared_buffers = 128MB
+    work_mem = 8MB
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  startupProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  livenessProbe:
+    initialDelaySeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 5

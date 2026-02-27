@@ -41,13 +41,13 @@ jobs:
           # Define all test configurations
           declare -A TESTS
           TESTS[redis]='standalone no-auth custom-config sentinel cluster'
-          TESTS[postgresql]='default postgres-only custom-port replication'
+          TESTS[postgresql]='default postgres-only custom-port custom-config replication'
           TESTS[rabbitmq]='single custom-plugins cluster'
           TESTS[kubectl]='job cronjob'
           TESTS[mysql]='default custom-config'
           TESTS[mariadb]='default custom-config'
           TESTS[mongodb]='default auth-enabled'
-          TESTS[memcached]='default'
+          TESTS[memcached]='default custom-config'
           TESTS[kafka]='kraft cluster'
           TESTS[zookeeper]='standalone ensemble'
           TESTS[cassandra]='single cluster'
