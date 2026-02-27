@@ -9,15 +9,48 @@ primary:
   configuration: |
     max_connections=150
     innodb_buffer_pool_size=128M
+  # Use /tmp for data to avoid K8s emptyDir permission issues in kind
+  extraEnvVars:
+    - name: MYSQL_LOG_DIR
+      value: "/tmp/mysql-logs"
   resourcesPreset: "medium"
   persistence:
     enabled: false
+    mountPath: /tmp/mysql
+  startupProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 60
   initContainers:
-    - name: volume-permissions
+    - name: init-permissions
       image: busybox:latest
-      command: ["sh", "-c", "chown -R 1001:1001 /data/mysql"]
+      command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /tmp/mysql/data /tmp/mysql-logs
+          chown -R 1001:1001 /tmp/mysql /tmp/mysql-logs
+          chmod 755 /tmp/mysql /tmp/mysql-logs
       securityContext:
         runAsUser: 0
       volumeMounts:
         - name: data
-          mountPath: /data/mysql
+          mountPath: /tmp/mysql
+        - name: logs
+          mountPath: /tmp/mysql-logs
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+  extraVolumes:
+    - name: logs
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: logs
+      mountPath: /tmp/mysql-logs
