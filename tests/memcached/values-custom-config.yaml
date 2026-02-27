@@ -1,0 +1,12 @@
+# Memcached with custom configuration
+memcachedMaxMemory: 32
+memcachedThreads: 2
+memcachedMaxConnections: 512
+memcachedExtraFlags: ""
+resources:
+  requests:
+    memory: 64Mi
+    cpu: 50m
+  limits:
+    memory: 128Mi
+    cpu: 200m
