@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: "0.3.3"
+version: "0.3.4"
 appVersion: "12.2.2"
 icon: https://cdn.simpleicons.org/mariadb
 home: https://github.com/kubelauncher/charts
@@ -25,4 +25,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: fixed
-      description: Wire primary.configuration to MARIADB_EXTRA_CONF env var for custom my.cnf support
+      description: Fix custom config file path for non-root containers (write to /tmp instead of /etc)
