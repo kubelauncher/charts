@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 3.6.8
+description: etcd distributed key-value store
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/etcd
+keywords:
+- - etcd
+- - key-value
+- - distributed
+- - consensus
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: etcd
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.1
+
+...
+files:
+  etcd-0.2.1.tgz: sha256:60c4cbac8f7802999ff0c5dff5d66de166d844dc802edca17e11c865a8b0b084
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpocD3CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jng2KhgYLjHrZOGuKpGw5X1Wpyig6oXA0WSbDjolPnVQ0W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAJdoQAM3HBs525c9GGts7ty4JSISwQLTd
+ZXYyNaoCZVyJ4dgDLpVvTfg2+mylvBlTJhvuDMcYkdfpdFYr2QgdTYUVJrkaudEl
+skkqz/MoefWl35om4SKH54imX/TXOwElxpYRrLouoKxyPi75GXfW+BQ+pu+1Fvss
+m5jrtrFEiRyJ+r/4EbdWyZgJnGJf0u96zx9bEiryim7GpZ4g1AvXxVDP1XNRdEtV
+v6EXTRDyBwRVIxbYC1ACzN79nxOJbKrXAQ19Se8RIV3KHd6GXqEi3dGjkmhNYT+A
+E41Z0b0WF9nLP5lN16ygFdWqIPZFwZXcg44PfnnDx/S1xMXkbkt82RaQxyQYC6bS
+GIuchqdbcIiN1eSeEAGs0PbS83Tzk3TAbuB5KgT/To2WgWKbTQFw1DBvwQ3vip9+
+hcKBER41ESlCoiEyEZDTHhpD9fTYzTZpf34PVFXINHMReA3ZOb2LvvEnyAQ178E+
++TyWv4D9qupkeQVD21yYuJ2MnPUPEpROdV6NVrCj06tBE0KNYrvYx5X3Z8Nx9h4Y
+9VnftDUXVzsVNm09x14l4N/qvEc6verVf75wRl8hy85H2gxeZHm7/OqFfy2Uxl7G
+wexYGTbbtGJU2R/iSksGHAl7aHV94jxowOAar5URnZJNedH/idQQ0ClK4/UyPVyt
+6KPPWPNdTQT7pvnB
+-----END PGP SIGNATURE-----
