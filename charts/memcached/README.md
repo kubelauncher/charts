@@ -73,7 +73,7 @@ helm uninstall my-memcached
 | fullnameOverride | string | `""` |  |
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
-| image.digest | string | `"sha256:853d4d887fc64741c7b0e33a9820888ce307186191096b26d77a9d9368980880"` |  |
+| image.digest | string | `"sha256:1415ee92f8ae17ad397e28f189526e41db6e930c6500bb4e5ea93d087a5d95d5"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
