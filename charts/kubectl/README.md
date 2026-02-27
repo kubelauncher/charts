@@ -81,12 +81,12 @@ helm uninstall my-job
 | fullnameOverride | string | `""` |  |
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
-| image.digest | string | `"sha256:a92cefdc0ba9602dcf3e56d20bef54ca61d3132dc28931014f160c3eb60da951"` |  |
+| image.digest | string | `"sha256:bed9483f565be0d52aee5f5363b46879ec3920adb68611efd7c3f1294995add6"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/kubectl"` |  |
-| image.tag | string | `"1.35.1"` |  |
+| image.tag | string | `"1.35.2"` |  |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
 | networkPolicy.additionalRules | list | `[]` |  |

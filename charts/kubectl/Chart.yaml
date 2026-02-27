@@ -2,8 +2,8 @@ apiVersion: v2
 name: kubectl
 description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
 type: application
-version: "0.1.7"
-appVersion: "1.35.1"
+version: "0.1.8"
+appVersion: "1.35.2"
 icon: https://cdn.simpleicons.org/kubernetes
 home: https://github.com/kubelauncher/charts
 sources:
