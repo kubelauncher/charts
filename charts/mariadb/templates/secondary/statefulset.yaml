@@ -86,6 +86,10 @@ spec:
               value: {{ include "mariadb.fullname" . }}
             - name: MARIADB_MASTER_PORT
               value: {{ .Values.primary.containerPorts.mariadb | quote }}
+            {{- if .Values.primary.configuration }}
+            - name: MARIADB_EXTRA_CONF
+              value: {{ .Values.primary.configuration | quote }}
+            {{- end }}
             {{- with .Values.secondary.extraEnvVars }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
