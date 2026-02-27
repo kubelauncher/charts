@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: "0.3.2"
+version: "0.3.3"
 appVersion: "12.2.2"
 icon: https://cdn.simpleicons.org/mariadb
 home: https://github.com/kubelauncher/charts
@@ -25,4 +25,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: fixed
-      description: Add wait loop to mysqld-exporter sidecar to prevent startup race condition
+      description: Wire primary.configuration to MARIADB_EXTRA_CONF env var for custom my.cnf support
