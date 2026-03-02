@@ -836,11 +836,11 @@ else: print(v)
 
             STATS=$(kubectl run "mc-config-check" --rm -i --restart=Never -n "${NAMESPACE}" \
                 --image=alpine -- \
-                sh -c "echo stats settings | nc -w 2 ${SVC} ${PORT}" 2>/dev/null || echo "")
+                sh -c "echo stats | nc -w 2 ${SVC} ${PORT}" 2>/dev/null || echo "")
 
             if [ -n "${EXPECTED_MAX_CONN}" ]; then
-                GOT=$(echo "${STATS}" | grep "STAT maxconns " | awk '{print $3}' | tr -d '\r')
-                verify_config "maxconns" "${GOT}" "${EXPECTED_MAX_CONN}"
+                GOT=$(echo "${STATS}" | grep "STAT max_connections " | awk '{print $3}' | tr -d '\r')
+                verify_config "max_connections" "${GOT}" "${EXPECTED_MAX_CONN}"
             fi
             if [ -n "${EXPECTED_THREADS}" ]; then
                 GOT=$(echo "${STATS}" | grep "STAT threads " | awk '{print $3}' | tr -d '\r')
@@ -848,9 +848,9 @@ else: print(v)
             fi
             if [ -n "${EXPECTED_MAX_MEM}" ]; then
                 # memcached reports limit_maxbytes in bytes, we set in MB
-                GOT_BYTES=$(echo "${STATS}" | grep "STAT maxbytes " | awk '{print $3}' | tr -d '\r')
+                GOT_BYTES=$(echo "${STATS}" | grep "STAT limit_maxbytes " | awk '{print $3}' | tr -d '\r')
                 EXPECTED_BYTES=$(( EXPECTED_MAX_MEM * 1024 * 1024 ))
-                verify_config "maxbytes" "${GOT_BYTES}" "${EXPECTED_BYTES}"
+                verify_config "limit_maxbytes" "${GOT_BYTES}" "${EXPECTED_BYTES}"
             fi
         fi
         ;;
