@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Fix custom config file path for non-root containers (write to /tmp instead of /etc)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 12.2.2
+description: MariaDB relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mariadb
+keywords:
+- - mariadb
+- - database
+- - sql
+- - mysql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mariadb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.5
+
+...
+files:
+  mariadb-0.3.5.tgz: sha256:54bbd1db11218a5ee49ff409af00bd1fbf7608ffe043cbb39eb0f3cc4eeb35a2
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpqGEhCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn3VoaqbxsNgy4eqZIaCz3cFkn2vIYZbFiGCzV8EJR2dgW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA7mcP/038QDDPzI6+8213ZKP8E1ky5teh
+Tdgj/r7wA3UIt4ywD/zxnlKqIrS9iah6/sp/3khERpa9CGHFPKnkxEySXY2J44lT
+6IqcotwQihL83xqtHCcDLse9uR8K4g6YxW2ZX1mPdZMB5hBkmmWKCsnkyBfN//cP
+UHjI5cbsMnbonhEPb8qUoJtKDEpOlcMedngvn8ypbTufR1x4LTPZ2abCcwj6BSeA
+b249qtPrsgNSddE5Ah6skfLPaX+qlg+awc/IEVVXgd5732xSCw3lfUTCx0pF8e2y
+OMOkgv6iazNyZD6mJ5FVTfDRHr2zGD2LaUuUafMOP09En33bGkc23+urtRUrZXws
+LGyuvBiIRRLJL9hRak+vnni9XSZCtzrBkIB1NzLyKHSn6EGcpljgoWD+6Rm9ftvD
+I9qS7CLNuVqIC9PU9LfmeOtFURBbPIsp+N8gJfSNSKLmurmClH+si5mWoiMxplBU
+6XdV1rAYh7rUhKeZs+fek/7e53+saH2N/N1elPsHq+tkGIAxJtVnhmgqDPtg+kVv
+d0NPMt9TG/gVX3wGQqYuA3pDmSHts/LE8JYani1VU5TD3Ru5N28gJDoy9ndap7RT
+Mlk8ouAThZULNQca02mnzfUfky+lgnZCU0Pb+1cSVwVebt2yWyoYqpG09v1eVb2E
+Vl975IY23Z1o5Kvp
+-----END PGP SIGNATURE-----
