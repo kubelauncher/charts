@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/cassandra
   # renovate: image=ghcr.io/kubelauncher/cassandra
   tag: "5.0.6"
-  digest: "sha256:59f92bc46c5ca523a62e2e6184fb9d779ffc25bdebda11a836265ed7a57a0f14"
+  digest: "sha256:2922fcdf0efe6693b6340c1ea3823f490090c619f11898174dea9de0d5a08182"
   pullPolicy: Always
   pullSecrets: []
 
