@@ -108,7 +108,7 @@ helm uninstall my-mongo
 | global.mongodb.auth.username | string | `""` |  |
 | global.mongodb.service.ports.mongodb | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:97b5c897415f47c7832ff4790bbef71faeb819a932323037af654711a0747c28"` |  |
+| image.digest | string | `"sha256:5534f3525c926217b27c09d05ffbbb58f9f58c6f306597eda5653615e37310a9"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
