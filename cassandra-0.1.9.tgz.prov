@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 5.0.6
+description: Apache Cassandra distributed NoSQL database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/apachecassandra
+keywords:
+- - cassandra
+- - nosql
+- - database
+- - wide-column
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: cassandra
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.9
+
+...
+files:
+  cassandra-0.1.9.tgz: sha256:78de926b59e16a8da9b0728ac47e47df425725f7aad2348180da927fa527c059
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpqBP0CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnOYtXG43lOcPQl4za/nQvhY4gbRO22+oUS1F1RV4OGFoW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAmvwP+gNM8WnY6r8512hlCNe1CqLAAP35
+ZcWoCqTQhVehFdPp92MYVr0QLx8DaaUZPqY/9DdSlfCQJovXYi9wt7tQp6C4/6F+
+ZAVjVoikNRH3qyYbJmFy+pEZBFuigWbnvJyvMbwAqToq15LzshC0paKWyyV9yG4p
+ay0qzf8i2VhT8Ba+Y2NoCRmk5YcuES6TfBhi2YytEhtzRr694DspmGaX12KCz8Wb
+QO9+2mNsj98VOS8pch9QTijcyLD6p55MXuwa87vAkc8PwvhFtFatB3Q/q3zRLr4q
+zlWD4oQjhECvEwsxVWJr0DGG0wK3PiwuFc1Ezo7dsjQFB4TNxsODO/CR4CCvssoY
+jSnW05v9b97b8I6vSHXmWFPcZcxY0nPvAChj1XgaW0Rc7lG4WRnNBMbt92ylk7vT
+tubSHuh6rzAhJHTKKvE9QZbS9s+JYRiadaQcfCwfOp2sE9XA9O25nNjNB+U2J0Q3
+c888TlcXBAbHKeJVcQFI2gmTnWEpvJuK3HmP3zySxMqtKED3XkfWJThPLicleVe+
+GxFDtBHqv9XdqjKcLFuY2By/bCaED+/bXSXkXxcxuSrINtOqxnhfrvMcRmARTIij
+GKqEVBmChVVdKqWWkRzH4B3VA7gR+nCPZGNMdUtM6Q+vtPaHU2TxYSsIx7vShR4Z
+HXgWXWFMslyueD02
+-----END PGP SIGNATURE-----
