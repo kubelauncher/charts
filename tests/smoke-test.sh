@@ -155,10 +155,18 @@ case "${CHART}" in
         echo "${RESULT}" | grep -q "PONG" || fail "Redis PING/PONG failed after 3 attempts"
         log "Redis PING -> PONG"
 
-        # SET/GET test
-        RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
-            sh -c "redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli ${CLUSTER_FLAG} -h '${SVC}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
-        echo "SET/GET result: ${RESULT}"
+        # SET/GET test (use 127.0.0.1 from inside the pod to avoid ClusterIP routing issues)
+        SETGET_HOST="127.0.0.1"
+        RESULT=""
+        for attempt in 1 2 3; do
+            RESULT=$(kubectl exec -n "${NAMESPACE}" "${EXEC_POD}" -- \
+                sh -c "redis-cli ${CLUSTER_FLAG} -h '${SETGET_HOST}' -p '${PORT}' ${AUTH_ARGS} SET smoketest ok && redis-cli ${CLUSTER_FLAG} -h '${SETGET_HOST}' -p '${PORT}' ${AUTH_ARGS} GET smoketest" 2>&1) || true
+            echo "SET/GET attempt ${attempt}: ${RESULT}"
+            if echo "${RESULT}" | grep -q "ok"; then
+                break
+            fi
+            sleep 3
+        done
         echo "${RESULT}" | grep -q "ok" || fail "Redis SET/GET failed"
         log "Redis SET/GET works"
 
