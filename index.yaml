@@ -11,9 +11,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 5.0.6
-    created: "2026-03-05T09:24:58.509840129Z"
+    created: "2026-03-05T19:51:29.447696418Z"
     description: Apache Cassandra distributed NoSQL database
-    digest: 8f3082d73150f7b14ec8fda47cb932513889c03e94156561fbe7d5169a1d6878
+    digest: 8e9dd6c0df5e7370e7017cc9238595e4e7dd4dcfe68c6cdcb4d1919bc836c443
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachecassandra
     keywords:
@@ -352,6 +352,38 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 3.6.8
+    created: "2026-03-05T19:51:29.448429551Z"
+    description: etcd distributed key-value store
+    digest: 962fcbebf349d8171628089fd5c77bdbd00598ec8aa0c31e8d89be00aab6769a
+    home: https://github.com/kubelauncher/charts
+    icon: https://cdn.simpleicons.org/etcd
+    keywords:
+    - etcd
+    - key-value
+    - distributed
+    - consensus
+    maintainers:
+    - email: platform@kubelauncher.com
+      name: kubelauncher
+      url: https://www.kubelauncher.com
+    name: etcd
+    sources:
+    - https://github.com/kubelauncher/docker
+    - https://github.com/kubelauncher/charts
+    type: application
+    urls:
+    - https://kubelauncher.github.io/charts/etcd-0.2.4.tgz
+    version: 0.2.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/signKey: |
+        fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+        url: https://kubelauncher.github.io/charts/cosign.pub
+    apiVersion: v2
+    appVersion: 3.6.8
     created: "2026-03-05T09:24:58.510609479Z"
     description: etcd distributed key-value store
     digest: 4a63f1f18aa17c1789a6ce203a735551e98609eed57e0a25fae006f0ef29b25a
@@ -545,9 +577,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 3.9.0
-    created: "2026-03-05T09:24:58.511385752Z"
+    created: "2026-03-05T19:51:29.450194771Z"
     description: Apache Kafka distributed streaming platform
-    digest: 62af0622cd8093cf90cb55568120c6f471a00bd21a7109c32a1a4f90c99de636
+    digest: af238aed3c176fb0ef6867aa3873934a71a334c029bfaf0eb17376b288c53a82
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/apachekafka
     keywords:
@@ -886,9 +918,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 26.5.4
-    created: "2026-03-05T09:24:58.512209414Z"
+    created: "2026-03-05T19:51:29.451082814Z"
     description: Keycloak identity and access management
-    digest: 6f63913fa9ded94865ef7a8ea964102edf55ff260c0eba65a570dfe7c2eb0e1d
+    digest: ebb312cbd872742a85f3c562d6baa7e830f0afaa4302605278d2ff77717c7572
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/keycloak
     keywords:
@@ -1367,9 +1399,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-03-05T09:24:58.51276251Z"
+    created: "2026-03-05T19:51:29.451792103Z"
     description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
-    digest: dd835356dd0e40e7c657af9356713c0688e4801dc6402ed8df4c67fb0724ba21
+    digest: 6f73c98382bf111e304dfb14bcba257944eb1aeb292b0519a76fd1e27fe78882
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/kubernetes
     keywords:
@@ -1728,9 +1760,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 12.2.2
-    created: "2026-03-05T09:24:58.514192397Z"
+    created: "2026-03-05T19:51:29.452873649Z"
     description: MariaDB relational database
-    digest: 60046c56958ffd6da3bcd2df677f594813932020ee31fc44248620bfc2f4fac4
+    digest: 26005a13b5996e799cc9b4aa3c1c6a41a7c0c7ebdda83ae99b233668b1515a4e
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mariadb
     keywords:
@@ -2163,9 +2195,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 1.6.40
-    created: "2026-03-05T09:24:58.516036461Z"
+    created: "2026-03-05T19:51:29.453551198Z"
     description: Memcached in-memory caching system
-    digest: 0d90cfb78fcec52a0830e3be4319f17817ceb8c18cc776c54b19e6d220a10271
+    digest: df523ed5e713e832dffd1381950693af8b02347bd7dc9a9afec2cd24802d4e8a
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
     keywords:
@@ -2555,9 +2587,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 8.2.5
-    created: "2026-03-05T09:24:58.517944873Z"
+    created: "2026-03-05T19:51:29.454636721Z"
     description: MongoDB document database
-    digest: 92b78c20f0b4d85d7b4deb0efd788205edd09fe5096a6c3f1d797305a2ed75a5
+    digest: db1266467cd17cece5218c288382e6a0643fd584063db0990b588c82d9018798
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mongodb
     keywords:
@@ -3044,9 +3076,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 8.0.45
-    created: "2026-03-05T09:24:58.519659543Z"
+    created: "2026-03-05T19:51:29.455965189Z"
     description: MySQL relational database
-    digest: 97ed32c9926b3c8a4a0529e3e233a6da6ce8dae7ae739a2d8abb98b58d706de6
+    digest: b83bce6bc9bb5672ca851403fd73fe232d9b4a80bbe1a167bc7bb7042f6b309c
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/mysql
     keywords:
@@ -3433,9 +3465,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 2.6.12
-    created: "2026-03-05T09:24:58.520694671Z"
+    created: "2026-03-05T19:51:29.457274089Z"
     description: OpenLDAP directory service
-    digest: b096eeced5e33c29f5ffa4c2b82071bda01ad719466bc9930b645e4e1fa745c7
+    digest: 4c7a24a983bbc4428d327a845f4239ed1d1501629b248111f33757af21347fc3
     home: https://github.com/kubelauncher/charts
     icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
     keywords:
@@ -3670,9 +3702,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 17.0.0
-    created: "2026-03-05T09:24:58.52173581Z"
+    created: "2026-03-05T19:51:29.4583161Z"
     description: PostgreSQL relational database
-    digest: 8983cbae6852a057b97e153194dae8dc91416ead68050bf3eed2499b6633c4b4
+    digest: 580055960ad757db56adfd99fc1b499663fd46142a33e6d77164f2d14991a401
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/postgresql
     keywords:
@@ -4028,9 +4060,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 4.2.4
-    created: "2026-03-05T09:24:58.522683194Z"
+    created: "2026-03-05T19:51:29.45927691Z"
     description: RabbitMQ message broker
-    digest: 6418f42671401f08559891d9c77cfde29e08948a949a5ac6a58e1157f7e49852
+    digest: 46abf9734ddb21276a4ae65e2dfb513c60cb6f7ec8b5db59a003f019beaacfc1
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/rabbitmq
     keywords:
@@ -4462,9 +4494,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 8.6.1
-    created: "2026-03-05T09:24:58.524900793Z"
+    created: "2026-03-05T19:51:29.460678225Z"
     description: Redis in-memory data store
-    digest: 3c06e39b692f1a76e47ec62d9d0546d479f1eb8016430d953b7c8ce121ec9e4d
+    digest: b3dd664d4d50a43c8b8f8ff09359d5b8311ffa88dd82753773a385acfdb7c3a7
     home: https://github.com/kubelauncher/charts
     icon: https://cdn.simpleicons.org/redis
     keywords:
@@ -5016,9 +5048,9 @@ entries:
         url: https://kubelauncher.github.io/charts/cosign.pub
     apiVersion: v2
     appVersion: 3.9.3
-    created: "2026-03-05T09:24:58.525634056Z"
+    created: "2026-03-05T19:51:29.461464909Z"
     description: Apache ZooKeeper distributed coordination service
-    digest: e6fea1ed1a49be6b33bc2bae8612b1692a66bb7029a7bea0443daaa43ec54b0d
+    digest: b669fbfc4f925266e8541604d59a3fd856216b75cb21b6011e8a0ab8ab8ec0cf
     home: https://github.com/kubelauncher/charts
     icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
     keywords:
@@ -5363,4 +5395,4 @@ entries:
     urls:
     - https://kubelauncher.github.io/charts/zookeeper-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-05T09:24:58.508823185Z"
+generated: "2026-03-05T19:51:29.446799277Z"
