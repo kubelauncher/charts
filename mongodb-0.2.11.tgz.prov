@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Add retry loop to mongodb-exporter sidecar for replicaset mode auth readiness
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.2.5
+description: MongoDB document database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mongodb
+keywords:
+- - mongodb
+- - nosql
+- - database
+- - document
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mongodb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.11
+
+...
+files:
+  mongodb-0.2.11.tgz: sha256:d93e31ff7d60899df7949c3211c2c025eabe152be29b6111eb0b67d402420ce2
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpqUayCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnFmRGKeZWzjrT5vtzLGg+DXR6r/3bC3B96Eq4KpXpw98W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAJ38P/ixyIav1XCD4debEqJR1fj95Q8ji
+bLrRY7bsi6Xh7yXjNMCXFHy8iCsaR8f+Nk7Zp9cOeTCvg9lV39bmTuPNqR6m1hJ8
+9W4Msk0SgOSh6J/Bg5cdyl3q0lGua14rqdlaCmXkSQp3uw2DUXMfmDVGPmCM+xFf
+99SrDOFGexBJQkHFXkjTY6wJBc5kgIUWeVJN3r095onn8OpIP0S8XGM2GLjX/tM7
+n8eXbQ18cMttWJrJa6BK9zISRjB8DqedQMz8wygsmKXryfBHWg+Q2MBBT17an//P
+P+3//y7GJ8iT7LPFg9AwDp5TDYg4QvUw28ENqdGyuVYU4VU2T+lWgawZd77a+x+R
+xz007wiimyIKYIdGzUrSwT4oLHa15rapsLSOmVFTwwkI7o0Y7xfIp6ynOf7rgyYb
+a/xoJAf2+r2p15Rsij3NBna/Qfo3YtxjrdQdmlWdc5/RJBfdOvouPrNpUlf268XJ
+qLZfUL61c6iGtfFSd9id6fdF2UsAeeNW+j89wEDL6A9rMJsstbnhS62ZWCuEJ0Bo
+k4fqnaq8x1s0m0r2d7YwinAX1K9UchBaPP9weisp5YNacHmKLKUz58kulpVPtO3A
++15x01GKilMZW/gr6+4I+N51SSbGoR9+KTWX/RkXKQCNTtzacwQovX42Rn+vsqp9
+9Sz4EiCPLYJ6vYKH
+-----END PGP SIGNATURE-----
