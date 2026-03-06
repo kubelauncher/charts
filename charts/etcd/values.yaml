@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/etcd
   # renovate: image=ghcr.io/kubelauncher/etcd
   tag: "3.6.8"
-  digest: "sha256:62e40228be3a6e57d7f07b6e7d6c54ecffb569d35b3002a94f1b490016d41248"
+  digest: "sha256:24add86a1752328fa6bd5196a2f3e913f33b3f43fbf6e4ff54f733a98140d807"
   pullPolicy: Always
   pullSecrets: []
 
