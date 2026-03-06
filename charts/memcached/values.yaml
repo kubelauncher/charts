@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/memcached
   # renovate: image=ghcr.io/kubelauncher/memcached
   tag: "1.6.40"
-  digest: "sha256:25fdc6a1094069346de91376316cb4a51ca488425af4f47a405cfc029ce3b1ec"
+  digest: "sha256:37430733fe8cc024db2d1a4cbdb83f0cd3e8734bdecb69cf42e7a4b6757edfc7"
   pullPolicy: Always
   pullSecrets: []
 
