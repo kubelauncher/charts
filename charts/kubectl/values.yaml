@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/kubectl
   # renovate: image=ghcr.io/kubelauncher/kubectl
   tag: "1.35.2"
-  digest: "sha256:ae9efbd7958b847ed8c87c5d75b4ab61c93375429567d62013a71e347bbefac4"
+  digest: "sha256:42f98969796878de06079c879e911980a7f39062ea8efac374ef30858d4ea17a"
   pullPolicy: Always
   pullSecrets: []
 
