@@ -107,7 +107,7 @@ helm uninstall my-mariadb
 | global.mariadb.auth.username | string | `""` |  |
 | global.mariadb.service.ports.mariadb | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:6537e06a0a98c45be5f0662253014a204c4e561425f69a4b440b14d621ace003"` |  |
+| image.digest | string | `"sha256:35342e48d3c608b1d78c26b9eb45e0437f1341c4ce41992ded320fdfbf895c98"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
