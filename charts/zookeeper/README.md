@@ -92,7 +92,7 @@ helm uninstall my-zk
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:a80803dede78ca7ac0e3e4c44a6bbe3d1cc54f6526416a95844dd4ca82783f9f"` |  |
+| image.digest | string | `"sha256:f43370883859b5ca741566490a862b0bbc9247e38def27dd61cb6d893f5ac791"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
