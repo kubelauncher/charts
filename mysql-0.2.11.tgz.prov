@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Fix custom config file path for non-root containers (write to /tmp instead of /etc)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.0.45
+description: MySQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mysql
+keywords:
+- - mysql
+- - database
+- - sql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mysql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.11
+
+...
+files:
+  mysql-0.2.11.tgz: sha256:bde49dacffa968252ca7e26bbfbaf4fee417bdd176f3dfaa67ac062a6e3f0653
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpreQ/CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnC66XSpKP7upygvwk/a6bvMpF82T87trcA8ipU2VtB24W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA3ngP/3K8jtWvsq/MxJcotRQ+CgRq+2yV
+jzpsyaD7vsWBP5GAdUJlhaZlKJilBjKVqVudaydSioeH/TgPQQc17ziiV2pY9+s5
+UuFGW1H+u6cTGkMhhxJzyvRNmT9nJ0HIs1BuvcYp/Xn1VCkjItX2UNLRJ/99v3nM
+aA1bf8gUVdqjnmOsMWCRfH9TB/8SZWCMKcPB6ejCX7nChzgnNTfj+Q/926UgUxkd
+X9ddvwiuw/ulgpmZ/WkTc8LGrXEsOQJYcR4Ubp0671PgoJRK76JtefmCLsNvG7yJ
+Fdd1rwCxowMeS30YEk60TZa4jXMrR+x7E1obneOIm6dKSaDU1Sxi0SiP3awD33uZ
+Qb4An0ybqIVPqFUM27DfVQaxX9K4Qx8WnQKhXFxqHEVptHQopqwN4MnJUDUizhel
+pSqaZOcg8HEWFeh1ti93LCL6c5QkfWSfW3Ro04081EpR5T4aQOyq56gorRw2ycR/
+XSGAyCiLJy0MdSINLtaPgYQkX+wFyrPWPN8tiUnHpBSjAT+iWFVSC7FhZRiafP32
+KL6RvqVkB3QNvfUHzlZOjoSqHMvodLLM3H5SeCVru0pzPQuJBPsoBH3RdQEwkM/i
+udIyiogrhTOtfoR+oN87aMRiLoXPwHSgVCKy5nbsi6JuIjMBvOrN5CCqLuvZTgUF
+Bk4F1rGtZRPcunzw
+-----END PGP SIGNATURE-----
