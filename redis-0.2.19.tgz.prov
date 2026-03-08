@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics with redis-exporter sidecar and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.6.1
+description: Redis in-memory data store
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/redis
+keywords:
+- - redis
+- - cache
+- - database
+- - keyvalue
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: redis
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.19
+
+...
+files:
+  redis-0.2.19.tgz: sha256:c063c2229ab61222ddc3861fba09808ad1e9f5fb98be7370a93245f4a1b042d1
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpreP2CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnSWql2aNzPI688dN30Eg1Mp6ySEv0Y0YxEKaECXC3gtoW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA9L4QANlMyr5+a24vk3vmafTA/wjmVtCN
+i7lTuO4sNE/arOaLFf7eE+J8avbwZfs8583CKRc+Jlc5e5i5VqGAuPfdpFX9dd5o
+ePks2JZ9tvO3BAqsAjt6+tXmW+W/fdVf0epylNYNT00Yh8ipxNxyxe8FB+Z7I22u
+ruTHE3K4HFJZ32IX9OztktGikKUACqA2sTqRzjPsP+XHBr8s12KpnNvcEqQCf5Ez
+lOCH7ICBhkmBmIO+Yqe8j8eRN95+gjacBD6kNpE/OPoS7955IjX7pCxDUnhHyxQG
+QtM6RZffrbJWcSKOXKbDeofxkoDE3hZsdfgGt9LkSSkMNS1pCeQJniTI9Q5GdpeY
+H09hPpJPAdGZfUToSk8/O5QnJls8PTQXDqaO2CTHiTgZj2NujdJyy989KVlmYdlk
+75KfzdzuqDYG/PDORXYjwlxNIIFwy6ODJ50mYdoyO9F0iaKjJBakdhO7EY8dasak
+ua+FqqTv48++ztYDrX9DfY7xABVPFZxBseokVSNiMsM/O0XSy7FnGxIgUd7aCwdE
+bfSzGjUP8w2a40CTi7Xt6wUOYpUxb70pNtkrTIB95WW694+wiOxwoJWqEL2Yj0Vk
+CIJ0fE+Z3bS/YNtv3VUAkGZTWKO8Q3eZOcTkQMRbKRNRCkLZxmhOvBaFnLtrLsRF
+Ds2qvX5ZuraAIO98
+-----END PGP SIGNATURE-----
