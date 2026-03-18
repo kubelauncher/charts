@@ -94,7 +94,7 @@ helm uninstall my-etcd
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:e4b13b2ee7b32e3e7ec7dbebd9426d4bbf59c577f4ac2e932195006279fa90eb"` |  |
+| image.digest | string | `"sha256:ed93a03491f526b7426da8077f962b625ad9c59bcfe7c5a1f1cd26be710f12e8"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
