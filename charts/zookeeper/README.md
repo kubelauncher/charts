@@ -136,7 +136,7 @@ helm uninstall my-zk
 | readinessProbe.timeoutSeconds | int | `5` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
-| resourcesPreset | string | `"nano"` |  |
+| resourcesPreset | string | `"micro"` |  |
 | service.annotations | object | `{}` |  |
 | service.clusterIP | string | `""` |  |
 | service.headless.annotations | object | `{}` |  |

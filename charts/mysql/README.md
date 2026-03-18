@@ -171,7 +171,7 @@ helm uninstall my-mysql
 | primary.readinessProbe.timeoutSeconds | int | `5` |  |
 | primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
-| primary.resourcesPreset | string | `"nano"` |  |
+| primary.resourcesPreset | string | `"micro"` |  |
 | primary.service.annotations | object | `{}` |  |
 | primary.service.clusterIP | string | `""` |  |
 | primary.service.headless.annotations | object | `{}` |  |
@@ -230,7 +230,7 @@ helm uninstall my-mysql
 | secondary.readinessProbe.timeoutSeconds | int | `5` |  |
 | secondary.replicaCount | int | `2` |  |
 | secondary.resources | object | `{}` |  |
-| secondary.resourcesPreset | string | `"nano"` |  |
+| secondary.resourcesPreset | string | `"micro"` |  |
 | secondary.service.annotations | object | `{}` |  |
 | secondary.service.clusterIP | string | `""` |  |
 | secondary.service.labels | object | `{}` |  |

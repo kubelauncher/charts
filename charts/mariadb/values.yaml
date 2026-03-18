@@ -107,7 +107,7 @@ primary:
 
   ## @param primary.resourcesPreset Resource preset (nano, micro, small)
   ## @param primary.resources Custom resource requests/limits (overrides preset)
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
 
   ## @param primary.podSecurityContext.enabled Enable pod security context
@@ -245,7 +245,7 @@ secondary:
   replicaCount: 2
   containerPorts:
     mariadb: 3306
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
   podSecurityContext:
     enabled: true

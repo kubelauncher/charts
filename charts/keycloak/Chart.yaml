@@ -2,7 +2,7 @@ apiVersion: v2
 name: keycloak
 description: Keycloak identity and access management
 type: application
-version: "0.1.17"
+version: "0.2.0"
 appVersion: "26.5.5"
 icon: https://cdn.simpleicons.org/keycloak
 home: https://github.com/kubelauncher/charts
@@ -25,5 +25,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: added
-      description: Add Prometheus metrics via Quarkus health endpoint and ServiceMonitor
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro

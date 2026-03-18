@@ -172,7 +172,7 @@ helm uninstall my-mongo
 | primary.readinessProbe.timeoutSeconds | int | `10` |  |
 | primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
-| primary.resourcesPreset | string | `"nano"` |  |
+| primary.resourcesPreset | string | `"micro"` |  |
 | primary.service.annotations | object | `{}` |  |
 | primary.service.clusterIP | string | `""` |  |
 | primary.service.headless.annotations | object | `{}` |  |
@@ -231,7 +231,7 @@ helm uninstall my-mongo
 | secondary.readinessProbe.timeoutSeconds | int | `10` |  |
 | secondary.replicaCount | int | `2` |  |
 | secondary.resources | object | `{}` |  |
-| secondary.resourcesPreset | string | `"nano"` |  |
+| secondary.resourcesPreset | string | `"micro"` |  |
 | secondary.service.headless.annotations | object | `{}` |  |
 | secondary.sidecars | list | `[]` |  |
 | secondary.startupProbe.enabled | bool | `true` |  |

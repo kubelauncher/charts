@@ -82,7 +82,7 @@ primary:
   count: 1
   containerPorts:
     redis: 6379
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
 
   ## @param primary.podSecurityContext.enabled Enable pod security context
@@ -217,7 +217,7 @@ replica:
   replicaCount: 3
   containerPorts:
     redis: 6379
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
   podSecurityContext:
     enabled: true
@@ -437,7 +437,7 @@ cluster:
   containerPorts:
     redis: 6379
     bus: 16379
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
   podSecurityContext:
     enabled: true
