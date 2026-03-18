@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 2.6.12
+description: OpenLDAP directory service
+home: https://github.com/kubelauncher/charts
+icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/openldap.svg
+keywords:
+- - openldap
+- - ldap
+- - directory
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: openldap
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.0
+
+...
+files:
+  openldap-0.2.0.tgz: sha256:f7ef7cd9eba2773a71739dfded63a2b1952d93734a0da831b2ace8812acdf878
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpuqofCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnlLiSBU05g+zMF+YhlZ+sFd1M7YbGQX6kKt3wS5Kj3JoW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAc28P/2560NsPqk8eCjsFuaVUpwKrGul+
+qnlRf2HeJm42hFN+KXa+d1tjO+8xjOxbjtlSqXMXZSWpguXQlfk+7JZWPKENybn0
+FC+cxoEM4K+vh+UHsxslZj09kuseugkibaeCOcFbyu5N8ygBRl2z45rk+iadSpCY
+eXdZoBJ8bFTpi6QcZyEWgaxzzI9qV7Ep3uVNNEl9xNt0XDsTGWmsVwoAGQJ0w8Ei
+fanLhq18n0+5wTOwo66B3wawPyhHZgQLkGfxUxsq/bw0puDouIJcqAUQpFmUQgMV
+psi6Tj7e3+vMBqXoMHk2Q042Mu1n4K73odissnMUKvlHEjZ7Gj9Iz5aqnS3Gscuf
+HqDL/G+Uuwdl/n8qxOjmrViIEEcqiQyIDoy5JdnE64UgAWniT5062/06LWp5Txq1
+UHewuL2NeI5GsRfSNfdpt2ISpAeyAu2sUDIdjPka7UrdCZhsGfJu4FCQIxqd9iWi
+laA9mEPCqKH1UtgdLKLmQWxVee9TnsnGPZkL2GXFeaCUmYUdyNYnhx+M8YfnAzvd
+Dxkg8Yv7PJjwyiJ+X7g97dBscfWaNMInVyVK9+eNkXCm85BzdNOV2GnweRh/crKh
+yH0JUtN4MibSBv/PKg1BvslUE6N4LkczUVbua7ZqJGmfT5SzOn8UAxV4l30D2ko/
+IIwDqDIE/fkyhEZ6
+-----END PGP SIGNATURE-----
