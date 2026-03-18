@@ -12,7 +12,7 @@
   ],
   "automerge": true,
   "automergeType": "pr",
-  "platformAutomerge": true,
+  "platformAutomerge": false,
   "dependencyDashboard": true,
   "dependencyDashboardApproval": false,
   "schedule": [
