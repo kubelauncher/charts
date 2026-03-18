@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics via native plugin and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 4.2.5
+description: RabbitMQ message broker
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/rabbitmq
+keywords:
+- - rabbitmq
+- - message queue
+- - AMQP
+- - broker
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: rabbitmq
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.16
+
+...
+files:
+  rabbitmq-0.1.16.tgz: sha256:7c734d3989d1552bb4a071d0fcf21304c04c149c3a9faf65ed6295344f0ce4a9
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpuqFFCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn6DXRAe9vdMpHrlQWYTf5RtqgiOGIKJ1Rohz/aY6QL+MW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAr0oP/12VEz36quRZBYskQZxqbE+zOWyF
+GYkyq64OSXy5s9dVUmHjLIAeVcdzg7V9nGd+icNxs6H7vPuVprdZIcmhKac9eqa7
+RxEP3ynlFUonr3/QmjywmlSv2sa7Luefend5IkEwMnjiyWOHRRE3qVFs/edrHgvG
+LCe4CV7n4RoRd6dblXziwQbg3bKKmne2imAUWKfi45BTDkb5qcJ4BkfWBfyrzer0
+TeBjM/5IBd2jkAbGhbc7XuqFTYrKrtZxbhy8i7b26OiGM7bG1rD/dX8wIlABBCmu
+jBJyFFp4M1pTghUOx9w0UhqSBvY1lvlVeovgzPZe+Anckwvb89ZYQzwwUXrj7soI
+omSHQYn/alMttcnZq3US7wZYNN9uiI8GnpPo8TaxtM28/+Na+ND6lqrW23q+xVxH
+budMfHt2lfJ2UuucEQ1OhPxoK/39XG68aZg6dAj1W2T4ibLBpysBNKSjqUTrGJTq
+tO2yvCxSnSWjWL75ty31NfPlVfI31iQfKzl2M1GDF5svxX/j5MlSbrCpAg+yism/
++gY3C3s5mw1q69qCOJn7k3bFuG2rpWnOTSapvTd1Ne/XpGJcHnJrZ4CCt2/yxw/G
+zwcPZgJOs9nnAcaXR3edlM7IUMybHXgckVjsJ0JWziTPpyyXfM0lw4P3tlsLeZN9
+VwhXU/4fRzygoUim
+-----END PGP SIGNATURE-----
