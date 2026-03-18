@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.0.45
+description: MySQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mysql
+keywords:
+- - mysql
+- - database
+- - sql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mysql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.0
+
+...
+files:
+  mysql-0.3.0.tgz: sha256:2c7664f560365e2c310e5cff398e721b8bd2d36daf96040deab5981f08111cfe
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpuqofCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnvZA1/vBaMFZU9tNAOD/rrCV02dyqFOugnDKFh36Sa8IW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAxWcQAK8oQgIPAjn3EwhWpwLWCULoA5DT
+NmbJRtbRu70Fey4y3Iu8BWyGgKaXW1oAUD67a1KiBCcWkuJ5E2ScuLxv/z7yLDRV
+telA+C7uzeGwDz99Irlrd5yQVhU9mfQKqnQYUsakAyVHXrqwJv+z8BYEkPcv1ep4
+0CWMwtkHVWKTEjlr2E61KEzpxmQ27mB6o6eKTmRCo84uQm/uNMhsJs95Y8Fv6/TM
+K7wObG1dDCCulWhYXFVPLErdwcwChjV3Glg8/pqr5MaM4dtODZzz7SklIN4stnZ2
+akmJYNI1Yb3x2u6auzihXqi73V2KoCN47BVyd0hug2aVSykDtImWpaCCaqqsA9gf
+qSEmPNeyWu/WRwKohROXoPANNGSgKqvC2QNl6ESPsRXlXIQUJ6fpiUwFyQPYK6OS
+hgUPcIXsKLUrufP/xjdinuTWgVeT0dufSR9I5w/gEP9KAPguwpgJAkcQ94Ca4nUa
+Hsr3wvV65n3+PliZYdUnSRdf4IIQnvWJt/ylMk+qSaoZJTmZdECvEPQLWsNXdmwN
+Mk5YjHCC2EP4o+M6x5uE/bSoZfOD/B/oRg8KB9IyiKdgWdvp4IpVUB7Hlha0EwvU
+K+m6c0OHLfzQINldIDitIdqNT8gXK1xturqKdR3T9cNcSPJPin3BPT8QMxg+vuFs
+od5XnWYGtwgHg4yb
+-----END PGP SIGNATURE-----
