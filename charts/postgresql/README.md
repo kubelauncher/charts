@@ -180,7 +180,7 @@ helm uninstall my-pg
 | primary.readinessProbe.timeoutSeconds | int | `5` |  |
 | primary.replicaCount | int | `1` |  |
 | primary.resources | object | `{}` |  |
-| primary.resourcesPreset | string | `"nano"` |  |
+| primary.resourcesPreset | string | `"micro"` |  |
 | primary.service.annotations | object | `{}` |  |
 | primary.service.clusterIP | string | `""` |  |
 | primary.service.headless.annotations | object | `{}` |  |
@@ -226,7 +226,7 @@ helm uninstall my-pg
 | readReplicas.podSecurityContext.fsGroup | int | `1001` |  |
 | readReplicas.replicaCount | int | `1` |  |
 | readReplicas.resources | object | `{}` |  |
-| readReplicas.resourcesPreset | string | `"nano"` |  |
+| readReplicas.resourcesPreset | string | `"micro"` |  |
 | readReplicas.service.annotations | object | `{}` |  |
 | readReplicas.service.clusterIP | string | `""` |  |
 | readReplicas.service.headless.annotations | object | `{}` |  |

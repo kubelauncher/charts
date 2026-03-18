@@ -151,7 +151,7 @@ helm uninstall my-redis
 | cluster.readinessProbe.timeoutSeconds | int | `1` |  |
 | cluster.replicas | int | `1` |  |
 | cluster.resources | object | `{}` |  |
-| cluster.resourcesPreset | string | `"nano"` |  |
+| cluster.resourcesPreset | string | `"micro"` |  |
 | cluster.service.annotations | object | `{}` |  |
 | cluster.service.clusterIP | string | `""` |  |
 | cluster.service.labels | object | `{}` |  |
@@ -242,7 +242,7 @@ helm uninstall my-redis
 | primary.readinessProbe.successThreshold | int | `1` |  |
 | primary.readinessProbe.timeoutSeconds | int | `1` |  |
 | primary.resources | object | `{}` |  |
-| primary.resourcesPreset | string | `"nano"` |  |
+| primary.resourcesPreset | string | `"micro"` |  |
 | primary.service.annotations | object | `{}` |  |
 | primary.service.clusterIP | string | `""` |  |
 | primary.service.labels | object | `{}` |  |
@@ -298,7 +298,7 @@ helm uninstall my-redis
 | replica.readinessProbe.timeoutSeconds | int | `1` |  |
 | replica.replicaCount | int | `3` |  |
 | replica.resources | object | `{}` |  |
-| replica.resourcesPreset | string | `"nano"` |  |
+| replica.resourcesPreset | string | `"micro"` |  |
 | replica.service.annotations | object | `{}` |  |
 | replica.service.clusterIP | string | `""` |  |
 | replica.service.labels | object | `{}` |  |

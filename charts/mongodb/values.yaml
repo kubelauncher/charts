@@ -112,7 +112,7 @@ primary:
 
   ## @param primary.resourcesPreset Resource preset (nano, micro, small)
   ## @param primary.resources Custom resource requests/limits (overrides preset)
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
 
   ## @param primary.podSecurityContext.enabled Enable pod security context
@@ -255,7 +255,7 @@ secondary:
 
   ## @param secondary.resourcesPreset Resource preset (nano, micro, small)
   ## @param secondary.resources Custom resource requests/limits (overrides preset)
-  resourcesPreset: "nano"
+  resourcesPreset: "micro"
   resources: {}
 
   ## @param secondary.podSecurityContext.enabled Enable pod security context

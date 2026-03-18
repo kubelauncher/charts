@@ -95,7 +95,7 @@ containerPorts:
 
 ## @param resourcesPreset Set container resources according to one common preset
 ## @param resources Set container resource requests and limits
-resourcesPreset: "nano"
+resourcesPreset: "micro"
 resources: {}
 
 ## @param podSecurityContext.enabled Enable pod security context
