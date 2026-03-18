@@ -2,8 +2,8 @@ apiVersion: v2
 name: postgresql
 description: PostgreSQL relational database
 type: application
-version: "0.3.0"
-appVersion: "17.0.0"
+version: "0.3.1"
+appVersion: "17.9"
 icon: https://cdn.simpleicons.org/postgresql
 home: https://github.com/kubelauncher/charts
 sources:
@@ -25,5 +25,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump default resourcesPreset from nano to micro
+    - kind: fixed
+      description: Update image to 17.9 to fix POSTGRESQL_EXTRA_CONF custom config support
