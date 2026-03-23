@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 3.6.9
+description: etcd distributed key-value store
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/etcd
+keywords:
+- - etcd
+- - key-value
+- - distributed
+- - consensus
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: etcd
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.2
+
+...
+files:
+  etcd-0.3.2.tgz: sha256:0e903aeff4597bfae173e4e1e9da2ae01c027dd5f13b0ae2dbda3e91eb75bbfa
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpwPeoCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JniKRNFzB/4SP1pzLHym6f0TjTg7gyWAQmqAHhwXnWwW0W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA2R4QAMWu48mOt+2ML1/IWOWhm5GFu6oM
+0mJKp9FYHwCIe6WHpixJtIv6/1FrjOS6iX0uTysU8SbcJozgfMwKtOJcS/lqbcx0
+ZHr2G+NlcuwoJ0wx5XLhNEoQyJvREkb4XnCOyhQnEfvBt8ZTrmVn51+6eD9dTvOU
+NGE4AJ2SHsd2ZdMkYCgSGR5bjDJYpgCBd2UC7kE0rMP3MrfNQKBwQ2tDKrrerLN7
+N+Pe07x8iJ9uXE82fvSlpkQaMCfv0d79D0Kv8Pdl9iFxDiO0kXLqROl8eucZYKSi
+SecpjXbODf1bDMd00u19iERkBeX/QWt6QcjU/UdLfsaOx12Hth0Yi/COY7zdHd+7
+UZIn4yrTvbqsAIc1cSOLzxvR1TdPQivngBDc4bwIbGHF60Zjz7rvOSbOQFKX4LR+
+bMPxuCpGY1fKa0h515s5HbzPobVU6+GoVlaDfDFk9XFdAqbWfL328xzOPExafbSn
+SWyoc4SP6jm5LxT+SeStLchRrvGn5qONe7hbqluPwuVjnCOM7FgREYQyXCrbO2Dl
+lCBsfSZ0LC3YuOz12kaNxRjkNu72seHtKTYC/paAscRdXCf9tZF04O3JgordL+ZV
+d60jWRvXIw9Axbyjll5S0M6k77i9hv2HOJoSp2q5UqS3BtjTNOW7uIfIk8n4XwNW
+66oM9DdjuQiHEmOT
+-----END PGP SIGNATURE-----
