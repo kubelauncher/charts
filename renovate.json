@@ -92,6 +92,10 @@
       ],
       "automerge": true,
       "automergeStrategy": "squash"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "automerge": false
     }
   ]
 }
