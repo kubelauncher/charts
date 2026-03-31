@@ -2,7 +2,7 @@ apiVersion: v2
 name: keycloak
 description: Keycloak identity and access management
 type: application
-version: "0.2.2"
+version: "0.2.3"
 appVersion: "26.5.6"
 icon: https://cdn.simpleicons.org/keycloak
 home: https://github.com/kubelauncher/charts
