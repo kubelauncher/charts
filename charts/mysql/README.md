@@ -107,7 +107,7 @@ helm uninstall my-mysql
 | global.mysql.auth.username | string | `""` |  |
 | global.mysql.service.ports.mysql | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:c86e3a72fdf8e697acc946c9e45f89c2a355da1aa6d0b91a939b535f5ab636cd"` |  |
+| image.digest | string | `"sha256:1a92fdb21bff71fc8ada9f1e5f2cfd14d1c24866c1a1ad2626a1e84307eeb9c9"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
