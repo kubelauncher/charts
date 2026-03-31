@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 12.2.2
+description: MariaDB relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mariadb
+keywords:
+- - mariadb
+- - database
+- - sql
+- - mysql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mariadb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.4.2
+
+...
+files:
+  mariadb-0.4.2.tgz: sha256:748f6be155ad9e01990891afc742709ab61aa701d9530ec6bc95233551cb2617
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJpy3AGCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnUr7bcF0e5jbZxaI8wPOF5sfU7dwBfatMAetHl7mlbGkW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA4/cP/0cr0oZYlV+DpAgq5IcUqqPr+cto
+I/O0gpQSXNxnrgYb/iqqVObTCtMvM6+3Afq5BAKCGxRMtjR2+gX5hlpt269Jxtbg
+8mLv8iIwTwGnQQgCEArj2F47r3d4GRXJCXuKunlFv6FR6y3u5lEJG8WDPdkiAlqb
+jice6cZjDhUYKYt+8Lc2HB8RbSICduEXQlCVHQJx56ZzuqQC37uJK8qQ8OiFvowK
+4BK34Fn28cLcC/ngTXRTHB/mviu52k18ys+Txh/+XOJz8wkF0QZWHoCZavVh+d24
+gUl4MJQ0jm4AvRCwz9EgWy6fB9Vw9aup3c/bbnK0TeMxrQKPsWJj1jF+l23j316K
+PXEsomoaZK6vN+lai4zoIs7YGZPTqpUIe+cRg4/B4iIWWhWVrQK2zwexGs0oPkRU
+inLefPUx7u46eHxgzZf6300o3Lp4yCh68hfgKrO/+i38wGupnSlrJn/wEslCrvWC
++zmmSJ6YBt75lsqEh45d+85kmEvrMP3z0iUjJyAOVdx+OGw+emQGiM85EAKPw14z
+3VqGKjYal/nMBDryfmDJNFtbfwZkmz5GTxG2D0g4ZhJkBeIDA8vHhbqequBqj0Rr
+3VQbaK4qayGan2EWMx53fkISpUSSPuj1w4cTPNul7DmoXySMaLacZO0DmIFkCfNU
+0xVklL1GLacSJZKw
+-----END PGP SIGNATURE-----
