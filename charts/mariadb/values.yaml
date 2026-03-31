@@ -39,7 +39,7 @@ image:
   repository: kubelauncher/mariadb
   # renovate: image=ghcr.io/kubelauncher/mariadb
   tag: "12.2.2"
-  digest: "sha256:a089909f32b3a5779d54d9d6ac42876e46cf15c30d0ff2c0c3a41992f741ca62"
+  digest: "sha256:5afd6193a1605927c28c7cc52d327202f07fec9a0daf35db2c81f5969bf934df"
   pullPolicy: Always
   pullSecrets: []
 
