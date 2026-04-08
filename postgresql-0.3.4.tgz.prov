@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Update image to 17.9 to fix POSTGRESQL_EXTRA_CONF custom config support
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: "17.9"
+description: PostgreSQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/postgresql
+keywords:
+- - postgresql
+- - postgres
+- - database
+- - sql
+- - replication
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: postgresql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.4
+
+...
+files:
+  postgresql-0.3.4.tgz: sha256:976b2df55595d8b3b11850e39d2a03b02e80bae237938824e8ab52a19dcc9afe
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJp1jlACRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnlwrBAKTysriTMpqOY23OkqrDXCd672xOasU1t7xVrsYW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAe3EQAKECkcEflsFzXrdPaiqUDH9mnGHd
+tZeDeF8Y5UkUMFlta/kolgLkbQR4Um2DUKufLTdVi+TKTcGFhI5bqRZEplk4AX8c
+vK8Yar/o6QLfxpq6Oqceo+qA/ts15/vKlPsSxQAgKtAmRE7XLWRO1cHKNCUwirBI
+UYqiBy7E9sPFfZF/TIxWtha27K9nbmltL/Pycab6dfphUIVlfMJCeVDVnAtM6IwL
+s7T/eFCN0KVvicoYZjCeBN/MSr+IjrmKpK93U2rY2tB2q1+dAF5vm3x3sH3mzeMa
+HrpO4pNge2DZIQiFWajt7UZHHRwvfP4nKJDNMdBAiDRwcaMOZ+hG5A0ZF7FZuOiB
+mm/D5xV+0TYvJS5TttGy8cSaziUgPlmRmBPS4GzLfh4YGNQpJca+HsflZXCU291z
+P2oh6c4ngyUzt5TmxEZotyeDrhSg3nS6+lkCqqCjUma9b6aMv40WM2kmR1zsSgGM
+yKHagE0TvvzP+oOToaqpQgiEL6Wo1xkG/ArMgypnIb2aduBn8NPb9wH/9xGjvGov
+oN3LMnuxfGMHl14odDP50VefLKUbgmt2Uf3iUqo8jSWDznScbYEdkT/dn3dFmID+
+dI3bkewItxlr+ep5Gv0qBzAn0Mug1jce0YAgtMBNqE1aJsmTbBDPP5tkmjiIVHdR
+vC4mQco7uJa4Ltz9
+-----END PGP SIGNATURE-----
