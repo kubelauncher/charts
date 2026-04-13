@@ -2,7 +2,7 @@ apiVersion: v2
 name: mysql
 description: MySQL relational database
 type: application
-version: "0.3.3"
+version: "0.3.4"
 appVersion: "8.0.45"
 icon: https://cdn.simpleicons.org/mysql
 home: https://github.com/kubelauncher/charts
@@ -23,5 +23,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump default resourcesPreset from nano to micro
+    - kind: fixed
+      description: Pin image digest to the multi-arch manifest index (previous digest pointed to an amd64-only leaf, breaking arm64 pulls)
