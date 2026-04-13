@@ -39,7 +39,7 @@ image:
   repository: kubelauncher/mysql
   # renovate: image=ghcr.io/kubelauncher/mysql
   tag: "8.0.45"
-  digest: "sha256:22fe047da651cd5cb3a8374abdb4269215010f360ac83e9d9503766643fad9b8"
+  digest: "sha256:53ecb5e618789ac347dd4bd4c6ab575f5d353f14adc94497c9b7e07a42018799"
   pullPolicy: Always
   pullSecrets: []
 
