@@ -41,7 +41,7 @@ image:
   repository: kubelauncher/mongodb
   # renovate: image=ghcr.io/kubelauncher/mongodb
   tag: "8.2.7"
-  digest: "sha256:5226c8181e3f2cef2f2f217734626e5e61bb9a3df0ea975d67e765b83b525b27"
+  digest: "sha256:243aea58543f3202ee6ffcce693e6a8902098ae60aaf5f12ffa0b9cd1a25ee7b"
   pullPolicy: Always
   pullSecrets: []
 
