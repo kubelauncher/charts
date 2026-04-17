@@ -2,7 +2,7 @@ apiVersion: v2
 name: cassandra
 description: Apache Cassandra distributed NoSQL database
 type: application
-version: "0.1.18"
+version: "0.1.19"
 appVersion: "5.0.7"
 icon: https://cdn.simpleicons.org/apachecassandra
 home: https://github.com/kubelauncher/charts
@@ -25,4 +25,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: added
-      description: Add GPG provenance signing for Helm repo
+      description: Add CASSANDRA_REPLACE_ADDRESS env var for pod rejoin failures in Kubernetes
