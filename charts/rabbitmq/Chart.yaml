@@ -2,7 +2,7 @@ apiVersion: v2
 name: rabbitmq
 description: RabbitMQ message broker
 type: application
-version: "0.1.22"
+version: "0.1.23"
 appVersion: "4.2.5"
 icon: https://cdn.simpleicons.org/rabbitmq
 home: https://github.com/kubelauncher/charts
@@ -24,5 +24,5 @@ annotations:
     fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
-    - kind: changed
-      description: Rebuild rabbitmq image (fixes version drift, now ships actual 4.2.5 instead of Ubuntu 3.12.1)
+    - kind: added
+      description: Add RABBITMQ_FORCE_RESET env var for major-version upgrade recovery (3.12→4.x)
