@@ -104,7 +104,7 @@ helm uninstall my-cassandra
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/cassandra"` |  |
-| image.tag | string | `"5.0.7"` |  |
+| image.tag | string | `"5.0.8"` |  |
 | initContainers | list | `[]` |  |
 | livenessProbe.enabled | bool | `true` |  |
 | livenessProbe.failureThreshold | int | `5` |  |
