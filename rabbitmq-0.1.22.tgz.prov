@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Rebuild rabbitmq image (fixes version drift, now ships actual 4.2.5 instead of Ubuntu 3.12.1)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 4.2.5
+description: RabbitMQ message broker
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/rabbitmq
+keywords:
+- - rabbitmq
+- - message queue
+- - AMQP
+- - broker
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: rabbitmq
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.22
+
+...
+files:
+  rabbitmq-0.1.22.tgz: sha256:f9a36404c6c2e2406f4bbbbf0bca1086a12032495bf595bad4f2e8a50e3de15d
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJp4djbCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnY/2OEDmmOVayfpl210p0jZRvuzeweBTj8an39hHMICEW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA27YP/jN22IczQooNmpvoZvQJVPNEYNEn
+yWUxeBw6H7ENgbHNPImKF6jZOthMcS7MInQwbe6cJU0LemCjDOVDYlmdhCnNfEKf
+ETIwdUwo6HnjwprKAAJVtQnXtXlo4NZWQD7Z75EzePThC7y8v6BWJJIQMtnr26RA
+ZSfkn4Sv8B4k8z7ODtL4w4+7nZfCRQXmqMkbRKra27ejWCZcOdPAYGJUM5h+IRz7
+7vhKrVTK1pS43bpk1A0/AMnaSIyKvQ/yXjO1AqwUunmAmPTnkAfmOYiQTaGc4qdh
+aPzONE2c+y4W78k6ESVF4PvbrOWaq3Kb8Rb77LXs0VLycdqFC7YdA0Jf4fcPIKee
+1jIMHwII7mDqTVKp/4zxtKdaF4F/PORLck7ZkKeYT6v9hHHgW6dfjdpeSk6/gfI4
+LV+6c55aFhrB4T2kM/JdtAYX80smSN0fh37sJREb6F+D0f96xdYPFYkG3MvMEfxb
+M2wyqfXDx72ihXjTuTZe1ee3lT34wGgo3S+vAMH9LEDPdzNA0gM5k57rxWl+rMZ+
+XNAKmP/Y0FIRDKeE6sQ8R94ojPTN3px6Sd0+bxxmCr8f08j1y84TgF5PJSSHBGbx
+d1si4oH+IN5o/H1epNHssk4180O0+rIvv7G9UIx1grVQX6WNsCJ/uaP6+Z3T6uq+
+fmztDxlh9cb4KpbR
+-----END PGP SIGNATURE-----

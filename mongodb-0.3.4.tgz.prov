@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.2.7
+description: MongoDB document database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mongodb
+keywords:
+- - mongodb
+- - nosql
+- - database
+- - document
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mongodb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.3.4
+
+...
+files:
+  mongodb-0.3.4.tgz: sha256:845da73df4c64fe4d5c80067957f69abe631fb7ee02959ae04c68c756b07db3e
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJp4djbCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnICnvzKYUVa5ZpHhE61Q2CMkD4tcBo5lgrah8NXcPZOYW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA6lAP/Rr6CTrIYkXdCqZgO4V6KwL4eP3W
+i7JoHmA4eL5+FIhl5IK+BwNFbLS7YBDaaKlTxGFQWzmBNO2XIbpE3dBP60oW9Z5R
+wY1ni3pVZa0zHdRDVWBk8C9N8qisyUUXsBz+EvqQc2LCiYJgad0XlM7O+I9bNlI+
+1wTXDyGkJVONZEdhzlwXQSdNQlNa+v0SCZgZE2Xw7DYgR+qGeAr62UrZFYQ2P8gr
+gJc9kxknKhVj9W+YZMkhWNOz+NWctizkY/aMl6S7E86T3cLyMED7a72iOzHjEx31
+toXzZ8cWU35TB5Kc660RBf30GdKPAav5ktYhfqThQIHnGz6ABoGV1yeKAR5ZYzeL
+CjDKD+Hl/O/1u1LMhldpbk05Ir93MGR85ksXWDTCcfLEWG4qiZqLRRUMMoOnC9hQ
+CVhHzeXbdImBqmhSffF40k5caf1SmPvYjFBC8cwBtTOCWZbFR6OY1fea3M5JrWS5
+BPjkYXNdIsBq1siJ1bvp+pcRvfp1upSZc5ecBEWnx6z+t7U2vUO3hjrnxswWRyIy
+ZUu7afIUV+GhTP7XFewPrhgYpl9e/ghPKVXUsyIMkdtaZIUz02JgztrbsJagnF9U
+6EP2BVv8VNNyECLes2OJOnWA4guZ1FF4n/PmXBGLJnhvpy52iej/2EOze1HUwWfu
+toFpnUn3m7BOnfPC
+-----END PGP SIGNATURE-----
