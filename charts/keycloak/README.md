@@ -100,12 +100,12 @@ helm uninstall my-keycloak
 | httpRoute.parentRefs.namespace | string | `"traefik"` |  |
 | httpRoute.path | string | `"/"` |  |
 | httpRoute.pathType | string | `"PathPrefix"` |  |
-| image.digest | string | `"sha256:44db6eb4cf7b2e977aa401ba2f151aa1e5d01a4ccc69e5f3056c5c9272abc457"` |  |
+| image.digest | string | `"sha256:2f654de25a97d89fe0602a836f8b7ecd8886ac5d57a0e4e3b18c238a834e4710"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/keycloak"` |  |
-| image.tag | string | `"26.6.0"` |  |
+| image.tag | string | `"26.6.1"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |
