@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add RABBITMQ_FORCE_RESET env var for major-version upgrade recovery (3.12→4.x)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 4.2.5
+description: RabbitMQ message broker
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/rabbitmq
+keywords:
+- - rabbitmq
+- - message queue
+- - AMQP
+- - broker
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: rabbitmq
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.24
+
+...
+files:
+  rabbitmq-0.1.24.tgz: sha256:7e66ac89a55eb2e207ddc5f7b1da0d515835588c88cbf0ab0512ce668f04c791
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJp6Q4uCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnCJa85nxnPZWKmWQ8WoebHi+ddExNuh29JqxdvmUnpEMW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAr08QAK5MiqzvKab/8QhSCh7El/5UjrhO
+9kTafp4UUl6BdOiDkRuka74MAEahSextQUuWcEk/QSIrwYxd+nNzGfm3OtpbWf+j
+0H3OZKFErVE+CJ4uPrCyJpk3avdHxqF+LmS6Sd5Sluewfe4tZv1IfpGSncwUFk7k
+pUpBXC0a9gyrW3M8G57U+iciMxD3+jBPLD4p4mUleEScOZE0A1XmB5f4hEnbg0qt
+PaK/3HeRszpXX/7+1IzenOcGrReEIQ3utIj9xjzD1/Lsln/bTKX6bIZb90L2jvu8
+nEOvjmFjBmgoWJO0WTXNAovi7x4CwOYa9myN1aFHg114dnnuoZVzqly5tsWM36qP
+VwoHFRMbJACUzoaltb5x2sgp8yYCko7O46DEDPzCZgM5TfJkI9IomI/TVFKwqQ9c
+QrdNLF5yr88zNWnj3l06YelXm+oqyxkca/40PpQcfhcaJFJHwH86cyelUuWFZP7K
+TGCo82tUrqg+PMihcvKntpNwJSsyZqckgTZ+BVNkvBdb1ovVG/EDj5TNdeUCWM3c
+OVFAxLCVcym1bd+zook/ZqUVaC2U2hBwmTqiwKIcTycPOjApoezGZJbxT4nhYzqj
+jR8+r5OAfKlvfsO9u03XHPosYJisaEdztVu86xE4TT+WeK3YyTenhn6ot2wYcRKT
+a6rqGtolRfLENCTm
+-----END PGP SIGNATURE-----
