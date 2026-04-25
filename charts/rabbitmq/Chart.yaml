@@ -2,8 +2,8 @@ apiVersion: v2
 name: rabbitmq
 description: RabbitMQ message broker
 type: application
-version: "0.1.25"
-appVersion: "4.2.5"
+version: "0.2.0"
+appVersion: "4.3.0"
 icon: https://cdn.simpleicons.org/rabbitmq
 home: https://github.com/kubelauncher/charts
 sources:
