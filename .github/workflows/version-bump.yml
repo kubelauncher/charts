@@ -224,7 +224,7 @@ jobs:
       - name: Install helm-values-schema-json
         if: steps.bump.outputs.bumped != ''
         run: |
-          SCHEMA_VERSION="2.3.1"
+          SCHEMA_VERSION="2.4.0"
           curl -fsSL "https://github.com/losisin/helm-values-schema-json/releases/download/v${SCHEMA_VERSION}/helm-values-schema-json_${SCHEMA_VERSION}_linux_amd64.tgz" \
             | tar xz -C /usr/local/bin schema
 
