@@ -100,7 +100,7 @@ helm uninstall my-keycloak
 | httpRoute.parentRefs.namespace | string | `"traefik"` |  |
 | httpRoute.path | string | `"/"` |  |
 | httpRoute.pathType | string | `"PathPrefix"` |  |
-| image.digest | string | `"sha256:fa5a2725a46cf7bdcec5ce69b13733c31378bb1bfaa7b390473b04a01819fbc9"` |  |
+| image.digest | string | `"sha256:03122b76ad3ea6180067ead4b1f16672a428e51322125d42203b5f1d10de6800"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
