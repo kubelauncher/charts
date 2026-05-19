@@ -73,12 +73,12 @@ helm uninstall my-memcached
 | fullnameOverride | string | `""` |  |
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
-| image.digest | string | `"sha256:96b9d67b0fb9c12a3dfc62e9fc5c5a0b538f0247a36dfaf76d3fe40ea8682ba1"` |  |
+| image.digest | string | `"sha256:af479fae31c8ba1090e38cdd6368be2aca93a1b8ad2949abd178251eb7870e0d"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/memcached"` |  |
-| image.tag | string | `"1.6.41"` |  |
+| image.tag | string | `"1.6.42"` |  |
 | initContainers | list | `[]` |  |
 | livenessProbe.enabled | bool | `true` |  |
 | livenessProbe.failureThreshold | int | `5` |  |
