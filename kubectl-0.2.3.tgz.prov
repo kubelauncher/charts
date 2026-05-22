@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 1.36.1
+description: Kubectl CLI utility container for Kubernetes jobs and CronJobs
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/kubernetes
+keywords:
+- - kubectl
+- - kubernetes
+- - cli
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: kubectl
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.3
+
+...
+files:
+  kubectl-0.2.3.tgz: sha256:506ad399171cf4c61b09500656cb44d40d2f67c4563445a3913a7fba01633487
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqEFvtCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn6ocU2E49Ugds7NhThoCr+a6jZEyiPyCf5ubncpBb+rwW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAG6UP/151BWe/D+97Hts2g7m7lyzbrRny
+hQ6ZxCdsw+oOUVzlc7KkBoYiSeOrAucuXO1cK9UGtfT5AN/zhX8GoKITXuooRNtU
+tX6cR+cqcVm96DUUigVcTLV7VBwcHg8wx70Ku+FaDGGmQ1FO5I6NISflzEevyVWk
+UhB5597kF5gf4Y+sswY4FJnRxVHZadDZ0GAyZBO5iF7gROc74IfEoo+8gCCu68QJ
+ejBXnGe1bKLxkBkO5p83dQcVzrkd1f/4Re/Qv3kXvFRG5X1GH8RQvoJZczABtWok
+5nISQG4+PXvIAIadA3Wvhf3u6NrPufGvbW+o3xEl/zqt8VHwKbZGpqIMgdy3WEOJ
+4785zz3N4HSqYDVOtCVal8K0/54qVQCt8my0XJ+hwr98p2S55q79S2pgp2ncRWmH
+5wWrgm6+THUr4c7t48TwozkW8LlRBoI2qzS7b9t7UY1KQfjGwyH4oENJWKiAWmqp
+QtaYjS1aJWA3qmltv7XdMQzvS9sXNzeIUYpkPXIqruR7KAFYNjAgblx2R8mB/GlC
+M5VM3jWqCgC9aF02GJgl/zA+8GPf8OOYGg6xBEFG6fkV+EQs9eMxGFFAhKJDPfrW
+DOGb0dgTHDrHy4LPdRwuV/EW4Gljw2nFo9AtklGDTmTmKtCSotZodRuu+6+SAt8x
+6AnTZ6lTboenywbk
+-----END PGP SIGNATURE-----
