@@ -168,6 +168,7 @@ jobs:
     needs: [detect-charts, lint]
     if: needs.detect-charts.outputs.has_charts == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.detect-charts.outputs.matrix) }}
