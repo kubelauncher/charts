@@ -168,6 +168,7 @@ jobs:
     needs: [detect-charts, lint]
     if: needs.detect-charts.outputs.has_charts == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.detect-charts.outputs.matrix) }}
@@ -184,23 +185,24 @@ jobs:
         with:
           cluster_name: chart-test
 
-      - name: Install crane
-        uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
-
       - name: Pull and load images into kind
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_ACTOR: ${{ github.actor }}
         run: |
+          echo "${GH_TOKEN}" | docker login ghcr.io -u "${GH_ACTOR}" --password-stdin
+
           TAG=$(grep -oP 'appVersion:\s*"?\K[^"]+' "charts/${{ matrix.chart }}/Chart.yaml")
           IMAGE="ghcr.io/${{ github.repository_owner }}/${{ matrix.chart }}:${TAG}"
 
           echo "Pulling ${IMAGE}..."
-          # crane pulls a clean single-platform tar (no manifest index)
-          # avoiding containerd multi-arch issues with kind/ctr
-          crane pull --platform linux/amd64 "${IMAGE}" /tmp/image.tar || {
-            echo "Image not found on GHCR, skipping"
+          # docker pull resolves the multi-arch manifest to a single platform,
+          # so `kind load docker-image` can import it cleanly into containerd.
+          if ! timeout 300 docker pull --platform linux/amd64 "${IMAGE}"; then
+            echo "Image not found on GHCR or pull timed out, skipping"
             exit 0
-          }
-          kind load image-archive /tmp/image.tar --name chart-test
-          rm -f /tmp/image.tar
+          fi
+          kind load docker-image "${IMAGE}" --name chart-test
 
       - name: Run smoke tests
         run: |
