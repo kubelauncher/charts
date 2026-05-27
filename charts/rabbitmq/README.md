@@ -126,12 +126,12 @@ helm uninstall my-rmq
 | httpRoute.parentRefs.namespace | string | `"traefik"` |  |
 | httpRoute.path | string | `"/"` |  |
 | httpRoute.pathType | string | `"PathPrefix"` |  |
-| image.digest | string | `"sha256:6af65891c5d88c77f8cdeef3915cc67264887fc596e2902c24efce51af831641"` |  |
+| image.digest | string | `"sha256:33d897aac02f8bd0bca711965405ae8bec11cdcfa7e9e623cd133da3d7706e0a"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/rabbitmq"` |  |
-| image.tag | string | `"4.3.0"` |  |
+| image.tag | string | `"4.3.1"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |
