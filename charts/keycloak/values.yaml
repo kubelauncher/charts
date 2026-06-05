@@ -18,8 +18,8 @@ image:
   registry: ghcr.io
   repository: kubelauncher/keycloak
   # renovate: image=ghcr.io/kubelauncher/keycloak
-  tag: "26.6.2"
-  digest: "sha256:58526ab4a4cd59d6875cd5dbb475d25451a3954293888177626ecaa7cd62dcf6"
+  tag: "26.6.3"
+  digest: "sha256:f88eafcf3409bd89d6a3dd66c36de58798db9567f12744bf56c8ce4b4ee2f2d7"
   pullPolicy: Always
   pullSecrets: []
 
