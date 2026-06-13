@@ -126,7 +126,7 @@ helm uninstall my-rmq
 | httpRoute.parentRefs.namespace | string | `"traefik"` |  |
 | httpRoute.path | string | `"/"` |  |
 | httpRoute.pathType | string | `"PathPrefix"` |  |
-| image.digest | string | `"sha256:de1e2c0cd335bd0abccb1eb3fbfa9c825bb61c7648f95c277e703d19671c36d7"` |  |
+| image.digest | string | `"sha256:191032661680c208696ff9b35afbc284907ebc0a05af31ce8900fe050505abb0"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
