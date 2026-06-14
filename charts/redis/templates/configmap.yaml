@@ -14,8 +14,5 @@ data:
     port {{ .Values.primary.containerPorts.redis }}
     dir /data
     protected-mode no
-    {{- if .Values.auth.enabled }}
-    requirepass {{ include "redis.password" . }}
-    {{- end }}
     {{- .Values.commonConfiguration | nindent 4 }}
 {{- end }}
