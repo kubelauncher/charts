@@ -81,7 +81,7 @@ helm uninstall my-job
 | fullnameOverride | string | `""` |  |
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
-| image.digest | string | `"sha256:1319a00fb0242422a95543bec7decfa425cc136fa78587d346a9d771490d85e4"` |  |
+| image.digest | string | `"sha256:61984a5a372eacadec0d60d456ba711c6c9f1694d668685e0205e157f2e7e3e9"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
