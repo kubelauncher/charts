@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/kafka
   # renovate: image=ghcr.io/kubelauncher/kafka
   tag: "3.9.0"
-  digest: "sha256:9221fe0d99a0ab29c15c921bb6158505f0bcc450c1d802d70ec3c51990cd6014"
+  digest: "sha256:32463188c3879f1f4535f62504230274b61002dd664d0a8b5b520b37dd0e284b"
   pullPolicy: Always
   pullSecrets: []
 
