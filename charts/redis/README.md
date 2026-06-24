@@ -180,7 +180,7 @@ helm uninstall my-redis
 | global.imageRegistry | string | `""` |  |
 | global.redis.password | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:fccf21c003df55744a50013ede7e9ab057f03715959de18fde60ddf6504de62a"` |  |
+| image.digest | string | `"sha256:f726f2603760aba1f4d43adf0320a39f7ffee9f825d9ad144de9f03050d0feb6"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
