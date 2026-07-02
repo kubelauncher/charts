@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/rabbitmq
   # renovate: image=ghcr.io/kubelauncher/rabbitmq
   tag: "4.3.2"
-  digest: "sha256:37867bb17190d8e3a5621070e3563371a6676c03e0730de759a1431ad8645001"
+  digest: "sha256:41729de99874f65a0ca077755d1bdf664a05112559b122a16b441678f5986696"
   pullPolicy: Always
   pullSecrets: []
 
