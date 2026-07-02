@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Rebuild mariadb image (updated base OS)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 12.3.2
+description: MariaDB relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mariadb
+keywords:
+- - mariadb
+- - database
+- - sql
+- - mysql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mariadb
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.5.2
+
+...
+files:
+  mariadb-0.5.2.tgz: sha256:b744b2d1a9568acdff2d9507eb2642fbc2329046a445d07fe1d55a7ef1224be6
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqRn7KCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnMbVlUGa/cZvgd1GbDmOy1FxjLBE8RB5vOZGok3UUgzIW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAvDoQAL3I8NaTNJ2eApt7mbJJnFo3/86c
+R06SHZhdv4/Y2/ahliPugFzdB/AhAGUDy0GUS1NVJ+mJhbXrLbNwfx/ws7ophVc4
+pbZLIDmZ6L+9RaaGCN4IzlrTZWeqswLyIpaYk4X76kuL5jEROCm2uR00mDG349xV
+1FwuusbLLA2SKTG7pR41dh4CE9uq+HTQzQdJe+UfPYdsyRgG/3CHI9QshImwU+d/
+64fSZWC9Vle80wgUmhgmrMftuk1afNkZNBmAvCZnX7itbkw8tuQNVM8jvGm4Ij7G
+ifBcxwT6YBNuTysQOfkAFHLtzrOQvN2svcKw4jjJq0mTX/v3Qwt0Ujc4V4VmFyjU
+9YpCM+3AREqtnqxxlq87I+aRug/MvOlh0PhrFs1tPjTYLxQ/HpbxF7MczyGSebe+
+JWyr/KrqkM1KPj9ZzBABiWB32VeVcDiTog+3cWjf5O62hNeQX05qaOvZN8N2ytQh
+zMaX1zuGtr+OsSJfSfpTPWjdnaEdXMJxSChEy/t38EuiQx1ZODnJo2B37MVaNVxo
+RgHQs560Ly5d+t5QAFqJcFdbMGWnMGKI05fvn/FQ1JYG2yYbxS7m/QEz7/tEFRfA
+vsTOPtfvHXVQpy3/v8CglbtURLo3F1c4yyiMFNWFNfmN1OHT3p119m3kCq+tV9lh
+ExXhFH8ti2whuuv0
+-----END PGP SIGNATURE-----
