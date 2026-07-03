@@ -94,12 +94,12 @@ helm uninstall my-etcd
 | global.imagePullSecrets | list | `[]` |  |
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:db9e76dc9e6f1c7aa37022a527673824a11000dd99290baf65440be7a423208e"` |  |
+| image.digest | string | `"sha256:4bec3b7e69e4e5e31d0a40be534e675d18c9808f04e47c0a28910aff275fc817"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/etcd"` |  |
-| image.tag | string | `"3.6.12"` |  |
+| image.tag | string | `"3.6.13"` |  |
 | initContainers | list | `[]` |  |
 | initialClusterState | string | `"new"` |  |
 | initialClusterToken | string | `"etcd-cluster"` |  |
