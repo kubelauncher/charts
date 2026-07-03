@@ -26,7 +26,7 @@ image:
   repository: kubelauncher/redis
   # renovate: image=ghcr.io/kubelauncher/redis
   tag: "8.8.0"
-  digest: "sha256:f726f2603760aba1f4d43adf0320a39f7ffee9f825d9ad144de9f03050d0feb6"
+  digest: "sha256:8b8522222eca06abcdf76b0ff37e3ee1d8a6a27a84bfc913b59aa261b6c64c90"
   pullPolicy: Always
   pullSecrets: []
 
