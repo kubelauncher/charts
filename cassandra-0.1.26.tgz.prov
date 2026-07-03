@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add CASSANDRA_REPLACE_ADDRESS env var for pod rejoin failures in Kubernetes
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 5.0.8
+description: Apache Cassandra distributed NoSQL database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/apachecassandra
+keywords:
+- - cassandra
+- - nosql
+- - database
+- - wide-column
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: cassandra
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.26
+
+...
+files:
+  cassandra-0.1.26.tgz: sha256:ddc79de6a1f7e3c18b64fb24f66ad0875aa362003171ab0c3e0b61b267b9667b
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqR4bjCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnbRD5/4Did0LLBE53eI3J+I5lh2dsbwu40HPQlnL1Z0gW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAgGAP/2ZAiduusXBXEE3Bwoz76q85pluT
+LSLrEHDvC0D1nQOVykxGwin4xurdz3UIEDUd9jLOFYBOYogWQHkP9JDHh6vufuIo
+aarYECCM8BmgWV20YjSfstio7mddvacfdcLWhmexJ8yFyfQeKtajN1/w+s6NjLUP
+9cyAow2s5wdZcAZSRDmo9MKyT2tOJ/NH++Iwt6QljPsKErYczo3DB7hSxYxiPfYM
+tEKioOnASlIeQUY70RppsTMPYwFBGWnJ/5Xg6c7iZU0rp+fonPhHD09jiWsF0VbF
+dYyyVptcYtJLXZias9BVXNPjq+Z66LhWtGyuEOyJxYiJi8HSw8p4bMM2LFSt0eoV
+QBk/vc7RWpegImTowmptd1RrL1gYYRSqhSAGvxLdLVxb19eb4c6eY6ysWHStaZ4o
+saV0JdFQPoEi9MR+34Vi5uE8W18Nlq7mxlq7BgvtUT3IQGL1JCa1W1ZmOsldEhbn
+eD9l+SnsE9vvDpmaW2h31hLmi/ZX+uluDSd9F5zXZNXqf4qeBhCxlmbfkSo6IrJG
+/bLzqWgnO6Mo8Qja9dxbd7duE++2dU0m8nANGvn3LLYbH+HOPYHRDPxbybhdSjCN
+ZkbTI1gLxBVdnc2y+uK1yW8W8Vh4CfulPaXhqLgYY+x1gSEqDh9aN7+E7QLdcKSA
+iXB75fRfXxF46rsk
+-----END PGP SIGNATURE-----

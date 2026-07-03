@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro (primary, replica, cluster; sentinel stays nano)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.8.0
+description: Redis in-memory data store
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/redis
+keywords:
+- - redis
+- - cache
+- - database
+- - keyvalue
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: redis
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.4.4
+
+...
+files:
+  redis-0.4.4.tgz: sha256:d074bfe2d33077d0da7c2dfc630c546c6e7f589c338eb8fee088ececd1b119c3
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqR4bkCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnhpkWEUCCyNi3PjQZskwQWDWQRzsPsMbF87pESBAmED8W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAi9oQAKK5yuKTsTSqEajbirCaZffEGVU5
+N1/pERocr1wL2kU0oDxCC7xUMYS0u76FN9mfoukrOY1tV5xh0cMBUJ/Vbjn+FX0g
+eJTy8kN8IHc4ae4UDxQJCJTHkFletmTw1swhkLA+SOYmwHBwBHniPRByEzwu30IC
+vqJyg2520OOcIO5wYumFMIRUbRk4TI761DJ4CxgiEcBb0O1tDmnj+DxSJTOtbuuc
+FNRBALepI/2QgV4eBbAAodHb4erJBZ3bTWh1P9Iun+ehEdLkATNRsB84iHXAnzwk
+HQFbq1Sy4TOHLBBV5E7Arj4U5RK2Wm/ipQNC5218f1qj+eg8U0ucc3Ep/sa478ln
+0hrLJM+Dojdv3hsmWCJusYulB09oYEFncjxKX/+kK5O+TQ2Y1tXpDXyVqwcEL2sy
+YzrWcM7WivJBdbt6dDOrCWEUFdTumPsUYBQ8ZH7GC+dGWR0RQ85wzJdTAAPDPUY/
+vmbkd7gQY2b+5pLPR7KEGY66q9GcaXKxB7hMDMHhJeaxgoH8cR8TAu71/B4Rfc/6
+geI1IBxpyk1Cv+Uzu7A5P65FzBhkSxzs2m0x1MCYok1MucG3hSHIwAhG6I7DfruX
+tHQ+HxY4Txo37LXnHEaRi6Zx7YBMkhnF+uOmZYga+XzghPqTQ3vfEYM/K6WvDBms
+JmykG//HP+mHJP0M
+-----END PGP SIGNATURE-----
