@@ -2,8 +2,8 @@ apiVersion: v2
 name: mysql
 description: MySQL relational database
 type: application
-version: "0.4.0"
-appVersion: "8.4.8"
+version: "0.4.1"
+appVersion: "8.4.10"
 icon: https://cdn.simpleicons.org/mysql
 home: https://github.com/kubelauncher/charts
 sources:

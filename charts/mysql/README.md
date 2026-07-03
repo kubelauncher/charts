@@ -107,12 +107,12 @@ helm uninstall my-mysql
 | global.mysql.auth.username | string | `""` |  |
 | global.mysql.service.ports.mysql | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:6b737fd2b41da303bfa8f0161517ba8767292a17454e6004d2376bb2c41f546b"` |  |
+| image.digest | string | `"sha256:762868d3627b44d5c9e89199211210ae6ab14f5872cc083d311f55115bba554f"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/mysql"` |  |
-| image.tag | string | `"8.4.8"` |  |
+| image.tag | string | `"8.4.10"` |  |
 | metrics.containerPorts.metrics | int | `9104` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.image.pullPolicy | string | `"Always"` |  |
