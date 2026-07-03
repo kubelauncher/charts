@@ -2,8 +2,8 @@ apiVersion: v2
 name: postgresql
 description: PostgreSQL relational database
 type: application
-version: "0.3.6"
-appVersion: "17.9"
+version: "0.4.0"
+appVersion: "17.10"
 icon: https://cdn.simpleicons.org/postgresql
 home: https://github.com/kubelauncher/charts
 sources:
