@@ -2,8 +2,8 @@ apiVersion: v2
 name: memcached
 description: Memcached in-memory caching system
 type: application
-version: "0.1.26"
-appVersion: "1.6.42"
+version: "0.1.27"
+appVersion: "1.6.43"
 icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
 home: https://github.com/kubelauncher/charts
 sources:
