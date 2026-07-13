@@ -13,6 +13,13 @@ permissions:
   pages: write
   id-token: write
 
+# Serialize releases so concurrent runs never race on the gh-pages push.
+# The "Check for already published charts" step is registry-driven and
+# idempotent, so a superseded pending run is safely caught up by the next one.
+concurrency:
+  group: release-charts
+  cancel-in-progress: false
+
 jobs:
   lint:
     runs-on: ubuntu-latest
