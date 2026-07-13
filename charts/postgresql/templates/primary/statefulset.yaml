@@ -188,8 +188,19 @@ spec:
             limits:
               memory: 64Mi
         {{- end }}
-      {{- with .Values.primary.extraVolumes }}
-      volumes: {{- toYaml . | nindent 8 }}
+      {{- if or (not .Values.primary.persistence.enabled) .Values.primary.persistence.existingClaim .Values.primary.extraVolumes }}
+      volumes:
+        {{- if and .Values.primary.persistence.enabled .Values.primary.persistence.existingClaim }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ tpl .Values.primary.persistence.existingClaim . }}
+        {{- else if not .Values.primary.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+        {{- end }}
+        {{- with .Values.primary.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       {{- with .Values.primary.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
@@ -200,7 +211,7 @@ spec:
       {{- with .Values.primary.tolerations }}
       tolerations: {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- if .Values.primary.persistence.enabled }}
+  {{- if and .Values.primary.persistence.enabled (not .Values.primary.persistence.existingClaim) }}
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -218,8 +229,4 @@ spec:
         resources:
           requests:
             storage: {{ .Values.primary.persistence.size }}
-  {{- else }}
-      volumes:
-        - name: data
-          emptyDir: {}
   {{- end }}

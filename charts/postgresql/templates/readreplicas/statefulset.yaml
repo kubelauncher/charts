@@ -157,8 +157,19 @@ spec:
             limits:
               memory: 64Mi
         {{- end }}
-      {{- with .Values.readReplicas.extraVolumes }}
-      volumes: {{- toYaml . | nindent 8 }}
+      {{- if or (not .Values.readReplicas.persistence.enabled) .Values.readReplicas.persistence.existingClaim .Values.readReplicas.extraVolumes }}
+      volumes:
+        {{- if and .Values.readReplicas.persistence.enabled .Values.readReplicas.persistence.existingClaim }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ tpl .Values.readReplicas.persistence.existingClaim . }}
+        {{- else if not .Values.readReplicas.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+        {{- end }}
+        {{- with .Values.readReplicas.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       {{- with .Values.readReplicas.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
@@ -169,7 +180,7 @@ spec:
       {{- with .Values.readReplicas.tolerations }}
       tolerations: {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- if .Values.readReplicas.persistence.enabled }}
+  {{- if and .Values.readReplicas.persistence.enabled (not .Values.readReplicas.persistence.existingClaim) }}
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -187,9 +198,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.readReplicas.persistence.size }}
-  {{- else }}
-      volumes:
-        - name: data
-          emptyDir: {}
   {{- end }}
 {{- end }}
