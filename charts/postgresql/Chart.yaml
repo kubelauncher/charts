@@ -2,7 +2,7 @@ apiVersion: v2
 name: postgresql
 description: PostgreSQL relational database
 type: application
-version: "0.4.0"
+version: "0.4.1"
 appVersion: "17.10"
 icon: https://cdn.simpleicons.org/postgresql
 home: https://github.com/kubelauncher/charts
@@ -26,4 +26,4 @@ annotations:
     url: https://kubelauncher.github.io/charts/cosign.pub
   artifacthub.io/changes: |
     - kind: fixed
-      description: Update image to 17.9 to fix POSTGRESQL_EXTRA_CONF custom config support
+      description: Wire primary.persistence.existingClaim and readReplicas.persistence.existingClaim into the StatefulSet so an existing PVC is mounted instead of always provisioning a volumeClaimTemplate
