@@ -180,12 +180,12 @@ helm uninstall my-redis
 | global.imageRegistry | string | `""` |  |
 | global.redis.password | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:2b631c12be9265104632fe3d45e24e3daacfb0583945f663d12a03db788b5676"` |  |
+| image.digest | string | `"sha256:df8d61c0e571e06a0ff175af7098106c7f950a4c32cdda2c1625a55469b173f8"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/redis"` |  |
-| image.tag | string | `"8.8.1"` |  |
+| image.tag | string | `"8.10.0"` |  |
 | metrics.containerPorts.metrics | int | `9121` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.image.pullPolicy | string | `"Always"` |  |
