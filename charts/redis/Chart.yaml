@@ -2,8 +2,8 @@ apiVersion: v2
 name: redis
 description: Redis in-memory data store
 type: application
-version: "0.4.6"
-appVersion: "8.8.1"
+version: "0.5.0"
+appVersion: "8.10.0"
 icon: https://cdn.simpleicons.org/redis
 home: https://github.com/kubelauncher/charts
 sources:
