@@ -111,7 +111,7 @@ helm uninstall my-pg
 | global.postgresql.auth.username | string | `""` |  |
 | global.postgresql.service.ports.postgresql | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:b4480b9846cd3a5f073b38632cfc1ea63cbf7d88f65795d6e08d954750fed51e"` |  |
+| image.digest | string | `"sha256:1a27e11e59259da031ac7e1fba486de4a603a6deba51895f774127b98064f586"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
