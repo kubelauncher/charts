@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Pin image digest to the multi-arch manifest index (previous digest pointed to an amd64-only leaf, breaking arm64 pulls)
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 8.4.10
+description: MySQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/mysql
+keywords:
+- - mysql
+- - database
+- - sql
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: mysql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.4.4
+
+...
+files:
+  mysql-0.4.4.tgz: sha256:06a5b94b26729236e43dc804dbd1fc5e87bdd9d8858bb4692c3530f2b8c188f9
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJql+b3CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn+jx1/TVea2hjZCkm09OM5eP+XkRYXOTNvCryCs7sKpMW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAKwMP/0NLWJnoR2RCDvmmbgBepYWNrKzL
+O5TSImI1pcOAnKt3/6NMXj25pefSoGIPwmRPmZtrIJwB56bXkKgqobAAvOTYqVXO
+fcdE4rBrv+Wt72wMbH1CMSmrjy2ZuJBC9Dud1lglaElxKs1HGP0vKS+tasIAi4lI
+cctyZ39ujFK5yzf0RwPEiiNjTAfksmjbCKznj6BJUuUgqC6b298N880JkjsRwKkx
+YqUPOOpg6rnh2OOwQJA/GMQ0stCPFAYXZ++10svfbN1kuaofOyo5YhDbeQaiDLDj
+MEcRhxjtCNMDZgx4AgqaJu1XggpnhNqgNARfSOpE6CHAA/qSH1zMwD8Vg60hEGRH
+K59WoIaaeu3eW8MFyEuQWCiZgB1RVL2K6IspC5LA40rhamorPHycMMV1WCPDjqP4
+WTd1pe4fG2OPeVAT6n2+ofICM8LQqxEDHbN3V7G8BPl1R5/PvCoXhuGKqNsUzPDo
+LVAX3+qin95eIHREhT5/0S9ifxiypWpY2hmFIBg+OVimrRuqSte6OKmAJx9DTZHl
+4SLuU2OqZVUPKIRxdLWGkp54hMzynQGtFrOjaWUbC/q06QC538rFhqLBsG2qWB5g
+RkxT5r+3t56caE8KdQMYIPU/wlAvMjYzbgoY47vJoBz4g4mTYU9583q97SigSHuq
+NEIDKX8Et68lATxH
+-----END PGP SIGNATURE-----

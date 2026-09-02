@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 3.9.3
+description: Apache ZooKeeper distributed coordination service
+home: https://github.com/kubelauncher/charts
+icon: https://www.vectorlogo.zone/logos/apache_zookeeper/apache_zookeeper-icon.svg
+keywords:
+- - zookeeper
+- - coordination
+- - distributed
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: zookeeper
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.2.10
+
+...
+files:
+  zookeeper-0.2.10.tgz: sha256:ea8d2517abd7fdf82fa470c03d8be9ae0f22dadb032df30d17336ed8fd102277
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJql+b3CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnGnDgTd7RILe92lUMdd8x+Tgh/m5RbcGrbZvdDoFjibAW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAApb8P/0dxH0gI+99Qo+LmQO2F3v61+vW+
+ilHxFYjEPIkwwDT0YdckYxtHRsYEErM8yW83XM0z8w5DkOKnBYyJBqIN3u39AOM/
+6FvlqQv1/9+LZ22rUtsAxJ5xrcMRKD7T1GLGRcYxYvpZYFJDs14tAAVtZSu5QfcT
+V/I/65ALVFoXYpfoSdg8+AhRJlTewA2Ax6TuUcym8qcAHBQy7FO0LECHz4smmZNq
+ghQbyfzDfx4L6UFCxFK7dIqzgWqcNz11/U4of4un0LlE3WfdKMs1Emep+L1qFhnB
+Q5Pe3hXfegXcmM9TAyH+bCd+shKoPU8VadI6yPF6/3ANXpT7eXAE1Q6BYG1ZKvil
+dHbGmU6thkNUj+cBmIecLGqKL/XC9ur202BDCmv5lRH7iutFsPRA0FxVvVzVAsGL
+bpZjVGKJAwrRJgSAtpUtGtgNPAUVgt+652nVxlWkGu0x6xzy9x/4URzeE5meb0gl
+NfsFYK8XKeC5SozDBWJXo4qxunnjn2uGcA4YGE4JpQLXXe0mOQ3SL3S0v6g9tV19
+F4JppD9Z36v6X8hen9W1eH7TnuIQvKjXEQlpLAb8jCQikcEhIjg6R/aNxcVciGDq
+NW3MzWRKUJpL4B1MfWrtniqJV9Ne27EFsp9gLQdBKYfs+Way0xODe97dvDXcrQBo
+DoSp3mdCTE2FdUzC
+-----END PGP SIGNATURE-----
