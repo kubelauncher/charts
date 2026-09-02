@@ -1,0 +1,52 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add Prometheus metrics with memcached-exporter sidecar and ServiceMonitor
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 1.6.45
+description: Memcached in-memory caching system
+home: https://github.com/kubelauncher/charts
+icon: https://www.vectorlogo.zone/logos/memcached/memcached-icon.svg
+keywords:
+- - memcached
+- - cache
+- - memory
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: memcached
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.32
+
+...
+files:
+  memcached-0.1.32.tgz: sha256:490b84da25a9ec47a018b7119008059183a7ccd1470f24097add10d1f1c00bfe
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJql+lhCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jnq1vEFQEgtMN4KVr+kMtawq9002Dvi/BtNiWUASd0HDsW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAC98P/3WnMRyVnnss8B9Gzw73lRAMPa3s
+iU4FBbskBqYxePb76mHB93UFVq8iJHV8MnnvCzGXe93g3snBcgRDYRsw+CIo6ipz
+rbACz7xJN/68DJe7YMfz8Ukf729C8HOSTkPTB/bTxOdiAV7nWF31aYkPtPm08iIk
+IpWmC9+H5XEclyMM8HyhjVhDAgjvfhv80jLOyTkkdVYIcuAPR2XAEw7rd06n67Rk
+v7BJiI2TGIWjs9rWgUT8esIQN//dgyaMbnBCQ3Imjy1lPcUJRLr/xykXIonreJxT
+43fnaZDfk55DplSfCjJsEYLMAX/+mdo9BzNSi4DHX2Sqn1ITeTwNAqedZ8VkGA4z
+JjWu0y9qZJHWsLd+2H1MjarQix1g09hoApFoFq5hcRXu4Yrv2m3Ui7Zb1aIA5j9z
+t4XGjkcBsJTxDcCCEzK0kZEl9chCjhm11l0IPGz3lkeKKns5mfPm6A1CpEbrBMBQ
+XS9Y1t8FVcpetTfemcb6qiU356EIpBRq9ZJWIHiXgK8xnnlBLSFhVfWVsaIQGBdD
+hO9lZYd5PSlelSw4MT8Ql45aNKOsPKVX1OZt7arw58ZjiSXDB71jxtaGAiMd6TTE
+Agd08iDBlr/zARzzJQACk1/Qaz8NN+tO+C/P+qVV76BzJatATCp0SbAj5k911zdY
+JgWAcKHwfupJIO+C
+-----END PGP SIGNATURE-----
