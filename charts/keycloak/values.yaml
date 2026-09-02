@@ -19,7 +19,7 @@ image:
   repository: kubelauncher/keycloak
   # renovate: image=ghcr.io/kubelauncher/keycloak
   tag: "26.7.1"
-  digest: "sha256:d1f1f6ccd6032f10d7daf58a4cef2a4e8db9867f2747cb89e55caa9abdcf0fd9"
+  digest: "sha256:afe3bd73d7cffa0891c7e59ab645ffcfb2e6e8ccea586ffac402d4d40cd492f6"
   pullPolicy: Always
   pullSecrets: []
 
