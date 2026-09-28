@@ -99,7 +99,7 @@ helm uninstall my-cassandra
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | heapNewSize | string | `""` |  |
-| image.digest | string | `"sha256:7e0560af1df24605770f9d23f4b665b88b049370f253499ce6ed071ad85d0c52"` |  |
+| image.digest | string | `"sha256:4a2625365fc6595d4ff2dfaedbb77c1dd1f80f00192c910200ea7503124c63a8"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
