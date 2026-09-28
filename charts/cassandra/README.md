@@ -99,12 +99,12 @@ helm uninstall my-cassandra
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | heapNewSize | string | `""` |  |
-| image.digest | string | `"sha256:b66aba320083d987b6d1af39dd69e37679714e0a3c47826b0567d744c9754c15"` |  |
+| image.digest | string | `"sha256:7e0560af1df24605770f9d23f4b665b88b049370f253499ce6ed071ad85d0c52"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/cassandra"` |  |
-| image.tag | string | `"5.0.8"` |  |
+| image.tag | string | `"5.0.9"` |  |
 | initContainers | list | `[]` |  |
 | livenessProbe.enabled | bool | `true` |  |
 | livenessProbe.failureThreshold | int | `5` |  |
