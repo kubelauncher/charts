@@ -38,8 +38,8 @@ image:
   registry: ghcr.io
   repository: kubelauncher/mysql
   # renovate: image=ghcr.io/kubelauncher/mysql
-  tag: "8.4.10"
-  digest: "sha256:e9609bd50416d7b230e0b703f7a3418fc394153f2b8b6618b98622a23f206c51"
+  tag: "8.4.11"
+  digest: "sha256:e70b46a1ba3158f4e7b615df89bb3f696b59fb0646319af4e12e259f275e751a"
   pullPolicy: Always
   pullSecrets: []
 
