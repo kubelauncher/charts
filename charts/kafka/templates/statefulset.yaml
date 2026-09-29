@@ -63,7 +63,11 @@ spec:
             - name: KAFKA_BROKER_ID
               valueFrom:
                 fieldRef:
+                {{- if .Values.enableIntegerBrokerId }}
+                  fieldPath: metadata.labels['app.kubernetes.io/pod-index']
+                {{- else }}
                   fieldPath: metadata.name
+                {{- end }}
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
               value: {{ .Values.kraft.controllerQuorumVoters | default (include "kafka.controllerQuorumVoters" .) | quote }}
             - name: KAFKA_CFG_LISTENERS

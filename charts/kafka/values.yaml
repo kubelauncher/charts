@@ -45,7 +45,9 @@ clusterDomain: cluster.local
 extraDeploy: []
 
 ## @param enableServiceLinks Enable Kubernetes service links in pod env vars
+## @param enableIntegerBrokerId Enable integer broker ID via env var
 enableServiceLinks: false
+enableIntegerBrokerId: false
 
 ## @param replicaCount Number of Kafka replicas
 replicaCount: 1
