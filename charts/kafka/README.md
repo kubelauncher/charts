@@ -81,6 +81,7 @@ helm uninstall my-kafka
 | containerSecurityContext.runAsNonRoot | bool | `true` |  |
 | containerSecurityContext.runAsUser | int | `1001` |  |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| enableIntegerBrokerId | bool | `false` |  |
 | enableServiceLinks | bool | `false` |  |
 | extraDeploy | list | `[]` |  |
 | extraEnvVars | list | `[]` |  |
