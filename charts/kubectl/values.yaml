@@ -18,8 +18,8 @@ image:
   registry: ghcr.io
   repository: kubelauncher/kubectl
   # renovate: image=ghcr.io/kubelauncher/kubectl
-  tag: "1.36.3"
-  digest: "sha256:7280594a2f18389202868533d6f8c5ead0d42507cb89c76199620d8b44f49df7"
+  tag: "1.37.1"
+  digest: "sha256:15ce1bd84ddc08c66755f875b4995373b27b91dbe8270d44aa378424180cd115"
   pullPolicy: Always
   pullSecrets: []
 
