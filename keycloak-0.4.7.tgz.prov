@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Bump default resourcesPreset from nano to micro
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 26.7.4
+description: Keycloak identity and access management
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/keycloak
+keywords:
+- - keycloak
+- - identity
+- - authentication
+- - oauth
+- - oidc
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: keycloak
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.4.7
+
+...
+files:
+  keycloak-0.4.7.tgz: sha256:aa90c1a647026e74ffb8fdccf13bd25908f9b14589838405e3e91b0ddaaa67d3
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqvMt6CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jnzs+mHpVG020X13Fy7ecQICcrZ/gDzz4+E4LRvVGU0K8W
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA9qoP/2RSJec/funp76OG2+w5lot81n9j
+4hSdcwDMr5CAvJMpRpUgZnunh69UIAWKUxzIzqs1BSpskKNRa8Tn4/a1WBpFxCVA
+XmxwkjUkgz+9lLCi4wV6rbVXZ4RFy/2zUWxlqHIXdFIAVrpz/Du+RzKYP/7isjxz
+FjPRRu2YKce3keV9ctmRyMrs7tt2jSEOI25tLO0NVlP6P/KkR9fhCKsz2BYfNpzS
+WGaqzyt10IIlnyUZ8m7T7elgd785A6s9XZEBVLTN4Vfbrbn3RatBbmA5Mco1NolT
+bJe1qJS6AAnBLmQoe9dG3MqupuwAwz3d8mqRF5+o+59zcnHrWb+FsKKrKEz4V/6j
+8ubW7OlMRn8lKFbpmQQASJU/XUuQQJrZaSEmC/j7mBXMlKlijmythwumMRl3sSh9
+4nO5LTWyp0y/pV52l7Qmcv2/7z574FDzluTSjtUcJ2CR7Di+4ZfDdTX2PaFzcmej
+n3JKi4iKxRnVSZp7+cU8ekhCKhUe5viw/E8VKmrXzU8gTOiaZYUjHhIijEKJ57b3
+hTxNei5HSh+PJmvY7+rjTVJ0IGiuqoJf5KgVMIAc/DGikFEbHIYphV4tVAppCIsT
+foolSULmHEvvO54zg5L3XqWopw+c3egOZQxr9W+Q825Mq+Zzu4MqP0xG+HnmvIgv
+2V8B4FnuAC+OyPPc
+-----END PGP SIGNATURE-----
