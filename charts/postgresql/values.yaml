@@ -38,8 +38,8 @@ image:
   registry: ghcr.io
   repository: kubelauncher/postgresql
   # renovate: image=ghcr.io/kubelauncher/postgresql
-  tag: "17.10"
-  digest: "sha256:1a27e11e59259da031ac7e1fba486de4a603a6deba51895f774127b98064f586"
+  tag: "17.11"
+  digest: "sha256:db2369c4dd90df22488e7fa004c97cdc438ec3415f5cb034a3ebac3ac4ff22e1"
   pullPolicy: Always
   pullSecrets: []
 
