@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Wire primary.persistence.existingClaim and readReplicas.persistence.existingClaim into the StatefulSet so an existing PVC is mounted instead of always provisioning a volumeClaimTemplate
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: "17.11"
+description: PostgreSQL relational database
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/postgresql
+keywords:
+- - postgresql
+- - postgres
+- - database
+- - sql
+- - replication
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: postgresql
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.5.0
+
+...
+files:
+  postgresql-0.5.0.tgz: sha256:e5896af639e026713e0fe4e3840010cf6a149e33739aa5a95db75e57eb9680bf
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJqvrPBCRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3JnubimaqHUnT8+MQiKHz2bzTX2SibHCuRHy2RzmkAQKKYW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAAGmUP/1oM5QNM5/tgTQJbLzVXfhpfTa57
+hKOQVSkvYyeYKvPJ/E5AxSB7WfboiySA+W00CrYxGJVE9lpMs0FZjkEcTtY4UJOQ
+/NtdvkGXZqeo13THYyXQZlmZ8aaLDuEhNdnE4lOpki42mhoXHWBmx3BQCrC8OHnO
+CIHSImZZqwX4lfdRuGwCZqjYRL7ELo5LXfyfQEHt5ivB5G75CvBJKlC9jktCy7et
+F9noIe37RiO298TlAhVe4cSyxWz02QKWLIkwocp4W9KH3kfUTlVafq3AimVuTB9u
+x+9JbAw4YgGUU6vQBBa6MtnA9H5KKOi/YkVYVN3cN9jMGWfKKrH5s9R5AH4PXAcj
+V03ezu2DJSPvsxeV2ezRvOUIiXKnYmaOeXUnkhRV1/v79IyR7b68MCFYS+a45v23
+uK9Yc7hmJB3YtfC5x6cMhYs5Krck8S6nl87wodeNQXyyhwJKw1B3+dwfasW3/AJx
+AO+l9t3yytTrKpaCsJPUxPSIicu7TvTiuX45k6LL11pdSaMZpTajTsNWNa0rJvZs
+sT3blgg7ktEHmGPn0ra+sfX7AQ5I9tXHHukgLudPfMHPZNTq+Fz91kFhkP0ULqad
+zdayh0a5UUoWtJv1ElqVQ/RzchyQuy06ak17p6iX3fuH6DorqlNaWZDAQdGFdX1i
+TQdV+s8Daf6/wSRC
+-----END PGP SIGNATURE-----
