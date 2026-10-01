@@ -111,12 +111,12 @@ helm uninstall my-pg
 | global.postgresql.auth.username | string | `""` |  |
 | global.postgresql.service.ports.postgresql | string | `""` |  |
 | global.storageClass | string | `""` |  |
-| image.digest | string | `"sha256:1a27e11e59259da031ac7e1fba486de4a603a6deba51895f774127b98064f586"` |  |
+| image.digest | string | `"sha256:db2369c4dd90df22488e7fa004c97cdc438ec3415f5cb034a3ebac3ac4ff22e1"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
 | image.repository | string | `"kubelauncher/postgresql"` |  |
-| image.tag | string | `"17.10"` |  |
+| image.tag | string | `"17.11"` |  |
 | metrics.containerPorts.metrics | int | `9187` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.image.pullPolicy | string | `"Always"` |  |
