@@ -2,7 +2,7 @@ apiVersion: v2
 name: mariadb
 description: MariaDB relational database
 type: application
-version: "1.0.0"
+version: "1.0.1"
 appVersion: "13.0.2"
 icon: https://cdn.simpleicons.org/mariadb
 home: https://github.com/kubelauncher/charts
