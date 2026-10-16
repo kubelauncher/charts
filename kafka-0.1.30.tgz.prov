@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add GPG provenance signing for Helm repo
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: EE19FA216B8349AC017C5279B4C062080CDC2061C264EE92CF98300E39FD40A8
+    url: https://kubelauncher.github.io/charts/cosign.pub
+apiVersion: v2
+appVersion: 3.9.0
+description: Apache Kafka distributed streaming platform
+home: https://github.com/kubelauncher/charts
+icon: https://cdn.simpleicons.org/apachekafka
+keywords:
+- - kafka
+- - streaming
+- - messaging
+- - event
+maintainers:
+- - email: platform@kubelauncher.com
+  name: kubelauncher
+  url: https://www.kubelauncher.com
+name: kafka
+sources:
+- - https://github.com/kubelauncher/docker
+- - https://github.com/kubelauncher/charts
+type: application
+version: 0.1.30
+
+...
+files:
+  kafka-0.1.30.tgz: sha256:475b820f3e39b5014832c7b651826c46faf125bb83a9eeecb32a3557dc0778cc
+
+-----BEGIN PGP SIGNATURE-----
+
+wsG5BAEBCgBtBYJq0dW4CRALG2fMdpsl1UUUAAAAAAAcACBzYWx0QG5vdGF0aW9u
+cy5vcGVucGdwanMub3Jn6t80DfM9wVLFRJ/dsOv60m8vsHwZ9D33vMQe4UI19FMW
+IQQu4ZQUvRoDt7JuY1MLG2fMdpsl1QAA/LYP/R+z8BSh2ASfByTqWMET4oM8nGVO
+CcNRNQAgLpAwOdDFFzMOZrPcGgwlVjPM1XN9f0cc5DPEdhVaIQJq1wUXTvkAu9P5
+AkYBs2qmZWfRjM3OMCqa2yWAz6XOTapGBcZpA9p538PMvneb+GIe4E0gHTL6ce56
+kq0P47vWNSVSxIsQQ8coewu686PyClsHruY48bGrx9O2EVWyyTpxOpIEG6QBsxIL
+kCLz1bFXU2iZwnYe95Z2A4y+ZTFGL+KcZWxGLptCuqg1qdBGnyK8UTuFVn7Zd0UT
+UqeEHztM4A2PYfqk9tBG7JOHJ1ej2rm9cV30YJyODo9ffr59AnM4VE+i+UrgnTpq
+E9c9MG30WCLZJwUKiZbh63eKQ34gt0r0aCdQx+kkjNrK1dpQh62Y32HgnUNwTyUA
+FNpCyZzQqEifIAsPPJgaHCclKYid9tcmLNU8sQ/THUeTGLX0Jl91e/hMyM/xZqOH
+vt4IL9dhDg8ZifHXRAeGknB0d8noBNl6c2OKx+ojZfSTUZsesL7hCS7SHA/ygs+6
+ap2tRLCXUHNu93Bf1PChmoeYedfuG5fqu/haIISzTJtqHRAJPpRU5DRYVL8S9QNh
+MROkAO3jQUaqVn6vlMyOg2DiqSMfNUR5DKAjWnt08BL0zdKMoyTx0So4i/UAT/ml
+RrEs8PHzNRtVqNMx
+-----END PGP SIGNATURE-----
