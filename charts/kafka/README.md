@@ -93,7 +93,7 @@ helm uninstall my-kafka
 | global.imageRegistry | string | `""` |  |
 | global.storageClass | string | `""` |  |
 | heapOpts | string | `"-Xmx512m -Xms512m"` |  |
-| image.digest | string | `"sha256:02cf0a408dd6bd859296b4868a89b8074e2114edc70eac25c0c9e6f4ac2054c5"` |  |
+| image.digest | string | `"sha256:1cd80b53f4fdbf1125b42b0e1989206f9acfbb1dc7bf224b56a5d2e010d03546"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.pullSecrets | list | `[]` |  |
 | image.registry | string | `"ghcr.io"` |  |
