@@ -1,0 +1,78 @@
+{{- if .Values.upgradeCheck.enabled }}
+# Blocks `helm upgrade` before any pod restarts when the running deployment's
+# featureCompatibilityVersion cannot be opened by the new mongod binary.
+# MongoDB 9.0 only starts on data files with FCV 8.0 or 8.3; deployments first
+# installed with chart < 0.4.0 (MongoDB 8.2) keep FCV 8.2 and would crash-loop (exit 62).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "mongodb.fullname" . }}-upgrade-check
+  namespace: {{ include "mongodb.namespace" . }}
+  labels: {{- include "mongodb.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "argocd.argoproj.io/hook": PreSync
+    "argocd.argoproj.io/hook-delete-policy": BeforeHookCreation
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 180
+  template:
+    metadata:
+      labels: {{- include "mongodb.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with (concat .Values.global.imagePullSecrets .Values.image.pullSecrets) }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: upgrade-check
+          image: {{ include "mongodb.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - bash
+            - -c
+            - |
+              HOST="{{ include "mongodb.primaryHost" . }}"
+              PORT={{ .Values.primary.containerPorts.mongodb }}
+              ALLOWED="{{ join " " .Values.upgradeCheck.allowedFeatureCompatibilityVersions }}"
+
+              # PreSync also runs on the first Argo CD sync, when nothing is deployed yet.
+              REACHABLE=false
+              for i in $(seq 1 15); do
+                if bash -c "echo > /dev/tcp/${HOST}/${PORT}" 2>/dev/null; then
+                  REACHABLE=true
+                  break
+                fi
+                sleep 2
+              done
+              if [ "${REACHABLE}" != "true" ]; then
+                echo "WARNING: ${HOST}:${PORT} not reachable, assuming fresh install and skipping the FCV check."
+                exit 0
+              fi
+
+              FCV=$(mongosh "mongodb://${MONGODB_ROOT_USERNAME}:${MONGODB_ROOT_PASSWORD}@${HOST}:${PORT}/admin?directConnection=true" \
+                --quiet --eval "db.adminCommand({ getParameter: 1, featureCompatibilityVersion: 1 }).featureCompatibilityVersion.version" 2>&1 | tail -n 1)
+
+              for v in ${ALLOWED}; do
+                if [ "${FCV}" = "${v}" ]; then
+                  echo "featureCompatibilityVersion ${FCV} is compatible with {{ .Chart.AppVersion }}, proceeding."
+                  exit 0
+                fi
+              done
+
+              echo "ERROR: featureCompatibilityVersion is '${FCV}', expected one of: ${ALLOWED}."
+              echo "Upgrading now would leave mongod unable to start on the existing data."
+              echo "See 'Upgrading > To 1.0.0' in the chart README: raise the FCV on the current version first, e.g."
+              echo "  db.adminCommand({ setFeatureCompatibilityVersion: \"8.3\", confirm: true })"
+              exit 1
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              value: {{ include "mongodb.rootUsername" . | quote }}
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mongodb.secretName" . }}
+                  key: {{ include "mongodb.rootPasswordKey" . }}
+{{- end }}

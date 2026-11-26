@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Kubescape
         run: |
-          KUBESCAPE_VERSION="4.0.15"
+          KUBESCAPE_VERSION="4.0.21"
           curl -fsSL "https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape_${KUBESCAPE_VERSION}_linux_amd64" -o kubescape
           chmod +x kubescape
           sudo mv kubescape /usr/local/bin/
@@ -53,7 +53,7 @@ jobs:
             || true
 
       - name: Upload Kubescape results
-        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+        uses: github/codeql-action/upload-sarif@915412ff23e8b7659517e607487dbeae018f2934 # v4
         if: always()
         with:
           sarif_file: kubescape-results.sarif
