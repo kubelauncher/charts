@@ -196,13 +196,16 @@ jobs:
           IMAGE="ghcr.io/${{ github.repository_owner }}/${{ matrix.chart }}:${TAG}"
 
           echo "Pulling ${IMAGE}..."
-          # docker pull resolves the multi-arch manifest to a single platform,
-          # so `kind load docker-image` can import it cleanly into containerd.
           if ! timeout 300 docker pull --platform linux/amd64 "${IMAGE}"; then
             echo "Image not found on GHCR or pull timed out, skipping"
             exit 0
           fi
-          kind load docker-image "${IMAGE}" --name chart-test
+          # With the containerd image store (default on recent runner images),
+          # `docker save` exports the full multi-arch index while only amd64
+          # blobs were pulled, so `kind load docker-image` fails with
+          # "content digest not found". Export a single-platform archive instead.
+          docker save --platform linux/amd64 -o "${RUNNER_TEMP}/image.tar" "${IMAGE}"
+          kind load image-archive "${RUNNER_TEMP}/image.tar" --name chart-test
 
       - name: Run smoke tests
         run: |
