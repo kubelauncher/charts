@@ -68,6 +68,17 @@ enableServiceLinks: false
 ## @param architecture MongoDB architecture (`standalone` or `replicaset`)
 architecture: standalone
 
+## @section Upgrade check parameters
+
+## @param upgradeCheck.enabled Run a pre-upgrade Job that blocks the upgrade if the running featureCompatibilityVersion is not supported by the new image
+## @param upgradeCheck.allowedFeatureCompatibilityVersions featureCompatibilityVersion values the chart's MongoDB version can start on
+upgradeCheck:
+  enabled: true
+  allowedFeatureCompatibilityVersions:
+    - "8.0"
+    - "8.3"
+    - "9.0"
+
 ## @section Replica Set parameters
 
 ## @param replicaset.name Replica set name
