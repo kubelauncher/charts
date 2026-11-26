@@ -40,8 +40,8 @@ image:
   registry: ghcr.io
   repository: kubelauncher/mongodb
   # renovate: image=ghcr.io/kubelauncher/mongodb
-  tag: "8.3.11"
-  digest: "sha256:a08462d8670e293072d6f0320ba32f0fe828f2e8310d5fd5957557f1a55a2843"
+  tag: "9.0.4"
+  digest: "sha256:037d89c137b62ba8e4bf2d24218bccd52ea9582b7380a8720990aa18b3eb8f78"
   pullPolicy: Always
   pullSecrets: []
 
@@ -67,6 +67,17 @@ enableServiceLinks: false
 
 ## @param architecture MongoDB architecture (`standalone` or `replicaset`)
 architecture: standalone
+
+## @section Upgrade check parameters
+
+## @param upgradeCheck.enabled Run a pre-upgrade Job that blocks the upgrade if the running featureCompatibilityVersion is not supported by the new image
+## @param upgradeCheck.allowedFeatureCompatibilityVersions featureCompatibilityVersion values the chart's MongoDB version can start on
+upgradeCheck:
+  enabled: true
+  allowedFeatureCompatibilityVersions:
+    - "8.0"
+    - "8.3"
+    - "9.0"
 
 ## @section Replica Set parameters
 
