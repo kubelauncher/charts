@@ -707,6 +707,20 @@
                     "type": "string"
                 }
             }
+        },
+        "upgradeCheck": {
+            "type": "object",
+            "properties": {
+                "allowedFeatureCompatibilityVersions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
         }
     }
 }

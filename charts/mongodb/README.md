@@ -72,6 +72,35 @@ helm install my-mongo oci://ghcr.io/kubelauncher/charts/mongodb \
   --set auth.database=mydb
 ```
 
+## Upgrading
+
+### To 1.0.0 (MongoDB 9.0)
+
+MongoDB 9.0 only starts on data files whose `featureCompatibilityVersion` (FCV) is `8.0` or `8.3`. The FCV is never raised automatically when the image changes, so a deployment first installed with chart `< 0.4.0` (MongoDB 8.2) still runs with FCV `8.2` and would crash-loop on 9.0 (`mongod` exit code 62). No data is lost in that case, but the pods do not start until you roll back.
+
+A pre-upgrade Job (`upgradeCheck.enabled`, on by default) reads the FCV of the running deployment and fails the upgrade before any pod restarts if it is not supported.
+
+Before upgrading, on the current 0.4.x release:
+
+```bash
+# Check the current FCV
+kubectl exec my-mongo-mongodb-0 -- bash -c \
+  'mongosh -u root -p "$MONGODB_ROOT_PASSWORD" --quiet admin --eval "db.adminCommand({ getParameter: 1, featureCompatibilityVersion: 1 })"'
+
+# If it is 8.2 (or anything other than 8.0 / 8.3), raise it on the primary
+kubectl exec my-mongo-mongodb-0 -- bash -c \
+  'mongosh -u root -p "$MONGODB_ROOT_PASSWORD" --quiet admin --eval "db.adminCommand({ setFeatureCompatibilityVersion: \"8.3\", confirm: true })"'
+```
+
+Then upgrade the chart. The deployment runs 9.0 with FCV `8.3`, which keeps a rollback to 0.4.x possible. Once the new version is validated, enable the 9.0 features:
+
+```bash
+kubectl exec my-mongo-mongodb-0 -- bash -c \
+  'mongosh -u root -p "$MONGODB_ROOT_PASSWORD" --quiet admin --eval "db.adminCommand({ setFeatureCompatibilityVersion: \"9.0\", confirm: true })"'
+```
+
+After that, rolling back to 0.4.x requires setting the FCV back to `8.3` first, otherwise MongoDB 8.3 refuses to start on the data files. Review the [MongoDB 9.0 compatibility changes](https://www.mongodb.com/docs/manual/release-notes/9.0-compatibility/) (server-side JavaScript now evaluates local dates in UTC, new per-operation memory limits) before upgrading.
+
 ## Uninstalling the Chart
 
 ```bash
@@ -245,6 +274,10 @@ helm uninstall my-mongo
 | serviceAccount.automountServiceAccountToken | bool | `false` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
+| upgradeCheck.allowedFeatureCompatibilityVersions[0] | string | `"8.0"` |  |
+| upgradeCheck.allowedFeatureCompatibilityVersions[1] | string | `"8.3"` |  |
+| upgradeCheck.allowedFeatureCompatibilityVersions[2] | string | `"9.0"` |  |
+| upgradeCheck.enabled | bool | `true` |  |
 
 ## Maintainers
 
