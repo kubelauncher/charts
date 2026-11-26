@@ -23,7 +23,7 @@ image:
   repository: kubelauncher/zookeeper
   # renovate: image=ghcr.io/kubelauncher/zookeeper
   tag: "3.9.3"
-  digest: "sha256:9a85b8701c5ece9a967440842c2b1ec975ee92e6bfe21d249f78314c3ce4ba37"
+  digest: "sha256:9ddea25f05665c380d7b4da260b6cc5b57375dd76bea5cae6554a4d5725b639d"
   pullPolicy: Always
   pullSecrets: []
 
